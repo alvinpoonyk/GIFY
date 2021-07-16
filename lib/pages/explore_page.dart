@@ -1,47 +1,150 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gify/constants/filters.dart';
+import 'package:gify/constants/styles.dart';
+import 'package:gify/widgets/custom_drop_down_button.dart';
+import 'package:gify/widgets/explore_item_card.dart';
+import 'package:gify/widgets/top_nav_bar.dart';
+import 'package:gify/widgets/top_nav_drawer.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class ExplorePage extends StatefulWidget {
-  ExplorePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _ExplorePageState createState() => _ExplorePageState();
-}
-
-class _ExplorePageState extends State<ExplorePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+class ExplorePage extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    double _width = MediaQuery.of(context).size.width;
+    return SafeArea(
+      child: Scaffold(
+        drawer: TopNavDrawer(),
+        key: _scaffoldKey,
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
+              SizedBox(height: 20.0),
+              // Carousel
+              Padding(
+                padding:
+                    EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  width: _width * 0.9,
+                  height: _width > 768 ? 175 : 120,
+                  decoration: BoxDecoration(
+                    color: kDarkGreen,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SelectableText(
+                        'Join a community of people that are giving away items for free! ',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.sen(
+                            fontSize: _width > 768 ? 26 : 14,
+                            color: Colors.white),
+                      ),
+                      SizedBox(height: _width > 768 ? 25 : 10),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(kDarkGreen),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          _width > 768 ? 10 : 5),
+                                      side: BorderSide(color: Colors.white))),
+                        ),
+                        onPressed: () {},
+                        child: Padding(
+                          padding: _width > 768
+                              ? EdgeInsets.fromLTRB(30, 10, 30, 10)
+                              : EdgeInsets.only(left: 12, right: 12),
+                          child: Text(
+                            'Sign Up',
+                            style: GoogleFonts.sen(
+                                fontSize: _width > 768 ? 20 : 14,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 30.0),
+              // Explore Text
+              Padding(
+                padding:
+                    EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
+                child: SelectableText(
+                  'Explore',
+                  style: GoogleFonts.montserrat(
+                      fontSize: _width > 768 ? 26 : 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+              ),
+              SizedBox(height: 30.0),
+              if (_width <= 768)
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: _width * 0.05, right: _width * 0.05, bottom: 20),
+                  child: SelectableText(
+                    'Filter by: ',
+                    style: GoogleFonts.sen(fontSize: 16, color: Colors.black),
+                  ),
+                ),
+              // Filters
+              Padding(
+                padding:
+                    EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
+                child: Row(
+                  mainAxisAlignment: _width > 768
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.spaceEvenly,
+                  children: [
+                    if (_width > 768)
+                      SelectableText(
+                        'Filter by: ',
+                        style:
+                            GoogleFonts.sen(fontSize: 20, color: Colors.black),
+                      ),
+                    // SizedBox(width: 10),
+                    CustomDropdownButton(
+                      width: _width,
+                      hintText: 'Select Category',
+                      items: kCategories,
+                    ),
+                    SizedBox(width: 20),
+                    CustomDropdownButton(
+                      width: _width,
+                      hintText: 'Select Location',
+                      items: kLocations,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 30.0),
+              // Card Grid System
+              Padding(
+                padding:
+                    EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
+                child: Row(
+                  children: [
+                    ExploreItemCard(),
+                  ],
+                ),
+              ),
+              SizedBox(height: 30),
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ),
     );
   }
