@@ -25,12 +25,15 @@ class ExploreItemCard extends StatelessWidget {
                     'https://picsum.photos/id/${Random().nextInt(100).toString()}/300/200'),
               ),
               SizedBox(height: 20),
-              Text(
-                'Blue Denim Jeans',
-                style: GoogleFonts.montserrat(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 285, minHeight: 30),
+                child: Text(
+                  'Blue Denim Jeans',
+                  style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
               ),
               SizedBox(height: 10),
               Row(
