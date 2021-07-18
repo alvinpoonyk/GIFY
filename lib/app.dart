@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gify/pages/profile_page.dart';
+import 'package:gify/pages/conversations_page.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProfilePage(),
+      home: ConversationsPage(),
     );
   }
 }
