@@ -9,7 +9,7 @@ class ProfileItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 315, minWidth: 315, maxHeight: 365 , minHeight: 365),
+        constraints: BoxConstraints(maxWidth: 500, minWidth: 500, maxHeight: 365 , minHeight: 365),
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -20,7 +20,7 @@ class ProfileItemCard extends StatelessWidget {
                 constraints: BoxConstraints(
                     maxWidth: 300, minWidth: 300, maxHeight: 175, minHeight: 175),
                 child: Image.network(
-                    'https://picsum.photos/300/175'),
+                    'https://picsum.photos/1366/768'),
               ),
               SizedBox(height: 20),
               ConstrainedBox(
