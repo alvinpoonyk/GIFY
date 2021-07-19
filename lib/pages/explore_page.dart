@@ -14,6 +14,18 @@ class ExplorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
+
+    double _childAspectRatioBasedOnBreakpoints({required double screenWidth}) {
+      ///Wide Screen Display
+      if (screenWidth > 1024)
+        return 300/390;
+      /// Medium Screen Display
+      if (screenWidth > 768 && screenWidth <= 1024)
+        return 300/285;
+      /// Tablet Screen Display
+      return 300/380;
+    }
+
     return SafeArea(
       child: Scaffold(
         drawer: TopNavDrawer(),
@@ -31,7 +43,7 @@ class ExplorePage extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   width: _width * 0.9,
-                  height: _width > 768 ? 175 : 120,
+                  height: _width > 768 ? 150 : 120,
                   decoration: BoxDecoration(
                     color: kDarkGreen,
                     borderRadius: BorderRadius.all(
@@ -45,7 +57,7 @@ class ExplorePage extends StatelessWidget {
                         'Join a community of people that are giving away items for free! ',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.sen(
-                            fontSize: _width > 768 ? 26 : 14,
+                            fontSize: _width > 768 ? 22 : 16,
                             color: Colors.white),
                       ),
                       SizedBox(height: _width > 768 ? 25 : 10),
@@ -68,7 +80,7 @@ class ExplorePage extends StatelessWidget {
                           child: Text(
                             'Sign Up',
                             style: GoogleFonts.sen(
-                                fontSize: _width > 768 ? 20 : 14,
+                                fontSize: _width > 768 ? 20 : 12,
                                 color: Colors.white),
                           ),
                         ),
@@ -85,12 +97,12 @@ class ExplorePage extends StatelessWidget {
                 child: SelectableText(
                   'Explore',
                   style: GoogleFonts.montserrat(
-                      fontSize: _width > 768 ? 26 : 20,
+                      fontSize: _width > 768 ? 26 : 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
               ),
-              SizedBox(height: 30.0),
+              SizedBox(height: 20.0),
               if (_width <= 768)
                 Padding(
                   padding: EdgeInsets.only(
@@ -133,13 +145,18 @@ class ExplorePage extends StatelessWidget {
               SizedBox(height: 30.0),
               // Card Grid System
               Padding(
-                padding:
-                    EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
-                child: Row(
-                  children: [
-                    ExploreItemCard(),
-                  ],
-                ),
+                padding: EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
+                child: _width >= 768 ? GridView.count(
+                    addAutomaticKeepAlives: true,
+                    childAspectRatio: _childAspectRatioBasedOnBreakpoints(screenWidth: _width),
+                    shrinkWrap: true,
+                    crossAxisCount: _width > 768 && _width > 1024 ? 4 : 2,
+                    children: List.generate(12, (index) => ExploreItemCard()))
+                    : ListView(
+                        addAutomaticKeepAlives: true,
+                        shrinkWrap: true,
+                        children: List.generate(12, (index) => ExploreItemCard()),
+                )
               ),
               SizedBox(height: 30),
             ],
