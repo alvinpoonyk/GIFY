@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gify/constants/styles.dart';
-import 'package:gify/widgets/custom_carousel_slider.dart';
+import 'package:gify/widgets/item_detail_page_widgets/custom_carousel_slider.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
