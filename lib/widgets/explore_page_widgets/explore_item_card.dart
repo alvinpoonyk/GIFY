@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,15 +12,15 @@ class ExploreItemCard extends StatelessWidget {
       child: InkWell(
         onTap: () {},
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ConstrainedBox(
                 constraints: BoxConstraints(
-                    maxWidth: 285, maxHeight: 200, minHeight: 200),
+                    minWidth: 285, maxWidth: 500, maxHeight: 200, minHeight: 200),
                 child: Image.network(
-                    'https://picsum.photos/id/${Random().nextInt(100).toString()}/300/200'),
+                    'https://picsum.photos/1080/768'),
               ),
               SizedBox(height: 20),
               ConstrainedBox(
@@ -48,7 +46,7 @@ class ExploreItemCard extends StatelessWidget {
               ),
               SizedBox(height: 10),
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 285, minHeight: 30),
+                constraints: BoxConstraints(minWidth: 500, maxWidth: 500, minHeight: 45, maxHeight: 45),
                 child: Text(
                   'Bought it from an online store but it was the wrong size (XS) hence giving it away for anyone who needs it',
                   style: GoogleFonts.roboto(
@@ -63,8 +61,10 @@ class ExploreItemCard extends StatelessWidget {
               Row(
                 children: [
                   CircleAvatar(
+                    maxRadius: 20,
+                    minRadius: 20,
                     backgroundImage: NetworkImage(
-                        'https://picsum.photos/id/${Random().nextInt(237).toString()}/300/200'),
+                        'https://picsum.photos/300/200'),
                   ),
                   SizedBox(width: 10),
                   Text(
