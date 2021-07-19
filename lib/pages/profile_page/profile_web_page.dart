@@ -84,12 +84,12 @@ class ProfilePageWebView extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                ProfileItemCard(),
-                              ],
-                            ),
+                            GridView.count(
+                                addAutomaticKeepAlives: true,
+                                childAspectRatio: _width > 1024 ? 315/330 : 315/340,
+                                shrinkWrap: true,
+                                crossAxisCount: _width > 1024 ? 3 : 2,
+                                children: List.generate(12, (index) => ProfileItemCard()))
                           ],
                         ),
                       ),
