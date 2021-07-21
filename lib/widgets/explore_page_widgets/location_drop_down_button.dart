@@ -1,20 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/explore_page_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomDropdownButton extends StatelessWidget {
-  final double width;
+class LocationDropdownButton extends StatefulWidget {
   final String hintText;
   final List<String> items;
-  const CustomDropdownButton({
+
+  LocationDropdownButton({
     Key? key,
     required this.items,
-    required this.width,
     required this.hintText,
   }) : super(key: key);
 
   @override
+  _LocationDropdownButtonState createState() => _LocationDropdownButtonState();
+}
+
+class _LocationDropdownButtonState extends State<LocationDropdownButton> {
+  final ExplorePageController _controller = Get.find();
+
+  late String selectedLocation;
+
+  @override
+  void initState() {
+    selectedLocation = widget.hintText;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return DropdownButtonHideUnderline(
       child: Container(
         padding: width > 768
@@ -34,13 +51,21 @@ class CustomDropdownButton extends StatelessWidget {
             color: kDarkGreen,
           ),
           iconSize: width > 768 ? 30 : 20,
-          onChanged: (value) {},
+          onChanged: (value) async {
+            if (value != null) {
+              await _controller.getItemsByLocation(selectedLocation: value).then((_) {
+                setState(() {
+                  selectedLocation = value;
+                });
+              });
+            }
+          },
           hint: Text(
-            hintText,
+            selectedLocation,
             style: GoogleFonts.sen(
                 fontSize: width > 768 ? 20 : 14, color: kDarkGreen),
           ),
-          items: items.map<DropdownMenuItem<String>>((String value) {
+          items: widget.items.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(
