@@ -27,6 +27,29 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyCaUva_kMS7QhDRZstnDUDWsBMV523VLSY",
+      authDomain: "gify-33f30.firebaseapp.com",
+      projectId: "gify-33f30",
+      storageBucket: "gify-33f30.appspot.com",
+      messagingSenderId: "1013735756814",
+      appId: "1:1013735756814:web:59203b484832193a76985f",
+      measurementId: "G-E7PXDVP81H"
+    };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+  </script>
+
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
@@ -94,5 +117,7 @@
       loadMainDartJs();
     }
   </script>
+
+  <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
