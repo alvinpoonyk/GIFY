@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gify/pages/add_item_page.dart';
+import 'package:gify/pages/explore_page.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AddItemPage(),
+      home: ExplorePage(),
     );
   }
 }
