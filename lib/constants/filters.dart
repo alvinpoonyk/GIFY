@@ -1,4 +1,9 @@
-const List<String> kCategories = ['Clothing',
+const kDefaultCategoryFilter = 'All Categories';
+const kDefaultLocationFilter = 'All Locations';
+
+const List<String> kCategories = [
+  kDefaultCategoryFilter,
+  'Clothing',
   'Electronics',
   'Books',
   'Vouchers/Tickets',
@@ -7,6 +12,7 @@ const List<String> kCategories = ['Clothing',
   'Others'];
 
 const List<String> kLocations = [
+  kDefaultLocationFilter,
   'Ang Mo Kio',
   'Bishan',
   'Khatib',
