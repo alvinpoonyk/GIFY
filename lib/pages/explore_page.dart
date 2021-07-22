@@ -1,16 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:gify/constants/filters.dart';
 import 'package:gify/constants/styles.dart';
-import 'package:gify/widgets/explore_page_widgets/custom_drop_down_button.dart';
+import 'package:gify/controllers/explore_page_controller.dart';
+import 'package:gify/models/item.dart';
+import 'package:gify/widgets/explore_page_widgets/category_drop_down_button.dart';
 import 'package:gify/widgets/explore_page_widgets/explore_item_card.dart';
+import 'package:gify/widgets/explore_page_widgets/location_drop_down_button.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ExplorePage extends StatelessWidget {
+  final ExplorePageController _controller = Get.put(ExplorePageController());
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
@@ -72,7 +79,20 @@ class ExplorePage extends StatelessWidget {
                                           _width > 768 ? 10 : 5),
                                       side: BorderSide(color: Colors.white))),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          //TODO: REMOVE THIS SHIT
+                          // Item i = Item(
+                          //     id: '......',
+                          //     name: '.......',
+                          //     images: ['https://picsum.photos/200/300', 'https://picsum.photos/200/300'],
+                          //     ownerID: '......',
+                          //     location: 'Bishan',
+                          //     category: 'Electronics',
+                          //     description: '........',
+                          //     availability: '.........',
+                          //     isRemoved: false);
+                          // await FirebaseFirestore.instance.collection('items').add(i.toJson());
+                        },
                         child: Padding(
                           padding: _width > 768
                               ? EdgeInsets.fromLTRB(30, 10, 30, 10)
@@ -128,15 +148,13 @@ class ExplorePage extends StatelessWidget {
                             GoogleFonts.sen(fontSize: 20, color: Colors.black),
                       ),
                     // SizedBox(width: 10),
-                    CustomDropdownButton(
-                      width: _width,
-                      hintText: 'Select Category',
+                    CategoryDropdownButton(
+                      hintText: kDefaultCategoryFilter,
                       items: kCategories,
                     ),
                     SizedBox(width: 20),
-                    CustomDropdownButton(
-                      width: _width,
-                      hintText: 'Select Location',
+                    LocationDropdownButton(
+                      hintText: kDefaultLocationFilter,
                       items: kLocations,
                     ),
                   ],
@@ -144,18 +162,20 @@ class ExplorePage extends StatelessWidget {
               ),
               SizedBox(height: 30.0),
               // Card Grid System
-              Padding(
+              Obx(() => Padding(
                 padding: EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
                 child: _width >= 768 ? GridView.count(
+                    controller: _scrollController,
                     addAutomaticKeepAlives: true,
                     childAspectRatio: _childAspectRatioBasedOnBreakpoints(screenWidth: _width),
                     shrinkWrap: true,
                     crossAxisCount: _width > 768 && _width > 1024 ? 4 : 2,
-                    children: List.generate(12, (index) => ExploreItemCard()))
+                    children: _controller.itemsToDisplay.map((item) => ExploreItemCard(item: item)).toList())
                     : ListView(
+                        controller: _scrollController,
                         addAutomaticKeepAlives: true,
                         shrinkWrap: true,
-                        children: List.generate(12, (index) => ExploreItemCard()),
+                        children: _controller.itemsToDisplay.map((item) => ExploreItemCard(item: item)).toList()),
                 )
               ),
               SizedBox(height: 30),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gify/models/item.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ExploreItemCard extends StatelessWidget {
-  const ExploreItemCard({
+  final Item? item;
+  const ExploreItemCard({this.item,
     Key? key,
   }) : super(key: key);
 
