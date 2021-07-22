@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:gify/controllers/add_item_page_controller.dart';
 import 'package:gify/widgets/add_item_page/add_item_form.dart';
 import 'package:gify/widgets/add_item_page/dotted_image_picker_box.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
@@ -7,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AddItemPageTabletAndMobileView extends StatelessWidget {
   static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final AddItemPageController _controller = Get.put(AddItemPageController());
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
@@ -41,8 +44,26 @@ class AddItemPageTabletAndMobileView extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        DottedImagePickerBox(width: 130, height: 130, hintTextSize: 14),
-                        DottedImagePickerBox(width: 130, height: 130, hintTextSize: 14),
+                        Obx(() =>
+                            DottedImagePickerBox(
+                              width: 130,
+                              height: 130,
+                              hintTextSize: 14,
+                              bytes: _controller.image1Bytes.value.bytes,
+                              onTap: () {
+                                _controller.setImage1Bytes();
+                              },
+                            )),
+                        Obx(() =>
+                            DottedImagePickerBox(
+                              width: 130,
+                              height: 130,
+                              hintTextSize: 14,
+                              bytes: _controller.image2Bytes.value.bytes,
+                              onTap: () {
+                                _controller.setImage2Bytes();
+                              },
+                            )),
                       ],
                     ),
                   ),
