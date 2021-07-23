@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gify/constants/filters.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/add_item_page_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddItemForm extends StatelessWidget {
   static final _formKey = GlobalKey<FormState>();
   final List<String> _locationOptions = [... kLocations];
   final List<String> _categoryOptions = [... kCategories];
+  final AddItemPageController _controller = Get.find();
   @override
   Widget build(BuildContext context) {
+
+    String? _name;
+    String? _location;
+    String? _category;
+    String? _availability;
+    String? _description;
+
     double _width = MediaQuery.of(context).size.width;
     _locationOptions.removeAt(0);
     _categoryOptions.removeAt(0);
@@ -29,8 +39,11 @@ class AddItemForm extends StatelessWidget {
           SizedBox(
             width: 500,
             child: TextFormField(
+              onChanged: (value) {
+                _name = value.trim();
+              },
               validator: (value) {
-                if (value!.isEmpty)
+                if (value!.trim().isEmpty)
                   return 'Please enter an item name';
                 return null;
               },
@@ -81,6 +94,9 @@ class AddItemForm extends StatelessWidget {
               width: 180,
               child: DropdownButtonHideUnderline(
                 child: DropdownButtonFormField<String>(
+                  onChanged: (value) {
+                    _location = value!.trim();
+                  },
                   validator: (value) {
                     if (value == null)
                       return 'Please select a location';
@@ -91,7 +107,6 @@ class AddItemForm extends StatelessWidget {
                     color: kDarkGreen,
                   ),
                   iconSize: 30,
-                  onChanged: (value) {},
                   hint: Text('Select Location',
                     style: GoogleFonts.sen(
                         fontSize: 16, color: kDarkGreen),
@@ -134,6 +149,9 @@ class AddItemForm extends StatelessWidget {
               width: 180,
               child: DropdownButtonHideUnderline(
                 child: DropdownButtonFormField<String>(
+                  onChanged: (value) {
+                    _category = value!.trim();
+                  },
                   validator: (value) {
                     if (value == null)
                       return 'Please select a category';
@@ -144,7 +162,6 @@ class AddItemForm extends StatelessWidget {
                     color: kDarkGreen,
                   ),
                   iconSize: 30,
-                  onChanged: (value) {},
                   hint: Text('Select Category',
                     style: GoogleFonts.sen(
                         fontSize: 16, color: kDarkGreen),
@@ -176,6 +193,9 @@ class AddItemForm extends StatelessWidget {
           SizedBox(
             width: 500,
             child: TextFormField(
+              onChanged: (value) {
+                _availability = value.trim();
+              },
               validator: (value) {
                 if (value!.isEmpty)
                   return 'Please enter a convenient meeting time';
@@ -216,6 +236,9 @@ class AddItemForm extends StatelessWidget {
           SizedBox(
             width: 600,
             child: TextFormField(
+              onChanged: (value) {
+                _description = value.trim();
+              },
               validator: (value) {
                 if (value!.isEmpty)
                   return 'Please enter an item description';
@@ -259,12 +282,16 @@ class AddItemForm extends StatelessWidget {
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ))),
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  // // If the form is valid, display a snackbar. In the real world,
-                  // // you'd often call a server or save the information in a database.
-                  // ScaffoldMessenger.of(context)
-                  //     .showSnackBar(SnackBar(content: Text('Processing Data')));
+                  await _controller.storeItemInRemoteDatabase(
+                      name: _name!,
+                      //TODO: REMOVE THIS AFTER AUTH COMPLETE
+                      ownerID: "asd",
+                      location: _location!,
+                      category: _category!,
+                      description: _description!,
+                      availability: _availability!);
                 }
               },
               child: Padding(
