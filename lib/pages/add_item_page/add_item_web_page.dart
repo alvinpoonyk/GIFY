@@ -47,18 +47,18 @@ class AddItemPageWebView extends StatelessWidget {
                             DottedImagePickerBox(
                               width: 500,
                               height: 300,
-                              bytes: _controller.image1Bytes.value.bytes,
+                              bytes: _controller.image1.value.bytes,
                               onTap: () {
-                                _controller.setImage1Bytes();
+                                _controller.setImage1();
                               },
                             )),
                             SizedBox(height: 20),
                             Obx(() => DottedImagePickerBox(
                               width: 500,
                               height: 300,
-                              bytes: _controller.image2Bytes.value.bytes,
+                              bytes: _controller.image2.value.bytes,
                               onTap: () {
-                                _controller.setImage2Bytes();
+                                _controller.setImage2();
                               },
                             )),
                           ],

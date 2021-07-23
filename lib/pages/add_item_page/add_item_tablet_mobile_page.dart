@@ -49,9 +49,9 @@ class AddItemPageTabletAndMobileView extends StatelessWidget {
                               width: 130,
                               height: 130,
                               hintTextSize: 14,
-                              bytes: _controller.image1Bytes.value.bytes,
+                              bytes: _controller.image1.value.bytes,
                               onTap: () {
-                                _controller.setImage1Bytes();
+                                _controller.setImage1();
                               },
                             )),
                         Obx(() =>
@@ -59,9 +59,9 @@ class AddItemPageTabletAndMobileView extends StatelessWidget {
                               width: 130,
                               height: 130,
                               hintTextSize: 14,
-                              bytes: _controller.image2Bytes.value.bytes,
+                              bytes: _controller.image2.value.bytes,
                               onTap: () {
-                                _controller.setImage2Bytes();
+                                _controller.setImage2();
                               },
                             )),
                       ],
