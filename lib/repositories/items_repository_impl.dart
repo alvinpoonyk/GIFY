@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:gify/controllers/add_item_page_controller.dart';
+import 'package:gify/models/image_file.dart';
 import 'package:gify/models/item.dart';
 import 'package:gify/repositories/items_repository.dart';
+import 'package:gify/services/upload_image_to_remote_db.dart';
 
 class ItemsRepositoryImpl implements ItemsRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -64,8 +65,8 @@ class ItemsRepositoryImpl implements ItemsRepository {
     try {
       final String fileName1 = "1";
       final String fileName2 = "2";
-      final bool isUploadImage1Success = await _uploadImage(imageFile: imageFile1, fileName: fileName1, id: documentID);
-      final bool isUploadImage2Success = await _uploadImage(imageFile: imageFile2, fileName: fileName2, id: documentID);
+      final bool isUploadImage1Success = await uploadImageToRemoteDB(storageURL: itemStorageURL, imageFile: imageFile1, fileName: fileName1, id: documentID);
+      final bool isUploadImage2Success = await uploadImageToRemoteDB(storageURL: itemStorageURL, imageFile: imageFile2, fileName: fileName2, id: documentID);
       if (isUploadImage1Success && isUploadImage2Success) {
         final String downloadURL1 = await FirebaseStorage.instance.refFromURL("$itemStorageURL/$documentID/$fileName1").getDownloadURL();
         final String downloadURL2 = await FirebaseStorage.instance.refFromURL("$itemStorageURL/$documentID/$fileName2").getDownloadURL();
@@ -79,17 +80,17 @@ class ItemsRepositoryImpl implements ItemsRepository {
     }
   }
 
-  Future<bool> _uploadImage({required ImageFile imageFile, required String fileName, required String id}) async {
-    try {
-      await FirebaseStorage.instance.refFromURL("$itemStorageURL/$id/").child(
-          fileName).putData(imageFile.bytes, SettableMetadata(contentType: imageFile.file.mimeType)).then((_) {
-        print("_uploadImage: Uploaded 1 image to remote storage");
-      });
-      return true;
-    } catch (e) {
-      print("_uploadImage: Failed to upload 1 image to remote storage");
-      return false;
-    }
-  }
+  // Future<bool> _uploadImage({required ImageFile imageFile, required String fileName, required String id}) async {
+  //   try {
+  //     await FirebaseStorage.instance.refFromURL("$itemStorageURL/$id/").child(
+  //         fileName).putData(imageFile.bytes, SettableMetadata(contentType: imageFile.file.mimeType)).then((_) {
+  //       print("_uploadImage: Uploaded 1 image to remote storage");
+  //     });
+  //     return true;
+  //   } catch (e) {
+  //     print("_uploadImage: Failed to upload 1 image to remote storage");
+  //     return false;
+  //   }
+  // }
 
 }
