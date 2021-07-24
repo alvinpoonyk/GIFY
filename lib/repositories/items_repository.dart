@@ -1,4 +1,4 @@
-import 'package:gify/controllers/add_item_page_controller.dart';
+import 'package:gify/models/image_file.dart';
 import 'package:gify/models/item.dart';
 
 abstract class ItemsRepository {

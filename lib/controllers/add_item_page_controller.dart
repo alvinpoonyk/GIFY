@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gify/constants/styles.dart';
+import 'package:gify/models/image_file.dart';
 import 'package:gify/repositories/items_repository.dart';
 import 'package:gify/repositories/items_repository_impl.dart';
 import 'package:gify/services/get_selected_image_bytes.dart';
 import 'package:gify/widgets/center_circular_progress_indicator.dart';
+import 'package:gify/widgets/getX_widgets/getX_error_snack_bar.dart';
 
 class AddItemPageController extends GetxController {
 
@@ -14,20 +14,26 @@ class AddItemPageController extends GetxController {
 
   final ItemsRepository _itemsRepository = ItemsRepositoryImpl();
 
-  void setLoadingStatus({required bool loadingStatus}) {
-    isLoading = loadingStatus;
-  }
+  final errorTitle = 'Oops, something went wrong...';
 
   void setImage1() async {
-    ImageFile imageFile1 = await getSelectedImageFile();
-    image1.value = imageFile1;
-    image1.refresh();
+    try {
+      ImageFile imageFile1 = await getSelectedImageFile();
+      image1.value = imageFile1;
+      image1.refresh();
+    } catch(e) {
+      _showErrorSnackBar(errorTitle: errorTitle, errorMessage: e.toString());
+    }
   }
 
   void setImage2() async {
-    ImageFile imageFile2 = await getSelectedImageFile();
-    image2.value = imageFile2;
-    image2.refresh();
+    try {
+      ImageFile imageFile2 = await getSelectedImageFile();
+      image2.value = imageFile2;
+      image2.refresh();
+    } catch(e) {
+      _showErrorSnackBar(errorTitle: errorTitle, errorMessage: e.toString());
+    }
   }
 
   Future<void> storeItemInRemoteDatabase({
@@ -42,16 +48,19 @@ class AddItemPageController extends GetxController {
         "availability" : availability,
       };
 
-      Get.showOverlay(
+      try {
+        Get.showOverlay(
           asyncFunction: () => _itemsRepository.createItem(itemData: itemData, imageFile1: image1.value, imageFile2: image2.value),
           loadingWidget: centerCircularProgressIndicator(),
-      );
+        );
+      } catch(e) {
+        _showErrorSnackBar(errorTitle: errorTitle, errorMessage: e.toString());
+      }
   }
 
-}
+  /// Helper method to display error snack bar
+  void _showErrorSnackBar({required String errorTitle, required String errorMessage}) {
+    getXErrorSnackBar(title: errorTitle, message: errorMessage);
+  }
 
-class ImageFile {
-  var file;
-  var bytes;
-  ImageFile(this.file, this.bytes);
 }

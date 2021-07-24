@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:gify/controllers/add_item_page_controller.dart';
+import 'package:gify/models/image_file.dart';
 import 'package:image_picker/image_picker.dart';
 
 Future<ImageFile> getSelectedImageFile() async {
