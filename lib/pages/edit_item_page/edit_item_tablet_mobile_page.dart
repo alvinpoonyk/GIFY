@@ -36,8 +36,8 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      DottedImagePickerBox(width: 130, height: 130, hintTextSize: 14),
-                      DottedImagePickerBox(width: 130, height: 130, hintTextSize: 14),
+                      // DottedImagePickerBox(width: 130, height: 130, hintTextSize: 14),
+                      // DottedImagePickerBox(width: 130, height: 130, hintTextSize: 14),
                     ],
                   ),
                 ),

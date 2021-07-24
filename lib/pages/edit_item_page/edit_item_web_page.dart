@@ -42,15 +42,15 @@ class EditItemPageWebView extends StatelessWidget {
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
                           children: [
-                            DottedImagePickerBox(
-                              width: 500,
-                              height: 300,
-                            ),
-                            SizedBox(height: 20),
-                            DottedImagePickerBox(
-                              width: 500,
-                              height: 300,
-                            ),
+                            // DottedImagePickerBox(
+                            //   width: 500,
+                            //   height: 300,
+                            // ),
+                            // SizedBox(height: 20),
+                            // DottedImagePickerBox(
+                            //   width: 500,
+                            //   height: 300,
+                            // ),
                           ],
                         ),
                       ),
