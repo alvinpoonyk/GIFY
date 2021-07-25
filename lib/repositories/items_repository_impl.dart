@@ -80,17 +80,4 @@ class ItemsRepositoryImpl implements ItemsRepository {
     }
   }
 
-  // Future<bool> _uploadImage({required ImageFile imageFile, required String fileName, required String id}) async {
-  //   try {
-  //     await FirebaseStorage.instance.refFromURL("$itemStorageURL/$id/").child(
-  //         fileName).putData(imageFile.bytes, SettableMetadata(contentType: imageFile.file.mimeType)).then((_) {
-  //       print("_uploadImage: Uploaded 1 image to remote storage");
-  //     });
-  //     return true;
-  //   } catch (e) {
-  //     print("_uploadImage: Failed to upload 1 image to remote storage");
-  //     return false;
-  //   }
-  // }
-
 }
