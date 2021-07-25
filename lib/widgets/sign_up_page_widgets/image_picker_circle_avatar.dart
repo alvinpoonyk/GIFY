@@ -19,7 +19,7 @@ class ImagePickerCircleAvatar extends StatelessWidget {
         child: Image.memory(_controller.userImage.value.bytes, width: 160, height: 160),
       ) :
       CircleAvatar(
-        backgroundImage: NetworkImage("https://picsum.photos/200/300"),
+        backgroundImage: NetworkImage("https://firebasestorage.googleapis.com/v0/b/gify-33f30.appspot.com/o/assets%2Fdefault_avatar.jpeg?alt=media&token=31dc001e-0c83-4e2d-a6d6-f09bd75bab30"),
         minRadius: 80,
         maxRadius: 80,
       ),

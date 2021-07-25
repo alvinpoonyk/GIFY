@@ -49,7 +49,7 @@ class AddItemPageController extends GetxController {
       };
 
       try {
-        Get.showOverlay(
+        await Get.showOverlay(
           asyncFunction: () => _itemsRepository.createItem(itemData: itemData, imageFile1: image1.value, imageFile2: image2.value),
           loadingWidget: centerCircularProgressIndicator(),
         );
