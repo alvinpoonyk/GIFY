@@ -74,5 +74,5 @@ class AuthController extends GetxController {
   void _showErrorSnackBar({required String errorTitle, required String errorMessage}) {
     getXErrorSnackBar(title: errorTitle, message: errorMessage);
   }
-  
+
 }
