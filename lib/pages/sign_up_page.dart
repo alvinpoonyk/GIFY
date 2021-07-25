@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gify/constants/styles.dart';
 import 'package:gify/controllers/sign_up_page_controller.dart';
+import 'package:gify/validators/form_validators.dart';
 import 'package:gify/widgets/sign_up_page_widgets/image_picker_circle_avatar.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
@@ -13,6 +14,8 @@ class SignUpPage extends StatelessWidget {
   final SignUpPageController _controller = Get.put(SignUpPageController());
   @override
   Widget build(BuildContext context) {
+    String _email = "";
+    String _displayName = "";
     String _password = "";
     String _confirmPassword = "";
     double _width = MediaQuery.of(context).size.width;
@@ -66,11 +69,10 @@ class SignUpPage extends StatelessWidget {
                         SizedBox(
                           width: 400,
                           child: TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty)
-                                return 'Please enter a display name';
-                              return null;
+                            onChanged: (value) {
+                              _displayName = value.trim();
                             },
+                            validator: (value) => isStringEmpty(value: value, errorMessage: "Please enter a display name"),
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
@@ -111,12 +113,10 @@ class SignUpPage extends StatelessWidget {
                         SizedBox(
                           width: 400,
                           child: TextFormField(
-                            validator: (value) {
-                              final bool isValidEmail = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value!);
-                              if (value.isEmpty || !isValidEmail)
-                                return 'Please enter a valid email address';
-                              return null;
+                            onChanged: (value) {
+                              _email = value.trim();
                             },
+                            validator: (value) => isValidEmail(value: value, errorMessage: "Please enter a valid email address"),
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
@@ -161,11 +161,7 @@ class SignUpPage extends StatelessWidget {
                               _password = value;
                             },
                             obscureText: true,
-                            validator: (value) {
-                              if (value!.isEmpty)
-                                return 'Please enter a password';
-                              return null;
-                            },
+                            validator: (value) => isValidPassword(value: value),
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
@@ -209,19 +205,7 @@ class SignUpPage extends StatelessWidget {
                               _confirmPassword = value;
                             },
                             obscureText: true,
-                            validator: (value) {
-                              String confirmPasswordErrorMessage = "";
-                              if (value!.isEmpty) {
-                                confirmPasswordErrorMessage = "Please enter a valid password";
-                                return confirmPasswordErrorMessage;
-                              } else {
-                                if (_confirmPassword.compareTo(_password) != 0) {
-                                  confirmPasswordErrorMessage = "Please ensure passwords match";
-                                  return  confirmPasswordErrorMessage;
-                                }
-                                return null;
-                              }
-                            },
+                            validator: (value) => isValidConfirmPassword(password: _password, confirmPassword: _confirmPassword),
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
@@ -269,7 +253,7 @@ class SignUpPage extends StatelessWidget {
                                 ))),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            print('OKAY');
+                            await _controller.createAndSignInUser(displayName: _displayName, email: _email, password: _password);
                           }
                         },
                         child: Padding(
