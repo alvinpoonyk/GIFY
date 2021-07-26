@@ -34,18 +34,18 @@ class _CategoryDropdownButtonState extends State<CategoryDropdownButton> {
     return DropdownButtonHideUnderline(
       child: Container(
         padding: width > 768
-            ? EdgeInsets.fromLTRB(20, 0, 10, 0)
-            : EdgeInsets.fromLTRB(10, 0, 5, 0),
+            ? const EdgeInsets.fromLTRB(20, 0, 10, 0)
+            : const EdgeInsets.fromLTRB(10, 0, 5, 0),
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
               side: BorderSide(
                   width: 1, style: BorderStyle.solid, color: kDarkGreen),
-              borderRadius: BorderRadius.all(
-                Radius.circular(30),
+              borderRadius: const BorderRadius.all(
+                const Radius.circular(30),
               )),
         ),
         child: DropdownButton<String>(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_drop_down_sharp,
             color: kDarkGreen,
           ),
