@@ -25,7 +25,7 @@ class TopNavDrawer extends StatelessWidget {
                         fontSize: 18, color: Colors.black),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextButton(
                   onPressed: () {},
                   child: Text(
@@ -34,7 +34,7 @@ class TopNavDrawer extends StatelessWidget {
                         fontSize: 18, color: Colors.black),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextButton(
                   onPressed: () {},
                   child: Text(
