@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:gify/constants/filters.dart';
 import 'package:gify/constants/styles.dart';
 import 'package:gify/controllers/explore_page_controller.dart';
-import 'package:gify/models/item.dart';
 import 'package:gify/widgets/explore_page_widgets/category_drop_down_button.dart';
 import 'package:gify/widgets/explore_page_widgets/explore_item_card.dart';
 import 'package:gify/widgets/explore_page_widgets/location_drop_down_button.dart';
@@ -35,14 +33,14 @@ class ExplorePage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        drawer: TopNavDrawer(),
+        drawer: const TopNavDrawer(),
         key: _scaffoldKey,
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
-              SizedBox(height: 20.0),
+              NavigationBar(scaffoldKey: _scaffoldKey),
+              const SizedBox(height: 20.0),
               // Carousel
               Padding(
                 padding:
@@ -51,10 +49,10 @@ class ExplorePage extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   width: _width * 0.9,
                   height: _width > 768 ? 150 : 120,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: kDarkGreen,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
+                    borderRadius: const BorderRadius.all(
+                      const Radius.circular(20),
                     ),
                   ),
                   child: Column(
@@ -77,7 +75,7 @@ class ExplorePage extends StatelessWidget {
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(
                                           _width > 768 ? 10 : 5),
-                                      side: BorderSide(color: Colors.white))),
+                                      side: const BorderSide(color: Colors.white))),
                         ),
                         onPressed: () async {
                           //TODO: REMOVE THIS SHIT
@@ -109,7 +107,7 @@ class ExplorePage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 30.0),
+              const SizedBox(height: 30.0),
               // Explore Text
               Padding(
                 padding:
@@ -122,7 +120,7 @@ class ExplorePage extends StatelessWidget {
                       color: Colors.black),
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               if (_width <= 768)
                 Padding(
                   padding: EdgeInsets.only(
@@ -152,7 +150,7 @@ class ExplorePage extends StatelessWidget {
                       hintText: kDefaultCategoryFilter,
                       items: kCategories,
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     LocationDropdownButton(
                       hintText: kDefaultLocationFilter,
                       items: kLocations,
@@ -160,7 +158,7 @@ class ExplorePage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 30.0),
+              const SizedBox(height: 30.0),
               // Card Grid System
               Obx(() => Padding(
                 padding: EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
@@ -178,7 +176,7 @@ class ExplorePage extends StatelessWidget {
                         children: _controller.itemsToDisplay.map((item) => ExploreItemCard(item: item)).toList()),
                 )
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
             ],
           ),
         ),
