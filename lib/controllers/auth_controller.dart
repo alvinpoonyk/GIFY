@@ -19,6 +19,10 @@ class AuthController extends GetxController {
     return _isAuthenticated.value;
   }
 
+  String getCurrentUserID() {
+    return _user.id;
+  }
+
   Future<void> loginUser({required String email, required String password}) async {
     try {
       Get.showOverlay(
