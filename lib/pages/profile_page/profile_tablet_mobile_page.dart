@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/profile_page_controller.dart';
 import 'package:gify/widgets/profile_page_widgets/profile_item_card.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
@@ -10,25 +12,27 @@ class ProfilePageTabletAndMobileView extends StatelessWidget {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+    final ScrollController _scrollController = ScrollController();
+    final ProfilePageController _controller = Get.put(ProfilePageController());
     return SafeArea(
       child: Scaffold(
-        drawer: TopNavDrawer(),
+        drawer: const TopNavDrawer(),
         key: _scaffoldKey,
         body: SingleChildScrollView(
           child: Column(
             children: [
-              navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
+              NavigationBar(scaffoldKey: _scaffoldKey),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     CircleAvatar(
                       minRadius: _width <= 414 ? 60 : 80,
                       maxRadius: _width <= 414 ? 60 : 80,
-                      backgroundImage: NetworkImage(
+                      backgroundImage: const NetworkImage(
                           'https://picsum.photos/200/200'),
                     ),
                     SizedBox(height: _width <= 414 ? 10 : 20),
@@ -70,9 +74,9 @@ class ProfilePageTabletAndMobileView extends StatelessWidget {
                           color: Colors.black,
                           fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 20),
-                    Divider(),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
+                    const Divider(),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -82,12 +86,14 @@ class ProfilePageTabletAndMobileView extends StatelessWidget {
                   childAspectRatio: 315/310,
                   shrinkWrap: true,
                   crossAxisCount: 2,
-                  children: List.generate(12, (index) => ProfileItemCard())) :
+                  children: _controller.itemsToDisplay.map((item) => ProfileItemCard(item: item)).toList()) :
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: ListView(
+                    controller: _scrollController,
                     shrinkWrap: true,
-                    children: List.generate(12, (index) => ProfileItemCard())),
+                    children: _controller.itemsToDisplay.map((item) => ProfileItemCard(item: item)).toList()),
+                    // children: List.generate(12, (index) => ProfileItemCard())),
               ),
             ],
           ),

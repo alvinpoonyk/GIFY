@@ -1,24 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/profile_page_controller.dart';
 import 'package:gify/widgets/profile_page_widgets/profile_item_card.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 
 class ProfilePageWebView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+    final ScrollController _scrollController = ScrollController();
+    final ProfilePageController _controller = Get.put(ProfilePageController());
     return SafeArea(
       child: Scaffold(
-        drawer: TopNavDrawer(),
+        drawer: const TopNavDrawer(),
         key: _scaffoldKey,
         body: SingleChildScrollView(
           child: Column(
             children: [
-              navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
+              NavigationBar(scaffoldKey: _scaffoldKey,),
+              // navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                 child: Row(
@@ -30,18 +35,18 @@ class ProfilePageWebView extends StatelessWidget {
                         padding: const EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            CircleAvatar(
+                            const CircleAvatar(
                               minRadius: 80,
                               maxRadius: 80,
-                              backgroundImage: NetworkImage(
+                              backgroundImage: const NetworkImage(
                                   'https://picsum.photos/200/200'),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             SelectableText(
                               'Lorem Ipsum Dolor',
                               style: GoogleFonts.montserrat(fontSize: 16, color: Colors.black),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor:
@@ -83,13 +88,16 @@ class ProfilePageWebView extends StatelessWidget {
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(height: 20),
-                            GridView.count(
+                            const SizedBox(height: 20),
+                            Obx(() => GridView.count(
+                                controller: _scrollController,
                                 addAutomaticKeepAlives: true,
                                 childAspectRatio: _width > 1024 ? 315/330 : 315/340,
                                 shrinkWrap: true,
                                 crossAxisCount: _width > 1024 ? 3 : 2,
-                                children: List.generate(12, (index) => ProfileItemCard()))
+                                children: _controller.itemsToDisplay.map((item) => ProfileItemCard(item: item)).toList()),
+                                // children: List.generate(12, (index) => ProfileItemCard())),
+                            ),
                           ],
                         ),
                       ),
