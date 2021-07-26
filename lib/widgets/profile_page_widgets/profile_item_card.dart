@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/profile_page_controller.dart';
+import 'package:gify/models/item.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileItemCard extends StatelessWidget {
-  const ProfileItemCard({Key? key,}) : super(key: key);
+  final Item item;
+  const ProfileItemCard({Key? key, required this.item,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final ProfilePageController _controller = Get.find();
     return Card(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 500, minWidth: 500, maxHeight: 365 , minHeight: 365),
+        constraints: const BoxConstraints(maxWidth: 500, minWidth: 500, maxHeight: 365 , minHeight: 365),
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -17,40 +22,40 @@ class ProfileItemCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               ConstrainedBox(
-                constraints: BoxConstraints(
+                constraints: const BoxConstraints(
                     maxWidth: 300, minWidth: 300, maxHeight: 175, minHeight: 175),
                 child: Image.network(
-                    'https://picsum.photos/1366/768'),
+                    item.images.first),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ConstrainedBox(
-                constraints: BoxConstraints(
+                constraints: const BoxConstraints(
                   maxWidth: 300, minWidth: 300,
                 ),
                 child: SelectableText(
-                  'Blue Denim Jeans',
+                  item.name,
                   style: GoogleFonts.montserrat(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(Icons.location_on_rounded, size: 18),
-                  SizedBox(width: 10),
+                  const Icon(Icons.location_on_rounded, size: 18),
+                  const SizedBox(width: 10),
                   Text(
-                    'Chinatown',
+                    item.location,
                     style: GoogleFonts.sen(fontSize: 14, color: Colors.black),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 300, minHeight: 30, maxHeight: 30),
+                constraints: const BoxConstraints(maxWidth: 300, minHeight: 30, maxHeight: 30),
                 child: SelectableText(
-                  'Bought it from an online store but it was the wrong size (XS) hence giving it away for anyone who needs it',
+                  item.description,
                   style: GoogleFonts.roboto(
                       fontWeight: FontWeight.w300,
                       fontSize: 12,
@@ -59,7 +64,7 @@ class ProfileItemCard extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   ElevatedButton(
@@ -86,7 +91,7 @@ class ProfileItemCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor:
@@ -97,9 +102,11 @@ class ProfileItemCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                               side: BorderSide(color: kDarkGreen))),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _controller.removeItem();
+                    },
                     child: Padding(
-                      padding: EdgeInsets.only(left: 12, right: 12),
+                      padding: const EdgeInsets.only(left: 12, right: 12),
                       child: Text(
                         'Remove',
                         style: GoogleFonts.sen(
