@@ -24,20 +24,24 @@ class AuthController extends GetxController {
   }
 
   Future<void> loginUser({required String email, required String password}) async {
+
+    Future<void> loginProcess() async {
+      await _authRepository.loginUser(email: email, password: password);
+      User fetchedUser = await _usersRepository.getUser(email: email);
+      _user = fetchedUser.obs;
+      _isAuthenticated = true.obs;
+    }
+
     try {
-      Get.showOverlay(
-        asyncFunction: () async {
-          await _authRepository.loginUser(email: email, password: password);
-          User fetchedUser = await _usersRepository.getUser(email: email);
-          _user = fetchedUser.obs;
-          _isAuthenticated = true.obs;
-        },
+      await Get.showOverlay(
+        asyncFunction: () => loginProcess(),
         loadingWidget: centerCircularProgressIndicator(),
       );
       print("AuthController(loginUser): Successfully logged in user");
     } catch (e) {
       print("AuthController(loginUser): ${e.toString()}");
       _showErrorSnackBar(errorTitle: "Unable to login user", errorMessage: e.toString());
+      rethrow;
     }
   }
 
@@ -58,6 +62,7 @@ class AuthController extends GetxController {
     } catch (e) {
       print("AuthController(signUpUser: ${e.toString()}");
       _showErrorSnackBar(errorTitle: "Unable to update user", errorMessage: e.toString());
+      rethrow;
     }
   }
 
@@ -71,6 +76,7 @@ class AuthController extends GetxController {
     } catch (e) {
       print("AuthController(signUpUser): ${e.toString()}");
       _showErrorSnackBar(errorTitle: "Unable to sign up user", errorMessage: e.toString());
+      rethrow;
     }
   }
 
