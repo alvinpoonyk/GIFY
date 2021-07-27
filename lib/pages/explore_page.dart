@@ -77,20 +77,7 @@ class ExplorePage extends StatelessWidget {
                                           _width > 768 ? 10 : 5),
                                       side: const BorderSide(color: Colors.white))),
                         ),
-                        onPressed: () async {
-                          //TODO: REMOVE THIS SHIT
-                          // Item i = Item(
-                          //     id: '......',
-                          //     name: '.......',
-                          //     images: ['https://picsum.photos/200/300', 'https://picsum.photos/200/300'],
-                          //     ownerID: '......',
-                          //     location: 'Bishan',
-                          //     category: 'Electronics',
-                          //     description: '........',
-                          //     availability: '.........',
-                          //     isRemoved: false);
-                          // await FirebaseFirestore.instance.collection('items').add(i.toJson());
-                        },
+                        onPressed: () => {},
                         child: Padding(
                           padding: _width > 768
                               ? EdgeInsets.fromLTRB(30, 10, 30, 10)
