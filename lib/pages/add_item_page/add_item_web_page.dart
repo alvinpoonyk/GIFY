@@ -15,13 +15,13 @@ class AddItemPageWebView extends StatelessWidget {
     double _width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        drawer: TopNavDrawer(),
+        drawer: const TopNavDrawer(),
         key: _scaffoldKey,
         body: SingleChildScrollView(
           child: Column(
             children: [
-              navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
-              SizedBox(height: 10),
+              NavigationBar(scaffoldKey: _scaffoldKey),
+              const SizedBox(height: 10),
               Center(
                 child: SelectableText(
                   'Add Item',
@@ -31,7 +31,7 @@ class AddItemPageWebView extends StatelessWidget {
                       color: Colors.black),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                 child: Row(

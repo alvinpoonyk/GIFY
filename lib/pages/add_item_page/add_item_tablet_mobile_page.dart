@@ -22,13 +22,13 @@ class AddItemPageTabletAndMobileView extends StatelessWidget {
             }
           },
           child: Scaffold(
-            drawer: TopNavDrawer(),
+            drawer: const TopNavDrawer(),
             key: _scaffoldKey,
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
-                  SizedBox(height: 10),
+                  NavigationBar(scaffoldKey: _scaffoldKey),
+                  const SizedBox(height: 10),
                   Center(
                     child: SelectableText(
                       'Add Item',
@@ -38,7 +38,7 @@ class AddItemPageTabletAndMobileView extends StatelessWidget {
                           color: Colors.black),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                     child: Row(
@@ -67,12 +67,12 @@ class AddItemPageTabletAndMobileView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                     child: AddItemForm(),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

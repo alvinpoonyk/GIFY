@@ -12,12 +12,12 @@ class ConversationsPageWebView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: TopNavDrawer(),
+        drawer: const TopNavDrawer(),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
-              SizedBox(height: 10),
+              NavigationBar(scaffoldKey: _scaffoldKey),
+              const SizedBox(height: 10),
               SelectableText(
                 'Past Conversations',
                 style: GoogleFonts.montserrat(
@@ -25,7 +25,7 @@ class ConversationsPageWebView extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                 /// CHANGE THIS TO GRID VIEW

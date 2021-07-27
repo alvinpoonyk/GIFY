@@ -14,13 +14,13 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
     double _width = MediaQuery.of(context).size.width;
     return SafeArea(
         child: Scaffold(
-          drawer: TopNavDrawer(),
+          drawer: const TopNavDrawer(),
           key: _scaffoldKey,
           body: SingleChildScrollView(
             child: Column(
               children: [
-                navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
-                SizedBox(height: 10),
+                NavigationBar(scaffoldKey: _scaffoldKey),
+                const SizedBox(height: 10),
                 Center(
                   child: SelectableText(
                     'Edit Item',
@@ -41,7 +41,7 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                   child: Form(
@@ -57,23 +57,23 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: 500,
                           child: TextFormField(
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kLightGreen, width: 1),
+                              focusedBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kLightGreen, width: 1),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kLightGreen, width: 1),
+                              enabledBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kLightGreen, width: 1),
                               ),
                               errorBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
+                              contentPadding: const EdgeInsets.only(
                                   left: 15, bottom: 11, top: 11, right: 15),
                               hintText: "Name of your item",
                               hintStyle: GoogleFonts.roboto(
@@ -84,7 +84,7 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                           ),
                         ),
                         ///
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         ///
                         SelectableText(
                           'Location',
@@ -93,20 +93,20 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide(
+                          decoration: const ShapeDecoration(
+                            shape: const RoundedRectangleBorder(
+                                side: const BorderSide(
                                     width: 1, style: BorderStyle.solid, color: kLightGreen),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10),
                                 )),
                           ),
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.arrow_drop_down_sharp,
                                 color: kDarkGreen,
                               ),
@@ -129,7 +129,7 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         ///
                         SelectableText(
                           'Category',
@@ -141,17 +141,17 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                         SizedBox(height: 10),
                         Container(
                           padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide(
+                          decoration: const ShapeDecoration(
+                            shape: const RoundedRectangleBorder(
+                                side: const BorderSide(
                                     width: 1, style: BorderStyle.solid, color: kLightGreen),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10),
                                 )),
                           ),
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.arrow_drop_down_sharp,
                                 color: kDarkGreen,
                               ),
@@ -174,7 +174,7 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         ///
                         SelectableText(
                           'Availability',
@@ -183,23 +183,23 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: 500,
                           child: TextFormField(
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kDarkGreen, width: 1),
+                              focusedBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kDarkGreen, width: 1),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kLightGreen, width: 1),
+                              enabledBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kLightGreen, width: 1),
                               ),
                               errorBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
+                              contentPadding: const EdgeInsets.only(
                                   left: 15, bottom: 11, top: 11, right: 15),
                               hintText: "Convenient meeting time",
                               hintStyle: GoogleFonts.roboto(
@@ -209,7 +209,7 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         ///
                         SelectableText(
                           'Edit Item Description',
@@ -218,7 +218,7 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: 600,
                           child: TextFormField(
@@ -226,17 +226,17 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                             minLines: 6,
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kDarkGreen, width: 1),
+                              focusedBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kDarkGreen, width: 1),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kLightGreen, width: 1),
+                              enabledBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kLightGreen, width: 1),
                               ),
                               errorBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
+                              contentPadding: const EdgeInsets.only(
                                   left: 15, bottom: 11, top: 11, right: 15),
                               hintText: "Description about the item",
                               hintStyle: GoogleFonts.roboto(
@@ -246,9 +246,9 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         ///
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor:
@@ -284,7 +284,7 @@ class EditItemPageTabletAndMobileView extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),

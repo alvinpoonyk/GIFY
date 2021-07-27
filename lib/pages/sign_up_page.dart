@@ -21,13 +21,13 @@ class SignUpPage extends StatelessWidget {
     double _width = MediaQuery.of(context).size.width;
     return Scaffold(
       key: _scaffoldKey,
-      drawer: TopNavDrawer(),
+      drawer: const TopNavDrawer(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
-            SizedBox(height: 10),
+            NavigationBar(scaffoldKey: _scaffoldKey),
+            const SizedBox(height: 10),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
               child: Form(
@@ -40,12 +40,12 @@ class SignUpPage extends StatelessWidget {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(90)),
+                                borderRadius: const BorderRadius.all(Radius.circular(90)),
                                 border: Border.all(color: kDarkGreen)
                             ),
                             child: Obx(()=> ImagePickerCircleAvatar(bytes: _controller.userImage.value.bytes)),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             'Click on the circle to change',
                             style: GoogleFonts.roboto(fontSize: 12, color: kLightGreen),
@@ -53,7 +53,7 @@ class SignUpPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     /// Display name text field
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +65,7 @@ class SignUpPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: 400,
                           child: TextFormField(
@@ -75,17 +75,17 @@ class SignUpPage extends StatelessWidget {
                             validator: (value) => isStringEmpty(value: value, errorMessage: "Please enter a display name"),
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kDarkGreen, width: 1),
+                              focusedBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kDarkGreen, width: 1),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kLightGreen, width: 1),
+                              enabledBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kLightGreen, width: 1),
                               ),
                               errorBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
+                              contentPadding: const EdgeInsets.only(
                                   left: 15, bottom: 11, top: 11, right: 15),
                               hintText: "Enter a display name",
                               hintStyle: GoogleFonts.roboto(
@@ -97,7 +97,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     /// Email address text field
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +109,7 @@ class SignUpPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: 400,
                           child: TextFormField(
@@ -119,17 +119,17 @@ class SignUpPage extends StatelessWidget {
                             validator: (value) => isValidEmail(value: value, errorMessage: "Please enter a valid email address"),
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kDarkGreen, width: 1),
+                              focusedBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kDarkGreen, width: 1),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kLightGreen, width: 1),
+                              enabledBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kLightGreen, width: 1),
                               ),
                               errorBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
+                              contentPadding: const EdgeInsets.only(
                                   left: 15, bottom: 11, top: 11, right: 15),
                               hintText: "Enter an email address",
                               hintStyle: GoogleFonts.roboto(
@@ -141,7 +141,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     /// Password text field
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,7 +153,7 @@ class SignUpPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: 400,
                           child: TextFormField(
@@ -164,17 +164,17 @@ class SignUpPage extends StatelessWidget {
                             validator: (value) => isValidPassword(value: value),
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kDarkGreen, width: 1),
+                              focusedBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kDarkGreen, width: 1),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kLightGreen, width: 1),
+                              enabledBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kLightGreen, width: 1),
                               ),
                               errorBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
+                              contentPadding: const EdgeInsets.only(
                                   left: 15, bottom: 11, top: 11, right: 15),
                               hintText: "Enter a password",
                               hintStyle: GoogleFonts.roboto(
@@ -186,7 +186,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -197,7 +197,7 @@ class SignUpPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: 400,
                           child: TextFormField(
@@ -208,17 +208,17 @@ class SignUpPage extends StatelessWidget {
                             validator: (value) => isValidConfirmPassword(password: _password, confirmPassword: _confirmPassword),
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kDarkGreen, width: 1),
+                              focusedBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kDarkGreen, width: 1),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(color: kLightGreen, width: 1),
+                              enabledBorder: const OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                borderSide: const BorderSide(color: kLightGreen, width: 1),
                               ),
                               errorBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
+                              contentPadding: const EdgeInsets.only(
                                   left: 15, bottom: 11, top: 11, right: 15),
                               hintText: "Confirm your password",
                               hintStyle: GoogleFonts.roboto(
@@ -230,7 +230,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     SelectableText(
                       '*Password must be min 10 characters long, contains at least one uppercase  (A - Z), lower case (a - z), digit (0 - 9) and special character.',
                       style: GoogleFonts.roboto(
@@ -238,7 +238,7 @@ class SignUpPage extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           color: Colors.black),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     /// Button
                     SizedBox(
                       width: _width <= 768 ? _width * 0.9 : 400,
@@ -270,7 +270,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),

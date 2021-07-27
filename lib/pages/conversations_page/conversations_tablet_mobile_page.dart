@@ -12,14 +12,14 @@ class ConversationsPageTabletAndMobileView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: TopNavDrawer(),
+        drawer: const TopNavDrawer(),
         body: SingleChildScrollView(
           child: Column(
             children: [
               Column(
                 children: [
-                  navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
-                  SizedBox(height: 10),
+                  NavigationBar(scaffoldKey: _scaffoldKey),
+                  const SizedBox(height: 10),
                   SelectableText(
                     'Past Conversations',
                     style: GoogleFonts.montserrat(
@@ -27,7 +27,7 @@ class ConversationsPageTabletAndMobileView extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Colors.black),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                 ],
               ),
               ListView(
