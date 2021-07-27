@@ -6,10 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 
 class LoginCard extends StatelessWidget {
-  const LoginCard({Key? key});
-  static final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     final LoginSignUpPageController _controller = Get.put(LoginSignUpPageController());
     double _width = MediaQuery.of(context).size.width;
     String _email = '';
@@ -164,9 +163,7 @@ class LoginCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             side: const BorderSide(color: kDarkGreen))),
                   ),
-                  onPressed: () async {
-
-                  },
+                  onPressed: () {},
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Center(

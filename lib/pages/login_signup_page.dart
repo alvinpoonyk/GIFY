@@ -7,11 +7,10 @@ import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginSignUpPage extends StatelessWidget {
-  static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
     return SafeArea(
       child: Scaffold(
         drawer: const TopNavDrawer(),
@@ -65,7 +64,7 @@ class LoginSignUpPage extends StatelessWidget {
                         child: Padding(
                           padding: _width >= 1366 ? const EdgeInsets.symmetric(vertical: 50, horizontal: 90) :
                           const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                          child: const LoginCard(),
+                          child: LoginCard(),
                         ),
                       ),
                     ],
@@ -77,7 +76,7 @@ class LoginSignUpPage extends StatelessWidget {
                   color: kDarkGreen,
                   child: Column(
                     children: [
-                      const LoginCard(),
+                       LoginCard(),
                     ],
                   ),
                 ),
