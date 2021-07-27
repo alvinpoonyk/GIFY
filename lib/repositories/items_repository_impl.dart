@@ -122,4 +122,17 @@ class ItemsRepositoryImpl implements ItemsRepository {
     }
   }
 
+  @override
+  Future<Item> getItemById({required String id}) async {
+    try {
+      return await _db.collection('items').where('id', isEqualTo: id).where('isRemoved', isEqualTo: false).get().then((querySnapshot) {
+          QueryDocumentSnapshot itemData = querySnapshot.docs.first;
+          return Item.fromJson(itemData.data() as Map<String, dynamic>);
+      });
+    } catch(e) {
+      print("ItemsRepositoryImpl(getItemById): Failed to fetch item $id, ${e.toString()}");
+      rethrow;
+    }
+   }
+
 }
