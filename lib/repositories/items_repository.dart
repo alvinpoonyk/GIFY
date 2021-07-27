@@ -9,4 +9,5 @@ abstract class ItemsRepository {
   Future<List<Item>> getItemsByCategoryAndLocation({required category, required location});
   Future<void> createItem({required Map<String, dynamic> itemData, required ImageFile imageFile1, required ImageFile imageFile2});
   Future<List<Item>> getUserItems({required String userID});
+  Future<Item> getItemById({required String id});
 }

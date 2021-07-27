@@ -13,19 +13,19 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: TopNavDrawer(),
+        drawer: const TopNavDrawer(),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
+              NavigationBar(scaffoldKey: _scaffoldKey),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                 child: CustomCarouselSlider(
                   width: _width,
                   images: ['https://picsum.photos/id/239/${_width.toInt()}/${_width <= 414 ? 300 : 500}', 'https://picsum.photos/id/237/${_width.toInt()}/${_width <= 414 ? 300 : 500}'],),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                 child: Column(
@@ -39,14 +39,14 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       children: [
                         Icon(
                           Icons.location_on_rounded,
                           size: _width <= 414 ? 16 : 20,
                         ),
-                        SizedBox(width: 15),
+                        const SizedBox(width: 15),
                         SelectableText(
                           'Chinatown',
                           style: GoogleFonts.sen(
@@ -56,14 +56,14 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       children: [
                         Icon(
                           Icons.category_rounded,
                           size: _width <= 414 ? 16 : 20,
                         ),
-                        SizedBox(width: 15),
+                        const SizedBox(width: 15),
                         SelectableText(
                           'Electronics',
                           style: GoogleFonts.sen(
@@ -73,14 +73,14 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       children: [
                         Icon(
                           Icons.schedule_rounded,
                           size: _width <= 414 ? 16 : 20,
                         ),
-                        SizedBox(width: 15),
+                        const SizedBox(width: 15),
                         Expanded(
                           child: SelectableText(
                             'Available for pickup after 7pm on weekdays',
@@ -92,7 +92,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 25),
+                    const SizedBox(height: 25),
                     ConstrainedBox(
                       constraints:
                       BoxConstraints(minHeight: _width <= 414 ? 50 : 150, maxHeight: 300),
@@ -104,7 +104,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                             fontWeight: FontWeight.w300),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -114,7 +114,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                           backgroundImage: NetworkImage(
                               'https://picsum.photos/300/200'),
                         ),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Text(
                           'Lorem Ipsum Dolor',
                           style: GoogleFonts.sen(
@@ -122,7 +122,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
@@ -134,7 +134,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                               ))),
                       onPressed: () {},
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(18, 10, 18, 10),
+                        padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
                         child: Center(
                           child: Text(
                             'Message Now',
@@ -146,7 +146,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20)
+                    const SizedBox(height: 20)
                   ],
                 ),
               ),

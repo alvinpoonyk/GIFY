@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/item_detail_page_controller.dart';
+import 'package:gify/models/item.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
+import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 
 class ItemDetailPageWebView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+    final ItemDetailPageController _controller = Get.find();
+    final Item _item = _controller.item;
     return Scaffold(
+      drawer: const TopNavDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
+            NavigationBar(scaffoldKey: _scaffoldKey),
             Padding(
               padding:
               EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
@@ -22,9 +29,9 @@ class ItemDetailPageWebView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         ConstrainedBox(
-                          constraints: BoxConstraints(
+                          constraints: const BoxConstraints(
                               maxWidth: 500,
                               minWidth: 500,
                               minHeight: 300,
@@ -32,9 +39,9 @@ class ItemDetailPageWebView extends StatelessWidget {
                           child: Image.network(
                               'https://picsum.photos/id/237/500/300'),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         ConstrainedBox(
-                          constraints: BoxConstraints(
+                          constraints: const BoxConstraints(
                               maxWidth: 500,
                               minWidth: 500,
                               minHeight: 300,
@@ -45,29 +52,29 @@ class ItemDetailPageWebView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SelectableText(
-                          'Blue Denim Jeans',
+                          _item.name,
                           style: GoogleFonts.montserrat(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.location_on_rounded,
                               size: 30,
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             SelectableText(
-                              'Chinatown',
+                              _item.location,
                               style: GoogleFonts.sen(
                                 fontSize: 20,
                                 color: Colors.black,
@@ -75,16 +82,16 @@ class ItemDetailPageWebView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.category_rounded,
                               size: 30,
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             SelectableText(
-                              'Electronics',
+                              _item.category,
                               style: GoogleFonts.sen(
                                 fontSize: 20,
                                 color: Colors.black,
@@ -92,17 +99,17 @@ class ItemDetailPageWebView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.schedule_rounded,
                               size: 30,
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             Expanded(
                               child: SelectableText(
-                                'Available for pickup after 7pm on weekdays',
+                                _item.availability,
                                 style: GoogleFonts.sen(
                                   fontSize: 20,
                                   color: Colors.black,
@@ -111,19 +118,19 @@ class ItemDetailPageWebView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         ConstrainedBox(
                           constraints:
-                          BoxConstraints(minHeight: 150, maxHeight: 300),
+                          const BoxConstraints(minHeight: 150, maxHeight: 300),
                           child: SelectableText(
-                            'I am giving away a Acer laptop that I am no longer using. Comes with anti-virus subscription of remaining 1 year and operating on latest version of Windows 10. Feel free to drop me a message through the platform if you need it.',
+                            _item.description,
                             style: GoogleFonts.roboto(
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w300),
                           ),
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor:
@@ -135,7 +142,7 @@ class ItemDetailPageWebView extends StatelessWidget {
                                   ))),
                           onPressed: () {},
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(18, 8, 18, 8),
+                            padding: const EdgeInsets.fromLTRB(18, 8, 18, 8),
                             child: Text(
                               'Message Now',
                               style: GoogleFonts.sen(
@@ -145,7 +152,7 @@ class ItemDetailPageWebView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -155,7 +162,7 @@ class ItemDetailPageWebView extends StatelessWidget {
                               backgroundImage: NetworkImage(
                                   'https://picsum.photos/300/200'),
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             Text(
                               'Lorem Ipsum Dolor',
                               style: GoogleFonts.sen(
@@ -169,11 +176,11 @@ class ItemDetailPageWebView extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 20),
-            Divider(),
-            SizedBox(height: 40),
+            const SizedBox(height: 20),
+            const Divider(),
+            const SizedBox(height: 40),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               width: _width,
               color: kDarkGreen,
               child: Center(
@@ -190,5 +197,6 @@ class ItemDetailPageWebView extends StatelessWidget {
         ),
       ),
     );
+
   }
 }

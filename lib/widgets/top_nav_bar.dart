@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gify/widgets/brand_logo.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 class NavigationBar extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -28,7 +28,7 @@ class NavigationBar extends StatelessWidget {
               Row(
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () =>Get.toNamed("/"),
                     child: Text(
                       'Explore',
                       style: GoogleFonts.montserrat(
@@ -39,7 +39,7 @@ class NavigationBar extends StatelessWidget {
                   ),
                   const SizedBox(width: 30),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () =>Get.toNamed("/login"),
                     child: Text(
                       'Login',
                       style: GoogleFonts.montserrat(
@@ -50,7 +50,7 @@ class NavigationBar extends StatelessWidget {
                   ),
                   const SizedBox(width: 30),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () =>Get.toNamed("/profile"),
                     child: Text(
                       'Profile',
                       style: GoogleFonts.montserrat(
@@ -72,7 +72,7 @@ class NavigationBar extends StatelessWidget {
                 onPressed: () {
                   scaffoldKey.currentState?.openDrawer();
                 },
-                icon: Icon(Icons.reorder, size: 30),
+                icon: const Icon(Icons.reorder, size: 30),
               ),
               const SizedBox(width: 20),
               const BrandLogo(fontSize: 30, iconSize: 30),
@@ -84,80 +84,3 @@ class NavigationBar extends StatelessWidget {
     );
   }
 }
-
-
-Widget navigationBar(
-        {required screenWidth,
-        required GlobalKey<ScaffoldState> scaffoldKey}) =>
-    Column(
-      children: [
-        screenWidth > 768
-            ? Padding(
-                padding: EdgeInsets.only(
-                    left: screenWidth * 0.05,
-                    right: screenWidth * 0.05,
-                    top: 20,
-                    bottom: 20),
-                child: Row(
-                  children: [
-                    const BrandLogo(fontSize: 30, iconSize: 36),
-                    Expanded(
-                      child: Container(),
-                    ),
-                    Row(
-                      children: [
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Explore',
-                            style: GoogleFonts.montserrat(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                        ),
-                        const SizedBox(width: 30),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Login',
-                            style: GoogleFonts.montserrat(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                        ),
-                        const SizedBox(width: 30),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Profile',
-                            style: GoogleFonts.montserrat(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            : Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        scaffoldKey.currentState?.openDrawer();
-                      },
-                      icon: Icon(Icons.reorder, size: 30),
-                    ),
-                    SizedBox(width: 20),
-                    brandLogo(fontSize: 30, iconSize: 30),
-                  ],
-                ),
-              ),
-        Divider(),
-      ],
-    );

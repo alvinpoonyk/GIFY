@@ -14,7 +14,7 @@ class BrandLogo extends StatelessWidget {
         Icon(Icons.spa, size: iconSize, color: kLightGreen),
         const SizedBox(width: 10),
         TextButton(
-          onPressed: () {},
+          onPressed: () => {},
           child: Text(
             'GIFY',
             style: GoogleFonts.sen(
@@ -27,21 +27,3 @@ class BrandLogo extends StatelessWidget {
     );
   }
 }
-
-
-Widget brandLogo({required double fontSize, required double iconSize}) => Row(
-      children: [
-        Icon(Icons.spa, size: iconSize, color: kLightGreen),
-        const SizedBox(width: 10),
-        TextButton(
-          onPressed: () {},
-          child: Text(
-            'GIFY',
-            style: GoogleFonts.sen(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: Colors.black),
-          ),
-        ),
-      ],
-    );

@@ -12,7 +12,7 @@ class MessagesPage extends StatelessWidget {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
     return SafeArea(
       child: Scaffold(
-        drawer: TopNavDrawer(),
+        drawer: const TopNavDrawer(),
         key: _scaffoldKey,
         body: SingleChildScrollView(
           child: SizedBox(
@@ -23,20 +23,19 @@ class MessagesPage extends StatelessWidget {
                   flex: 9,
                   child: Column(
                     children: [
-                      navigationBar(
-                          screenWidth: _width, scaffoldKey: _scaffoldKey),
+                      NavigationBar(scaffoldKey: _scaffoldKey),
                       const SizedBox(height: 10),
                       Padding(
                         padding: _width <= 768
-                            ? EdgeInsets.all(0)
+                            ? const EdgeInsets.all(0)
                             : EdgeInsets.symmetric(horizontal: _width * 0.05),
                         child: Container(
                           decoration: BoxDecoration(
                             color: kDarkGreen,
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.all(_width <= 768
-                                ? Radius.circular(0)
-                                : Radius.circular(10)),
+                                ? const Radius.circular(0)
+                                : const Radius.circular(10)),
                           ),
                           padding: const EdgeInsets.all(12),
                           width: _width <= 768 ? _width : _width * 0.9,
@@ -45,7 +44,7 @@ class MessagesPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 ConstrainedBox(
-                                  constraints: BoxConstraints(
+                                  constraints: const BoxConstraints(
                                     minHeight: 35,
                                     maxHeight: 35,
                                     maxWidth: 60,
@@ -54,7 +53,7 @@ class MessagesPage extends StatelessWidget {
                                   child: Image.network(
                                       'https://picsum.photos/60/35'),
                                 ),
-                                SizedBox(width: 20),
+                                const SizedBox(width: 20),
                                 Container(
                                   child: TextButton(
                                     onPressed: () {},
@@ -107,22 +106,22 @@ class MessagesPage extends StatelessWidget {
                                                     .withOpacity(0.2),
                                                 spreadRadius: 5,
                                                 blurRadius: 7,
-                                                offset: Offset(0,
+                                                offset: const Offset(0,
                                                     3), // changes position of shadow
                                               ),
                                             ],
                                             color: kLightGreen,
                                             shape: BoxShape.rectangle,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(0),
-                                              topRight: Radius.circular(10),
-                                              bottomLeft: Radius.circular(10),
-                                              bottomRight: Radius.circular(10),
+                                            borderRadius: const BorderRadius.only(
+                                              topLeft: const Radius.circular(0),
+                                              topRight: const Radius.circular(10),
+                                              bottomLeft: const Radius.circular(10),
+                                              bottomRight: const Radius.circular(10),
                                             ),
                                           ),
                                           padding: _width < 768
-                                              ? EdgeInsets.fromLTRB(10, 8, 8, 8)
-                                              : EdgeInsets.fromLTRB(
+                                              ? const EdgeInsets.fromLTRB(10, 8, 8, 8)
+                                              : const EdgeInsets.fromLTRB(
                                                   20, 12, 12, 12),
                                           // padding: const EdgeInsets.fromLTRB(20,12,12,12),
                                           child: ConstrainedBox(
@@ -141,7 +140,7 @@ class MessagesPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: 5),
+                                        const SizedBox(height: 5),
                                         Text(
                                           "18 Jul 2021, 01:12",
                                           style: GoogleFonts.roboto(
@@ -175,22 +174,22 @@ class MessagesPage extends StatelessWidget {
                                                     .withOpacity(0.2),
                                                 spreadRadius: 5,
                                                 blurRadius: 7,
-                                                offset: Offset(0,
+                                                offset: const Offset(0,
                                                     3), // changes position of shadow
                                               ),
                                             ],
                                             color: kDarkGreen,
                                             shape: BoxShape.rectangle,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              topRight: Radius.circular(0),
-                                              bottomLeft: Radius.circular(10),
-                                              bottomRight: Radius.circular(10),
+                                            borderRadius: const BorderRadius.only(
+                                              topLeft: const Radius.circular(10),
+                                              topRight: const Radius.circular(0),
+                                              bottomLeft: const Radius.circular(10),
+                                              bottomRight: const Radius.circular(10),
                                             ),
                                           ),
                                           padding: _width < 768
-                                              ? EdgeInsets.fromLTRB(10, 8, 8, 8)
-                                              : EdgeInsets.fromLTRB(
+                                              ? const EdgeInsets.fromLTRB(10, 8, 8, 8)
+                                              : const EdgeInsets.fromLTRB(
                                                   20, 12, 12, 12),
                                           child: ConstrainedBox(
                                             constraints: BoxConstraints(
@@ -208,7 +207,7 @@ class MessagesPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: 5),
+                                        const SizedBox(height: 5),
                                         Text(
                                           "18 Jul 2021, 01:12",
                                           style: GoogleFonts.roboto(
@@ -255,22 +254,22 @@ class MessagesPage extends StatelessWidget {
                                                     .withOpacity(0.2),
                                                 spreadRadius: 5,
                                                 blurRadius: 7,
-                                                offset: Offset(0,
+                                                offset: const Offset(0,
                                                     3), // changes position of shadow
                                               ),
                                             ],
                                             color: kLightGreen,
                                             shape: BoxShape.rectangle,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(0),
-                                              topRight: Radius.circular(10),
-                                              bottomLeft: Radius.circular(10),
-                                              bottomRight: Radius.circular(10),
+                                            borderRadius: const BorderRadius.only(
+                                              topLeft: const Radius.circular(0),
+                                              topRight: const Radius.circular(10),
+                                              bottomLeft: const Radius.circular(10),
+                                              bottomRight: const Radius.circular(10),
                                             ),
                                           ),
                                           padding: _width < 768
-                                              ? EdgeInsets.fromLTRB(10, 8, 8, 8)
-                                              : EdgeInsets.fromLTRB(
+                                              ? const EdgeInsets.fromLTRB(10, 8, 8, 8)
+                                              : const EdgeInsets.fromLTRB(
                                                   20, 12, 12, 12),
                                           // padding: const EdgeInsets.fromLTRB(20,12,12,12),
                                           child: ConstrainedBox(
@@ -289,7 +288,7 @@ class MessagesPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: 5),
+                                        const SizedBox(height: 5),
                                         Text(
                                           "18 Jul 2021, 01:12",
                                           style: GoogleFonts.roboto(
@@ -318,14 +317,14 @@ class MessagesPage extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Container(
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
+                            decoration: const ShapeDecoration(
+                              shape: const RoundedRectangleBorder(
+                                side: const BorderSide(
                                     width: 1,
                                     style: BorderStyle.solid,
                                     color: kDarkGreen),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10),
                                 ),
                               ),
                             ),
@@ -335,7 +334,7 @@ class MessagesPage extends StatelessWidget {
                                 enabledBorder: InputBorder.none,
                                 errorBorder: InputBorder.none,
                                 disabledBorder: InputBorder.none,
-                                contentPadding: EdgeInsets.only(
+                                contentPadding: const EdgeInsets.only(
                                     left: 15, bottom: 11, top: 11, right: 15),
                                 hintText: "Type your message here",
                                 hintStyle: GoogleFonts.roboto(
