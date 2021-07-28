@@ -20,7 +20,19 @@ class AuthController extends GetxController {
   }
 
   String getCurrentUserID() {
-    return _user.id;
+    return _user.value.id;
+  }
+
+  User getCurrentUser() {
+    return _user.value;
+  }
+
+  Future<void> logOutUser() async {
+    await _authRepository.logOut();
+    _user = null;
+    _isAuthenticated.toggle();
+    Get.offAllNamed('/');
+
   }
 
   Future<void> loginUser({required String email, required String password}) async {
@@ -29,7 +41,7 @@ class AuthController extends GetxController {
       await _authRepository.loginUser(email: email, password: password);
       User fetchedUser = await _usersRepository.getUser(email: email);
       _user = fetchedUser.obs;
-      _isAuthenticated = true.obs;
+      _isAuthenticated.toggle();
     }
 
     try {

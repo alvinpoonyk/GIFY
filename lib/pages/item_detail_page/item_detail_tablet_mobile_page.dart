@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/item_detail_page_controller.dart';
+import 'package:gify/models/item.dart';
 import 'package:gify/widgets/item_detail_page_widgets/custom_carousel_slider.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
@@ -9,6 +12,8 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
+    final ItemDetailPageController _controller = Get.find();
+    final Item _item = _controller.item;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
     return SafeArea(
       child: Scaffold(
@@ -23,7 +28,8 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                 child: CustomCarouselSlider(
                   width: _width,
-                  images: ['https://picsum.photos/id/239/${_width.toInt()}/${_width <= 414 ? 300 : 500}', 'https://picsum.photos/id/237/${_width.toInt()}/${_width <= 414 ? 300 : 500}'],),
+                  images: _item.images.map((s) => s.toString()).toList(),
+                ),
               ),
               const SizedBox(height: 20),
               Padding(
@@ -33,7 +39,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SelectableText(
-                      'Blue Denim Jeans',
+                      _item.name,
                       style: GoogleFonts.montserrat(
                           fontSize: _width <= 414 ? 18 : 30,
                           fontWeight: FontWeight.bold,
@@ -48,7 +54,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                         ),
                         const SizedBox(width: 15),
                         SelectableText(
-                          'Chinatown',
+                          _item.location,
                           style: GoogleFonts.sen(
                             fontSize: _width <= 414 ? 16 : 20,
                             color: Colors.black,
@@ -65,7 +71,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                         ),
                         const SizedBox(width: 15),
                         SelectableText(
-                          'Electronics',
+                          _item.category,
                           style: GoogleFonts.sen(
                             fontSize: _width <= 414 ? 16 : 20,
                             color: Colors.black,
@@ -83,7 +89,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                         const SizedBox(width: 15),
                         Expanded(
                           child: SelectableText(
-                            'Available for pickup after 7pm on weekdays',
+                            _item.availability,
                             style: GoogleFonts.sen(
                               fontSize: _width <= 414 ? 16 : 20,
                               color: Colors.black,
@@ -97,7 +103,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                       constraints:
                       BoxConstraints(minHeight: _width <= 414 ? 50 : 150, maxHeight: 300),
                       child: SelectableText(
-                        'I am giving away a Acer laptop that I am no longer using. Comes with anti-virus subscription of remaining 1 year and operating on latest version of Windows 10. Feel free to drop me a message through the platform if you need it.',
+                        _item.description,
                         style: GoogleFonts.roboto(
                             fontSize: _width <= 414 ? 14 : 16,
                             color: Colors.black,
@@ -105,23 +111,33 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          minRadius: _width <= 414 ? 20 : 30,
-                          maxRadius: _width <= 414 ? 20 : 30,
-                          backgroundImage: NetworkImage(
-                              'https://picsum.photos/300/200'),
-                        ),
-                        const SizedBox(width: 20),
-                        Text(
-                          'Lorem Ipsum Dolor',
-                          style: GoogleFonts.sen(
-                              fontSize: _width <= 414 ? 14 : 18, color: Colors.black),
-                        ),
-                      ],
-                    ),
+                    FutureBuilder(
+                        future: _controller.getItemOwnerByID(ownerID: _item.ownerID),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  minRadius: _width <= 414 ? 20 : 30,
+                                  maxRadius: _width <= 414 ? 20 : 30,
+                                  backgroundImage: NetworkImage(
+                                      _controller.owner.profileImage),
+                                ),
+                                const SizedBox(width: 20),
+                                Text(
+                                  _controller.owner.displayName,
+                                  style: GoogleFonts.sen(
+                                      fontSize: _width <= 414 ? 14 : 18, color: Colors.black),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(color: kLightGreen),
+                            );
+                          }
+                        }),
                     const SizedBox(height: 30),
                     ElevatedButton(
                       style: ButtonStyle(

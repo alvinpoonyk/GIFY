@@ -47,7 +47,8 @@ class SignUpPageController extends GetxController {
 
       Get.defaultDialog(title: "SUCCESS!");
       print("SignUpPageController(createAndSignInUser): Successfully complete sign up process");
-
+      Map<String, String> params = {"id" : _authController.getCurrentUserID()};
+      Get.offAllNamed("/profile/", parameters: params);
     } catch(e) {
       print("SignUpPageController(createAndSignInUser): ${e.toString()}");
       _showErrorSnackBar(errorTitle: errorTitle, errorMessage: e.toString());

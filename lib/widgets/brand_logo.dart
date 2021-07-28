@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gify/constants/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,7 +15,7 @@ class BrandLogo extends StatelessWidget {
         Icon(Icons.spa, size: iconSize, color: kLightGreen),
         const SizedBox(width: 10),
         TextButton(
-          onPressed: () => {},
+          onPressed: () => Get.toNamed("/"),
           child: Text(
             'GIFY',
             style: GoogleFonts.sen(

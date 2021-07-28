@@ -36,8 +36,7 @@ class ItemDetailPageWebView extends StatelessWidget {
                               minWidth: 500,
                               minHeight: 300,
                               maxHeight: 300),
-                          child: Image.network(
-                              'https://picsum.photos/id/237/500/300'),
+                          child: Image.network(_item.images[0]),
                         ),
                         const SizedBox(height: 20),
                         ConstrainedBox(
@@ -46,8 +45,7 @@ class ItemDetailPageWebView extends StatelessWidget {
                               minWidth: 500,
                               minHeight: 300,
                               maxHeight: 300),
-                          child: Image.network(
-                              'https://picsum.photos/500/300'),
+                          child: Image.network(_item.images[1]),
                         ),
                       ],
                     ),
@@ -153,23 +151,32 @@ class ItemDetailPageWebView extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 40),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              minRadius: 30,
-                              maxRadius: 30,
-                              backgroundImage: NetworkImage(
-                                  'https://picsum.photos/300/200'),
-                            ),
-                            const SizedBox(width: 20),
-                            Text(
-                              'Lorem Ipsum Dolor',
-                              style: GoogleFonts.sen(
-                                  fontSize: 18, color: Colors.black),
-                            ),
-                          ],
-                        )
+                        FutureBuilder(
+                            future: _controller.getItemOwnerByID(ownerID: _item.ownerID),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.done) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    CircleAvatar(
+                                      minRadius: 30,
+                                      maxRadius: 30,
+                                      backgroundImage: NetworkImage(_controller.owner.profileImage),
+                                    ),
+                                    const SizedBox(width: 20),
+                                    Text(
+                                      _controller.owner.displayName,
+                                      style: GoogleFonts.sen(
+                                          fontSize: 18, color: Colors.black),
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(color: kLightGreen),
+                                );
+                              }
+                            }),
                       ],
                     ),
                   ),

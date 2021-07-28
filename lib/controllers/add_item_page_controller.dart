@@ -39,6 +39,10 @@ class AddItemPageController extends GetxController {
   Future<void> storeItemInRemoteDatabase({
     required String name, required String ownerID, required String location, required String category,
     required String description, required String availability}) async {
+
+      if (image1.value.bytes == null || image1.value.file == null || image2.value.bytes == null || image2.value.bytes == null)
+        return await Get.defaultDialog(title: 'Error', middleText: 'Please ensure you have attached 2 images');
+
       Map<String, dynamic> itemData = {
         "name" : name,
         "ownerID" : ownerID,
@@ -46,6 +50,7 @@ class AddItemPageController extends GetxController {
         "category" : category,
         "description" : description,
         "availability" : availability,
+        "isRemoved" : false,
       };
 
       try {
@@ -53,6 +58,8 @@ class AddItemPageController extends GetxController {
           asyncFunction: () => _itemsRepository.createItem(itemData: itemData, imageFile1: image1.value, imageFile2: image2.value),
           loadingWidget: centerCircularProgressIndicator(),
         );
+        Map<String, String> params = {"id" : ownerID};
+        Get.offAndToNamed("/profile/", parameters: params);
       } catch(e) {
         _showErrorSnackBar(errorTitle: errorTitle, errorMessage: e.toString());
       }

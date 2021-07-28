@@ -48,5 +48,17 @@ class UsersRepositoryImpl extends UsersRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<User> getUserById({required String id}) async {
+    try {
+      return await _db.collection('users').doc(id).get().then((documentSnapshot) {
+        return User.fromJson(documentSnapshot.data() as Map<String, dynamic>);
+      });
+    } catch(e) {
+      print("UsersRepositoryImpl(getUserById): Fail to get user $id from remote database");
+      rethrow;
+    }
+  }
   
 }

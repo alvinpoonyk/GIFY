@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:gify/constants/filters.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/auth_controller.dart';
 import 'package:gify/controllers/explore_page_controller.dart';
 import 'package:gify/widgets/explore_page_widgets/category_drop_down_button.dart';
 import 'package:gify/widgets/explore_page_widgets/explore_item_card.dart';
@@ -16,6 +17,7 @@ class ExplorePage extends StatelessWidget {
   final ExplorePageController _controller = Get.put(ExplorePageController());
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
+  final AuthController _authController = Get.find();
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
@@ -40,8 +42,7 @@ class ExplorePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               NavigationBar(scaffoldKey: _scaffoldKey),
-              const SizedBox(height: 20.0),
-              // Carousel
+              if (!_authController.isUserLoggedIn())
               Padding(
                 padding:
                     EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
@@ -77,7 +78,7 @@ class ExplorePage extends StatelessWidget {
                                           _width > 768 ? 10 : 5),
                                       side: const BorderSide(color: Colors.white))),
                         ),
-                        onPressed: () => {},
+                        onPressed: () => Get.toNamed('/sign-up'),
                         child: Padding(
                           padding: _width > 768
                               ? EdgeInsets.fromLTRB(30, 10, 30, 10)
@@ -133,15 +134,15 @@ class ExplorePage extends StatelessWidget {
                             GoogleFonts.sen(fontSize: 20, color: Colors.black),
                       ),
                     // SizedBox(width: 10),
-                    CategoryDropdownButton(
-                      hintText: kDefaultCategoryFilter,
+                    Obx(()=> CategoryDropdownButton(
+                      hintText: _controller.category.value,
                       items: kCategories,
-                    ),
+                    )),
                     const SizedBox(width: 20),
-                    LocationDropdownButton(
-                      hintText: kDefaultLocationFilter,
+                    Obx(()=> LocationDropdownButton(
+                      hintText: _controller.location.value,
                       items: kLocations,
-                    ),
+                    )),
                   ],
                 ),
               ),

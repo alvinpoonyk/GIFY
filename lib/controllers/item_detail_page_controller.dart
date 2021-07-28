@@ -1,14 +1,19 @@
 import 'package:get/get.dart';
 import 'package:gify/models/item.dart';
+import 'package:gify/models/user.dart';
 import 'package:gify/repositories/items_repository.dart';
 import 'package:gify/repositories/items_repository_impl.dart';
+import 'package:gify/repositories/users_repository.dart';
+import 'package:gify/repositories/users_repository_impl.dart';
 
 class ItemDetailPageController extends GetxController {
 
   final ItemsRepository _itemsRepository = ItemsRepositoryImpl();
+  final UsersRepository _usersRepository = UsersRepositoryImpl();
 
   var id;
   var item;
+  var owner;
 
   ItemDetailPageController({this.id, this.item});
 
@@ -23,5 +28,14 @@ class ItemDetailPageController extends GetxController {
     }
   }
 
+  Future<void> getItemOwnerByID({required String ownerID}) async {
+    try {
+      final User fetchedUser = await _usersRepository.getUserById(id: ownerID);
+      owner = fetchedUser;
+      print("ItemDetailPageController(getItemOwnerByID): Get and set owner $ownerID success");
+    } catch(e) {
+      print("ItemDetailPageController(getItemOwnerByID): ${e.toString()}");
+    }
+  }
 
 }

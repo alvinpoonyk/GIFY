@@ -26,5 +26,10 @@ class AuthRepositoryImpl extends AuthRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> logOut() async {
+   await _authService.signOut();
+  }
   
 }

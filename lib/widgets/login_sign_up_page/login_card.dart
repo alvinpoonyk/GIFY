@@ -163,7 +163,7 @@ class LoginCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             side: const BorderSide(color: kDarkGreen))),
                   ),
-                  onPressed: () {},
+                  onPressed: () => Get.toNamed('/sign-up'),
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Center(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/auth_controller.dart';
 import 'package:gify/controllers/profile_page_controller.dart';
 import 'package:gify/widgets/profile_page_widgets/profile_item_card.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
@@ -14,6 +15,7 @@ class ProfilePageTabletAndMobileView extends StatelessWidget {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
     final ScrollController _scrollController = ScrollController();
     final ProfilePageController _controller = Get.put(ProfilePageController());
+    final AuthController _authController = Get.find();
     return SafeArea(
       child: Scaffold(
         drawer: const TopNavDrawer(),
@@ -32,12 +34,11 @@ class ProfilePageTabletAndMobileView extends StatelessWidget {
                     CircleAvatar(
                       minRadius: _width <= 414 ? 60 : 80,
                       maxRadius: _width <= 414 ? 60 : 80,
-                      backgroundImage: const NetworkImage(
-                          'https://picsum.photos/200/200'),
+                      backgroundImage: NetworkImage(_authController.getCurrentUser().profileImage),
                     ),
                     SizedBox(height: _width <= 414 ? 10 : 20),
                     SelectableText(
-                      'Lorem Ipsum Dolor',
+                        _authController.getCurrentUser().displayName,
                       style: GoogleFonts.montserrat(fontSize: _width <= 414 ? 14 : 16, color: Colors.black),
                     ),
                     SizedBox(height: _width <= 414 ? 10 : 20),
@@ -50,7 +51,7 @@ class ProfilePageTabletAndMobileView extends StatelessWidget {
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ))),
-                      onPressed: () {},
+                      onPressed: () => Get.toNamed('/add-item'),
                       child: Container(
                         width: 180,
                         padding: EdgeInsets.all(_width <= 414 ? 4 : 8),
@@ -81,18 +82,18 @@ class ProfilePageTabletAndMobileView extends StatelessWidget {
                 ),
               ),
               _width >= 768 ?
-              GridView.count(
+              Obx(() => GridView.count(
                   addAutomaticKeepAlives: true,
                   childAspectRatio: 315/310,
                   shrinkWrap: true,
                   crossAxisCount: 2,
-                  children: _controller.itemsToDisplay.map((item) => ProfileItemCard(item: item)).toList()) :
+                  children: _controller.itemsToDisplay.map((item) => ProfileItemCard(item: item)).toList())) :
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: ListView(
+                child: Obx(() =>  ListView(
                     controller: _scrollController,
                     shrinkWrap: true,
-                    children: _controller.itemsToDisplay.map((item) => ProfileItemCard(item: item)).toList()),
+                    children: _controller.itemsToDisplay.map((item) => ProfileItemCard(item: item)).toList())),
                     // children: List.generate(12, (index) => ProfileItemCard())),
               ),
             ],
