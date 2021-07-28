@@ -14,12 +14,9 @@ class ProfilePageController extends GetxController {
 
   @override
   void onInit() {
-    getUserItems(userID: '......');
-    //TODO: Change to userID
-    // getUserItems(userID: _authController.getCurrentUserID());
+    getUserItems(userID: _authController.getCurrentUserID());
     super.onInit();
   }
-
 
   getUserItems({required String userID}) async {
     try {

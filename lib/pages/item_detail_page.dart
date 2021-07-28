@@ -11,7 +11,9 @@ class ItemDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Item? _item = Get.arguments;
     final String? _id = Get.parameters['id'];
-    final ItemDetailPageController _controller = Get.put(ItemDetailPageController(id: _id, item: _item));
+    final ItemDetailPageController _controller = Get.put(ItemDetailPageController());
+    _controller.item = _item;
+    _controller.id = _id;
     if (_controller.item != null) {
       return ResponsiveItemDetailPage();
     }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:gify/constants/filters.dart';
 import 'package:gify/constants/styles.dart';
 import 'package:gify/controllers/add_item_page_controller.dart';
+import 'package:gify/controllers/auth_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddItemForm extends StatelessWidget {
@@ -10,6 +11,7 @@ class AddItemForm extends StatelessWidget {
   final List<String> _locationOptions = [... kLocations];
   final List<String> _categoryOptions = [... kCategories];
   final AddItemPageController _controller = Get.find();
+  final AuthController _authController = Get.find();
   @override
   Widget build(BuildContext context) {
 
@@ -286,8 +288,7 @@ class AddItemForm extends StatelessWidget {
                 if (_formKey.currentState!.validate()) {
                   await _controller.storeItemInRemoteDatabase(
                       name: _name!,
-                      //TODO: REMOVE THIS AFTER AUTH COMPLETE
-                      ownerID: "asd",
+                      ownerID: _authController.getCurrentUserID(),
                       location: _location!,
                       category: _category!,
                       description: _description!,

@@ -9,7 +9,7 @@ import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignUpPage extends StatelessWidget {
-  static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   static final _formKey = GlobalKey<FormState>();
   final SignUpPageController _controller = Get.put(SignUpPageController());
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gify/controllers/auth_controller.dart';
 import 'package:gify/widgets/brand_logo.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,6 +11,7 @@ class NavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
+    final AuthController _controller = Get.find();
     return Column(
       children: [
         _width > 768
@@ -28,7 +30,7 @@ class NavigationBar extends StatelessWidget {
               Row(
                 children: [
                   TextButton(
-                    onPressed: () =>Get.toNamed("/"),
+                    onPressed: () => Get.toNamed("/"),
                     child: Text(
                       'Explore',
                       style: GoogleFonts.montserrat(
@@ -38,27 +40,48 @@ class NavigationBar extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 30),
-                  TextButton(
-                    onPressed: () =>Get.toNamed("/login"),
+                  Obx(() => TextButton(
+                    onPressed: () async {
+                      if (_controller.isUserLoggedIn()) {
+                        await _controller.logOutUser();
+                      } else {
+                        Get.toNamed("/login");
+                      }
+                    },
                     child: Text(
-                      'Login',
+                      _controller.isUserLoggedIn() ? 'Log Out' : 'Login',
                       style: GoogleFonts.montserrat(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
-                  ),
-                  const SizedBox(width: 30),
-                  TextButton(
-                    onPressed: () =>Get.toNamed("/profile"),
-                    child: Text(
-                      'Profile',
-                      style: GoogleFonts.montserrat(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                  )),
+                  Obx(() => _controller.isUserLoggedIn() ? Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                    child: TextButton(
+                      onPressed: () {
+                        Map<String, String> params = {"id" : _controller.getCurrentUserID()};
+                        Get.toNamed("/profile/", parameters: params);
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'Profile',
+                            style: GoogleFonts.montserrat(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          const SizedBox(width: 10),
+                          CircleAvatar(
+                            minRadius: 15,
+                            maxRadius: 15,
+                            backgroundImage: NetworkImage(_controller.getCurrentUser().profileImage),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
+                  ) : Container()),
                 ],
               ),
             ],

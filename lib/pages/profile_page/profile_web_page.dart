@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/auth_controller.dart';
 import 'package:gify/controllers/profile_page_controller.dart';
 import 'package:gify/widgets/profile_page_widgets/profile_item_card.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
@@ -15,6 +16,7 @@ class ProfilePageWebView extends StatelessWidget {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
     final ScrollController _scrollController = ScrollController();
     final ProfilePageController _controller = Get.put(ProfilePageController());
+    final AuthController _authController = Get.find();
     return SafeArea(
       child: Scaffold(
         drawer: const TopNavDrawer(),
@@ -22,8 +24,7 @@ class ProfilePageWebView extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              NavigationBar(scaffoldKey: _scaffoldKey,),
-              // navigationBar(screenWidth: _width, scaffoldKey: _scaffoldKey),
+              NavigationBar(scaffoldKey: _scaffoldKey),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                 child: Row(
@@ -35,15 +36,14 @@ class ProfilePageWebView extends StatelessWidget {
                         padding: const EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            const CircleAvatar(
+                            CircleAvatar(
                               minRadius: 80,
                               maxRadius: 80,
-                              backgroundImage: const NetworkImage(
-                                  'https://picsum.photos/200/200'),
+                              backgroundImage: NetworkImage(_authController.getCurrentUser().profileImage),
                             ),
                             const SizedBox(height: 20),
                             SelectableText(
-                              'Lorem Ipsum Dolor',
+                              _authController.getCurrentUser().displayName,
                               style: GoogleFonts.montserrat(fontSize: 16, color: Colors.black),
                             ),
                             const SizedBox(height: 20),
@@ -56,7 +56,7 @@ class ProfilePageWebView extends StatelessWidget {
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ))),
-                              onPressed: () {},
+                              onPressed: () => Get.toNamed('/add-item'),
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Center(

@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
 import 'package:gify/constants/filters.dart';
+import 'package:gify/models/user.dart';
 import 'package:gify/repositories/items_repository.dart';
 import 'package:gify/repositories/items_repository_impl.dart';
+import 'package:gify/repositories/users_repository.dart';
+import 'package:gify/repositories/users_repository_impl.dart';
 import 'package:gify/widgets/getX_widgets/getX_error_snack_bar.dart';
 
 class ExplorePageController extends GetxController {
@@ -19,6 +22,16 @@ class ExplorePageController extends GetxController {
   }
 
   final ItemsRepository _itemsRepository = ItemsRepositoryImpl();
+  final UsersRepository _usersRepository = UsersRepositoryImpl();
+
+  Future<User> getItemOwner({required String id}) async {
+    try {
+      return await _usersRepository.getUserById(id: id);
+    } catch(e) {
+      _showErrorSnackBar(errorTitle: errorTitle, errorMessage: e.toString());
+      throw e;
+    }
+  }
 
   getItems() async {
     try {

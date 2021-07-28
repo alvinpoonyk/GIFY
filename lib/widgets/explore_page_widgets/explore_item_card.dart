@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/explore_page_controller.dart';
 import 'package:gify/models/item.dart';
+import 'package:gify/models/user.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +14,7 @@ class ExploreItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ExplorePageController _controller = Get.put(ExplorePageController());
     return Card(
       child: InkWell(
         onTap: () {
@@ -25,8 +29,7 @@ class ExploreItemCard extends StatelessWidget {
               ConstrainedBox(
                 constraints: const BoxConstraints(
                     minWidth: 285, maxWidth: 500, maxHeight: 200, minHeight: 200),
-                child: Image.network(
-                    'https://picsum.photos/1080/768'),
+                child: Image.network(item.images.first),
               ),
               SizedBox(height: 20),
               ConstrainedBox(
@@ -54,7 +57,7 @@ class ExploreItemCard extends StatelessWidget {
               ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: 500, maxWidth: 500, minHeight: 45, maxHeight: 45),
                 child: Text(
-                  'Bought it from an online store but it was the wrong size (XS) hence giving it away for anyone who needs it',
+                  item.description,
                   style: GoogleFonts.roboto(
                       fontWeight: FontWeight.w300,
                       fontSize: 14,
@@ -64,21 +67,47 @@ class ExploreItemCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  const CircleAvatar(
-                    maxRadius: 20,
-                    minRadius: 20,
-                    backgroundImage: NetworkImage(
-                        'https://picsum.photos/300/200'),
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    'Lorem Ipsum Dolor',
-                    style: GoogleFonts.sen(fontSize: 14, color: Colors.black),
-                  ),
-                ],
-              )
+              FutureBuilder<User>(
+                  future: _controller.getItemOwner(id: item.ownerID),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      User itemOwner = snapshot.data!;
+                      return Row(
+                        children: [
+                          CircleAvatar(
+                            maxRadius: 20,
+                            minRadius: 20,
+                            backgroundImage: NetworkImage(
+                                itemOwner.profileImage),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            itemOwner.displayName,
+                            style: GoogleFonts.sen(fontSize: 14, color: Colors.black),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(color: kLightGreen),
+                      );
+                    }
+                  }),
+              // Row(
+              //   children: [
+              //     const CircleAvatar(
+              //       maxRadius: 20,
+              //       minRadius: 20,
+              //       backgroundImage: NetworkImage(
+              //           'https://picsum.photos/300/200'),
+              //     ),
+              //     const SizedBox(width: 10),
+              //     Text(
+              //       'Lorem Ipsum Dolor',
+              //       style: GoogleFonts.sen(fontSize: 14, color: Colors.black),
+              //     ),
+              //   ],
+              // )
             ],
           ),
         ),
