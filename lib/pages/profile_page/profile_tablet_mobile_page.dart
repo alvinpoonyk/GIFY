@@ -81,21 +81,28 @@ class ProfilePageTabletAndMobileView extends StatelessWidget {
                   ],
                 ),
               ),
-              _width >= 768 ?
-              Obx(() => GridView.count(
-                  addAutomaticKeepAlives: true,
-                  childAspectRatio: 315/310,
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  children: _controller.itemsToDisplay.map((item) => ProfileItemCard(item: item)).toList())) :
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Obx(() =>  ListView(
-                    controller: _scrollController,
+              Obx(() {
+                return _width >= 768 ? GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisExtent: 380,
+                      crossAxisSpacing: 10,
+                      crossAxisCount: 2,
+                    ),
+                    addAutomaticKeepAlives: true,
+                    itemCount: _controller.itemsToDisplay.length,
                     shrinkWrap: true,
-                    children: _controller.itemsToDisplay.map((item) => ProfileItemCard(item: item)).toList())),
-                    // children: List.generate(12, (index) => ProfileItemCard())),
-              ),
+                    controller: _scrollController,
+                    itemBuilder: (context, index)  => ProfileItemCard(item: _controller.itemsToDisplay[index])) :
+                Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: ListView.builder(
+                    addAutomaticKeepAlives: true,
+                  itemCount: _controller.itemsToDisplay.length,
+                  controller: _scrollController,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => ProfileItemCard(item: _controller.itemsToDisplay[index]))
+                );
+              }),
             ],
           ),
         ),
