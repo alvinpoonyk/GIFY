@@ -39,6 +39,22 @@ class NavigationBar extends StatelessWidget {
                           color: Colors.black),
                     ),
                   ),
+                  Obx(() => _controller.isUserLoggedIn() ? Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                    child: TextButton(
+                      onPressed: () {
+                        Map<String, String> params = {"id" : _controller.getCurrentUserID()};
+                        Get.toNamed("/conversations/", parameters: params);
+                      },
+                      child: Text(
+                        'Conversations',
+                        style: GoogleFonts.montserrat(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ) : Container()),
                   const SizedBox(width: 30),
                   Obx(() => TextButton(
                     onPressed: () async {

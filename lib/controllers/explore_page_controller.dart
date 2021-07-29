@@ -9,9 +9,9 @@ import 'package:gify/widgets/getX_widgets/getX_error_snack_bar.dart';
 
 class ExplorePageController extends GetxController {
 
-  var itemsToDisplay = [].obs;
-  var category =  kDefaultCategoryFilter.obs;
-  var location = kDefaultLocationFilter.obs;
+  RxList<dynamic> itemsToDisplay = [].obs;
+  RxString category =  kDefaultCategoryFilter.obs;
+  RxString location = kDefaultLocationFilter.obs;
 
   final errorTitle = 'Oops, something went wrong...';
 

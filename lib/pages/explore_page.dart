@@ -20,18 +20,8 @@ class ExplorePage extends StatelessWidget {
   final AuthController _authController = Get.find();
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
 
-    double _childAspectRatioBasedOnBreakpoints({required double screenWidth}) {
-      ///Wide Screen Display
-      if (screenWidth > 1024)
-        return 300/390;
-      /// Medium Screen Display
-      if (screenWidth > 768 && screenWidth <= 1024)
-        return 300/285;
-      /// Tablet Screen Display
-      return 300/380;
-    }
+    double _width = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Scaffold(
@@ -150,13 +140,21 @@ class ExplorePage extends StatelessWidget {
               // Card Grid System
               Obx(() => Padding(
                 padding: EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
-                child: _width >= 768 ? GridView.count(
-                    controller: _scrollController,
-                    addAutomaticKeepAlives: true,
-                    childAspectRatio: _childAspectRatioBasedOnBreakpoints(screenWidth: _width),
-                    shrinkWrap: true,
-                    crossAxisCount: _width > 768 && _width > 1024 ? 4 : 2,
-                    children: _controller.itemsToDisplay.map((item) => ExploreItemCard(item: item)).toList())
+                child: _width >= 768 ? GridView.builder(
+                      itemCount: _controller.itemsToDisplay.length,
+                      shrinkWrap: true,
+                      controller: _scrollController,
+                      addAutomaticKeepAlives: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisExtent: 440,
+                      crossAxisSpacing: 10,
+                      crossAxisCount: _width > 768 ? 4 : 2,
+                      ),
+                      itemBuilder: (context, index) {
+                          return ExploreItemCard(item: _controller.itemsToDisplay[index]);
+                        },
+                    )
+                    // children: _controller.itemsToDisplay.map((item) => ExploreItemCard(item: item)).toList())
                     : ListView(
                         controller: _scrollController,
                         addAutomaticKeepAlives: true,
