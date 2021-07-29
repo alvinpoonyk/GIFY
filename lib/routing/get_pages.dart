@@ -12,7 +12,7 @@ import 'package:gify/pages/sign_up_page.dart';
 final AuthController _authController = Get.find();
 
 final List<GetPage> getPages = [
-  GetPage(name: '/', page: () => ConversationsPage()),
+  GetPage(name: '/', page: () => ExplorePage()),
   GetPage(name: '/login', page: () {
     if (_authController.isUserLoggedIn())
       return ProfilePage();
