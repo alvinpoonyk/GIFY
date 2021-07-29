@@ -1,67 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/conversations_page_controller.dart';
+import 'package:gify/models/conversation.dart';
+import 'package:gify/models/item.dart';
+import 'package:gify/models/user.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ConversationCard extends StatelessWidget {
-  const ConversationCard({Key? key,}) : super(key: key);
+  final Conversation conversation;
+  const ConversationCard({Key? key, required this.conversation,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final ConversationsPageController _controller = Get.find();
     return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 300 , minWidth: 300),
+      constraints: const BoxConstraints(maxWidth: 300 , minWidth: 300),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 14),
-              CircleAvatar(
-                minRadius: 60,
-                maxRadius: 60,
-                backgroundImage: NetworkImage(
-                    'https://picsum.photos/300/200'),
+              const SizedBox(height: 14),
+              FutureBuilder<User>(
+                  future: _controller.getOtherUser(participants: conversation.participants),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      User otherUser = snapshot.data!;
+                      return Column(
+                        children: [
+                          CircleAvatar(
+                            minRadius: 60,
+                            maxRadius: 60,
+                            backgroundImage: NetworkImage(otherUser.profileImage),
+                          ),
+                          const SizedBox(height: 12),
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 300 , minWidth: 300),
+                            child: Text(
+                              otherUser.displayName,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16, color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    return const CircularProgressIndicator(color: kLightGreen);
+                  }),
+              const SizedBox(height: 20),
+              FutureBuilder<Item>(
+                  future: _controller.getItem(itemID: conversation.itemID),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      Item item = snapshot.data!;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: Image.network(item.images[0]),
+                          ),
+                          const SizedBox(width: 14),
+                          Text(
+                            item.name.length < 20 ? item.name : item.name.substring(0, 20),
+                            textAlign: TextAlign.left,
+                            style: GoogleFonts.roboto(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14, color: Colors.black),
+                          ),
+                        ],
+                      );
+                    }
+                    return const CircularProgressIndicator(color: kLightGreen);
+                  },
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 20),
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 300 , minWidth: 300),
-                child: Text(
-                  'Lorem Ipsum Dolor',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.roboto(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16, color: Colors.black),
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 40 , minWidth: 40),
-                    child: Image.network( 'https://picsum.photos/300/200'),
-                  ),
-                  SizedBox(width: 14),
-                  Text(
-                    'Acer Aspire A515-56C',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14, color: Colors.black),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 270 , minWidth: 270, maxHeight: 60, minHeight: 60),
+                constraints: const BoxConstraints(maxWidth: 270 , minWidth: 270, maxHeight: 60, minHeight: 60),
                 child: SelectableText(
-                  'Hey, saw your item listed. Just want to check with you what is the screen size of the laptop and the..',
+                  conversation.lastMessage,
                   style: GoogleFonts.roboto(
                       fontWeight: FontWeight.w300,
                       fontSize: 14, color: Colors.black),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SizedBox(
                 width: 200,
                 child: ElevatedButton(
@@ -73,7 +101,10 @@ class ConversationCard extends StatelessWidget {
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ))),
-                  onPressed: () {},
+                  onPressed: () {
+                    Map<String, String> params = {"id" : conversation.id};
+                    Get.toNamed("/messages/", arguments: conversation, parameters: params);
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Center(
@@ -88,7 +119,7 @@ class ConversationCard extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
             ],
           ),
         ),
