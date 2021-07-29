@@ -28,7 +28,7 @@ class ExploreItemCard extends StatelessWidget {
             children: [
               ConstrainedBox(
                 constraints: const BoxConstraints(
-                    minWidth: 285, maxWidth: 500, maxHeight: 200, minHeight: 200),
+                    minWidth: 285, maxHeight: 200, minHeight: 200),
                 child: Image.network(item.images.first),
               ),
               SizedBox(height: 20),
@@ -55,7 +55,7 @@ class ExploreItemCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 500, maxWidth: 500, minHeight: 45, maxHeight: 45),
+                constraints: const BoxConstraints(minWidth: 500, minHeight: 45, maxHeight: 45),
                 child: Text(
                   item.description,
                   style: GoogleFonts.roboto(
@@ -93,21 +93,6 @@ class ExploreItemCard extends StatelessWidget {
                       );
                     }
                   }),
-              // Row(
-              //   children: [
-              //     const CircleAvatar(
-              //       maxRadius: 20,
-              //       minRadius: 20,
-              //       backgroundImage: NetworkImage(
-              //           'https://picsum.photos/300/200'),
-              //     ),
-              //     const SizedBox(width: 10),
-              //     Text(
-              //       'Lorem Ipsum Dolor',
-              //       style: GoogleFonts.sen(fontSize: 14, color: Colors.black),
-              //     ),
-              //   ],
-              // )
             ],
           ),
         ),
