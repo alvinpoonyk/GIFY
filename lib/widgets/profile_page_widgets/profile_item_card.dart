@@ -102,8 +102,8 @@ class ProfileItemCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                               side: BorderSide(color: kDarkGreen))),
                     ),
-                    onPressed: () {
-                      _controller.removeItem();
+                    onPressed: () async {
+                      await _controller.removeItem(id: item.id);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(left: 12, right: 12),

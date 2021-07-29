@@ -106,21 +106,21 @@ class ItemsRepositoryImpl implements ItemsRepository {
     }
   }
 
-  @override
-  Future<List<Item>> getUserItems({required String userID}) async {
-    try {
-      List<Item> data = [];
-      await _db.collection('items').where('ownerID', isEqualTo: userID).where('isRemoved').get().then(
-              (querySnapshot) => querySnapshot.docs.forEach((documentSnapshot) {
-            data.add(Item.fromJson(documentSnapshot.data()));
-          }));
-      print("ItemsRepositoryImpl(getUserItems): Successfully fetched user items");
-      return data;
-    } catch(e) {
-      print("ItemsRepositoryImpl(getUserItems): ${e.toString()}");
-      rethrow;
-    }
-  }
+  // @override
+  // Future<List<Item>> getUserItems({required String userID}) async {
+  //   try {
+  //     List<Item> data = [];
+  //     await _db.collection('items').where('ownerID', isEqualTo: userID).where('isRemoved').get().then(
+  //             (querySnapshot) => querySnapshot.docs.forEach((documentSnapshot) {
+  //           data.add(Item.fromJson(documentSnapshot.data()));
+  //         }));
+  //     print("ItemsRepositoryImpl(getUserItems): Successfully fetched user items");
+  //     return data;
+  //   } catch(e) {
+  //     print("ItemsRepositoryImpl(getUserItems): ${e.toString()}");
+  //     rethrow;
+  //   }
+  // }
 
   @override
   Future<Item> getItemById({required String id}) async {
@@ -134,5 +134,36 @@ class ItemsRepositoryImpl implements ItemsRepository {
       rethrow;
     }
    }
+
+  @override
+  Stream<List<Item>> getUserItemsStream({required String userID}) async* {
+    try {
+      print("ItemsRepositoryImpl(getUserItemsStream): Stream opened");
+      Stream<QuerySnapshot> source =  _db.collection('items').where('ownerID', isEqualTo: userID).where('isRemoved', isEqualTo: false).snapshots();
+      await for (QuerySnapshot querySnapshot in source) {
+        List<Item> items = [];
+        querySnapshot.docs.forEach((documentSnapshot) {
+          items.add(Item.fromJson(documentSnapshot.data() as Map<String, dynamic>));
+        });
+        yield items;
+      }
+    }
+    catch(e) {
+      print("ItemsRepositoryImpl(getUserItemsStream): ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> removeItem({required String id}) async {
+    try {
+      await _db.collection('items').doc(id).update({
+        'isRemoved' : true,
+      }).then((_) => print("ItemsRepositoryImpl(removeItem): Set isRemoved to false for item $id"));
+    } catch(e) {
+      print("ItemsRepositoryImpl(removeItem): ${e.toString()}");
+      rethrow;
+    }
+  }
 
 }

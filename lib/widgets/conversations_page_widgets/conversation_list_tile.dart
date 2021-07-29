@@ -14,7 +14,7 @@ class ConversationsListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     final ConversationsPageController _controller = Get.find();
-    return FutureBuilder<User>(
+    return FutureBuilder<User?>(
         future: _controller.getOtherUser(participants: conversation.participants),
         builder: (context, snapshot) {
           if (snapshot.hasData) {

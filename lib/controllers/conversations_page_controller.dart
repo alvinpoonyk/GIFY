@@ -22,22 +22,21 @@ class ConversationsPageController extends GetxController {
 
   void onInit() {
     //TODO: REMOVE THIS HARDCODED SHIT
-    conversations.bindStream(_getConversationsStream(userID: "AxwkwQs6YLSrh9RYSj0J"));
+    conversations.bindStream(_getConversationsStream(userID: "AxwkwQs6YLSrh9RYSj0J")!);
     super.onInit();
   }
 
-  Stream<List<Conversation>> _getConversationsStream({required String userID}) {
+  Stream<List<Conversation>>? _getConversationsStream({required String userID}) {
     try {
       print("ConversationsPageController(getConversationsStream): Getting conversation stream from remote database...");
       return _conversationsRepository.getUserConversationsStreamFromRemoteDB(userID: userID);
     } catch(e) {
       print("ConversationsPageController(getConversationsStream): ${e.toString()}");
       _showErrorSnackBar(errorTitle: errorTitle ,errorMessage: e.toString());
-      throw e;
     }
   }
 
-  Future<User> getOtherUser({required List participants}) async {
+  Future<User?> getOtherUser({required List participants}) async {
     try {
       //TODO: REMOVE THIS HARDCODED SHIT
       final String currentUserId = "AxwkwQs6YLSrh9RYSj0J";
@@ -46,17 +45,15 @@ class ConversationsPageController extends GetxController {
     } catch(e) {
       print("ConversationsPageController(getOtherUserByID): ${e.toString()}");
       _showErrorSnackBar(errorTitle: errorTitle ,errorMessage: e.toString());
-      throw e;
     }
   }
 
-  Future<Item> getItem({required String itemID}) async {
+  Future<Item?> getItem({required String itemID}) async {
     try {
       return _itemsRepository.getItemById(id: itemID);
     } catch(e) {
       print("ConversationsPageController(getItem): ${e.toString()}");
       _showErrorSnackBar(errorTitle: errorTitle ,errorMessage: e.toString());
-      throw e;
     }
   }
 

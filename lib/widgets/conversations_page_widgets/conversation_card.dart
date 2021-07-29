@@ -23,7 +23,7 @@ class ConversationCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 14),
-              FutureBuilder<User>(
+              FutureBuilder<User?>(
                   future: _controller.getOtherUser(participants: conversation.participants),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
@@ -52,7 +52,7 @@ class ConversationCard extends StatelessWidget {
                     return const CircularProgressIndicator(color: kLightGreen);
                   }),
               const SizedBox(height: 20),
-              FutureBuilder<Item>(
+              FutureBuilder<Item?>(
                   future: _controller.getItem(itemID: conversation.itemID),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
