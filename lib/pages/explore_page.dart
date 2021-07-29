@@ -138,8 +138,22 @@ class ExplorePage extends StatelessWidget {
               ),
               const SizedBox(height: 30.0),
               // Card Grid System
-              Obx(() => Padding(
-                padding: EdgeInsets.only(left: _width * 0.05, right: _width * 0.05),
+              Obx(() { return _controller.itemsToDisplay.isEmpty ?
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
+                child: Center(
+                  child: SelectableText(
+                    'No items found with the selected filter(s)',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.sen(
+                        fontSize: _width > 768 ? 18 : 12,
+                        color: kLightGreen),
+                  ),
+                ),
+              )
+                  :
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
                 child: _width >= 768 ? GridView.builder(
                       itemCount: _controller.itemsToDisplay.length,
                       shrinkWrap: true,
@@ -154,13 +168,12 @@ class ExplorePage extends StatelessWidget {
                           return ExploreItemCard(item: _controller.itemsToDisplay[index]);
                         },
                     )
-                    // children: _controller.itemsToDisplay.map((item) => ExploreItemCard(item: item)).toList())
                     : ListView(
                         controller: _scrollController,
                         addAutomaticKeepAlives: true,
                         shrinkWrap: true,
                         children: _controller.itemsToDisplay.map((item) => ExploreItemCard(item: item)).toList()),
-                )
+                );}
               ),
               const SizedBox(height: 30),
             ],
