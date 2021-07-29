@@ -14,20 +14,25 @@ class ConversationsPageController extends GetxController {
   final ConversationsRepository _conversationsRepository = ConversationsRepositoryImpl();
   final UsersRepository _usersRepository = UsersRepositoryImpl();
   final AuthController _authController = Get.find();
+  // final String currentUserID = _authController.getCurrentUserID();
   final ItemsRepository _itemsRepository = ItemsRepositoryImpl();
+  final String errorTitle = "Ops, something went wrong!";
+
+  RxList<Conversation> conversations = <Conversation>[].obs;
 
   void onInit() {
-    // getItems();
-    // super.onInit();
+    //TODO: REMOVE THIS HARDCODED SHIT
+    conversations.bindStream(_getConversationsStream(userID: "AxwkwQs6YLSrh9RYSj0J"));
+    super.onInit();
   }
 
-  Stream<List<Conversation>> getConversationsStream({required String userID}) {
+  Stream<List<Conversation>> _getConversationsStream({required String userID}) {
     try {
       print("ConversationsPageController(getConversationsStream): Getting conversation stream from remote database...");
       return _conversationsRepository.getUserConversationsStreamFromRemoteDB(userID: userID);
     } catch(e) {
       print("ConversationsPageController(getConversationsStream): ${e.toString()}");
-      _showErrorSnackBar(errorTitle: "Something went wrong.." ,errorMessage: e.toString());
+      _showErrorSnackBar(errorTitle: errorTitle ,errorMessage: e.toString());
       throw e;
     }
   }
@@ -40,7 +45,7 @@ class ConversationsPageController extends GetxController {
       return _usersRepository.getUserById(id: currentUserId.compareTo(participants[0]) == 0 ? participants[1] : participants[0]);
     } catch(e) {
       print("ConversationsPageController(getOtherUserByID): ${e.toString()}");
-      _showErrorSnackBar(errorTitle: "Something went wrong.." ,errorMessage: e.toString());
+      _showErrorSnackBar(errorTitle: errorTitle ,errorMessage: e.toString());
       throw e;
     }
   }
@@ -50,7 +55,7 @@ class ConversationsPageController extends GetxController {
       return _itemsRepository.getItemById(id: itemID);
     } catch(e) {
       print("ConversationsPageController(getItem): ${e.toString()}");
-      _showErrorSnackBar(errorTitle: "Something went wrong.." ,errorMessage: e.toString());
+      _showErrorSnackBar(errorTitle: errorTitle ,errorMessage: e.toString());
       throw e;
     }
   }

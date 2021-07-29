@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gify/constants/styles.dart';
 import 'package:gify/controllers/conversations_page_controller.dart';
-import 'package:gify/models/conversation.dart';
 import 'package:gify/widgets/conversations_page_widgets/conversation_list_tile.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
@@ -38,41 +37,24 @@ class ConversationsPageTabletAndMobileView extends StatelessWidget {
                   const SizedBox(height: 10),
                 ],
               ),
-              StreamBuilder<List<Conversation>>(
-                  stream: _controller.getConversationsStream(userID: 'AxwkwQs6YLSrh9RYSj0J'),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      List<Conversation>? conversations = snapshot.data;
-                      if (conversations!.isEmpty || conversations == null)
-                        return Text('You have no conversations');
-                      return ListView.builder(
-                          addAutomaticKeepAlives: true,
-                          itemCount: conversations.length,
-                          controller: _scrollController,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) => ConversationsListTile(conversation: conversations[index]));
-                    }
-                    if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
-                    return Center(
-                      child: const CircularProgressIndicator(color: kLightGreen),
-                    );
-                  },
-              ),
-              // ListView(
-              //   shrinkWrap: true,
-              //   children: [
-              //     ConversationsListTile(width: _width),
-              //     ConversationsListTile(width: _width),
-              //     ConversationsListTile(width: _width),
-              //     ConversationsListTile(width: _width),
-              //     ConversationsListTile(width: _width),
-              //     ConversationsListTile(width: _width),
-              //     ConversationsListTile(width: _width),
-              //     ConversationsListTile(width: _width),
-              //   ],
-              // )
+              Obx(() {
+                return _controller.conversations.isEmpty ?
+                  Center(
+                    child: SelectableText(
+                      'You have no conversations',
+                      style: GoogleFonts.montserrat(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: kDarkGreen),
+                    ),
+                  ) :
+                ListView.builder(
+                    addAutomaticKeepAlives: true,
+                    itemCount: _controller.conversations.length,
+                    controller: _scrollController,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => ConversationsListTile(conversation: _controller.conversations[index]));
+              }),
             ],
           ),
         ),
