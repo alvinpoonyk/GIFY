@@ -1,6 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/auth_controller.dart';
+import 'package:gify/controllers/messages_page_controller.dart';
+import 'package:gify/models/conversation.dart';
+import 'package:gify/models/item.dart';
+import 'package:gify/models/user.dart';
+import 'package:gify/widgets/messages_page/receiver_message_bubble.dart';
+import 'package:gify/widgets/messages_page/sender_message_bubble.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,8 +16,20 @@ import 'package:google_fonts/google_fonts.dart';
 class MessagesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Conversation _conversation = Get.arguments;
+    final ScrollController _scrollController = ScrollController();
+    final AuthController _authController = Get.find();
+    final otherUserID = _conversation.participants[0].compareTo(_authController.getCurrentUserID()) == 0 ? _conversation.participants[1] : _conversation.participants[0];
+    final MessagesPageController _controller = Get.put(
+        MessagesPageController(
+            conversationID: _conversation.id,
+            itemID: _conversation.itemID,
+            otherUserID: otherUserID
+        ));
     double _width = MediaQuery.of(context).size.width;
+
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+    final TextEditingController _messageTextController = TextEditingController();
     return SafeArea(
       child: Scaffold(
         drawer: const TopNavDrawer(),
@@ -40,271 +60,69 @@ class MessagesPage extends StatelessWidget {
                           padding: const EdgeInsets.all(12),
                           width: _width <= 768 ? _width : _width * 0.9,
                           child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ConstrainedBox(
-                                  constraints: const BoxConstraints(
-                                    minHeight: 35,
-                                    maxHeight: 35,
-                                    maxWidth: 60,
-                                    minWidth: 60,
-                                  ),
-                                  child: Image.network(
-                                      'https://picsum.photos/60/35'),
-                                ),
-                                const SizedBox(width: 20),
-                                Container(
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      'Acer Aspire A515-56C',
-                                      style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: _width < 768 ? 16 : 24,
-                                        color: Colors.white,
+                            child: FutureBuilder<Item?>(
+                              future: _controller.getConversationItem(itemID: _conversation.itemID),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  Item item = snapshot.data!;
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                          width: 50,
+                                          height: 35,
+                                          child: Image.network(item.images.first),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                      const SizedBox(width: 20),
+                                      Container(
+                                        child: TextButton(
+                                          onPressed: () {},
+                                          child: Text(
+                                            item.name,
+                                            style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: _width < 768 ? 16 : 24,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return Center(
+                                      child: CircularProgressIndicator(color: kLightGreen),
+                                  );
+                                }
+                              },
                             ),
                           ),
                         ),
                       ),
                       const SizedBox(height: 14),
-                      SizedBox(
-                        child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: _width * 0.05),
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              /// Sender Message Bubble
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          'https://picsum.photos/200'),
-                                      minRadius: _width < 768 ? 20 : 30,
-                                      maxRadius: _width < 768 ? 20 : 30,
-                                    ),
-                                    SizedBox(width: _width < 768 ? 10 : 20),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.2),
-                                                spreadRadius: 5,
-                                                blurRadius: 7,
-                                                offset: const Offset(0,
-                                                    3), // changes position of shadow
-                                              ),
-                                            ],
-                                            color: kLightGreen,
-                                            shape: BoxShape.rectangle,
-                                            borderRadius: const BorderRadius.only(
-                                              topLeft: const Radius.circular(0),
-                                              topRight: const Radius.circular(10),
-                                              bottomLeft: const Radius.circular(10),
-                                              bottomRight: const Radius.circular(10),
-                                            ),
-                                          ),
-                                          padding: _width < 768
-                                              ? const EdgeInsets.fromLTRB(10, 8, 8, 8)
-                                              : const EdgeInsets.fromLTRB(
-                                                  20, 12, 12, 12),
-                                          // padding: const EdgeInsets.fromLTRB(20,12,12,12),
-                                          child: ConstrainedBox(
-                                            constraints: BoxConstraints(
-                                              maxWidth: _width * 0.7,
-                                            ),
-                                            child: SelectableText(
-                                              "Hey, saw your item listed. Just want to check with you what is the screen size of the laptop and the hardware specifications such as RAM, storage size and number of USB ports?  ",
-                                              textAlign: TextAlign.left,
-                                              style: GoogleFonts.roboto(
-                                                fontSize:
-                                                    _width < 768 ? 12 : 16,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          "18 Jul 2021, 01:12",
-                                          style: GoogleFonts.roboto(
-                                            fontSize: _width < 768 ? 10 : 12,
-                                            color: Colors.grey.shade700,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-
-                              /// Receiver Message Bubble
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.2),
-                                                spreadRadius: 5,
-                                                blurRadius: 7,
-                                                offset: const Offset(0,
-                                                    3), // changes position of shadow
-                                              ),
-                                            ],
-                                            color: kDarkGreen,
-                                            shape: BoxShape.rectangle,
-                                            borderRadius: const BorderRadius.only(
-                                              topLeft: const Radius.circular(10),
-                                              topRight: const Radius.circular(0),
-                                              bottomLeft: const Radius.circular(10),
-                                              bottomRight: const Radius.circular(10),
-                                            ),
-                                          ),
-                                          padding: _width < 768
-                                              ? const EdgeInsets.fromLTRB(10, 8, 8, 8)
-                                              : const EdgeInsets.fromLTRB(
-                                                  20, 12, 12, 12),
-                                          child: ConstrainedBox(
-                                            constraints: BoxConstraints(
-                                              maxWidth: _width * 0.7,
-                                            ),
-                                            child: SelectableText(
-                                              "Greetings, the laptop has a screen width of 25.5 inches, 8GB RAM, 500 GB SSD and has 3 USB 2.0 ports. Let me know if you are interested!",
-                                              textAlign: TextAlign.left,
-                                              style: GoogleFonts.roboto(
-                                                fontSize:
-                                                    _width < 768 ? 12 : 16,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          "18 Jul 2021, 01:12",
-                                          style: GoogleFonts.roboto(
-                                            fontSize: _width < 768 ? 10 : 12,
-                                            color: Colors.grey.shade700,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(width: _width < 768 ? 10 : 20),
-                                    CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          'https://picsum.photos/200'),
-                                      minRadius: _width < 768 ? 20 : 30,
-                                      maxRadius: _width < 768 ? 20 : 30,
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              ///
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          'https://picsum.photos/200'),
-                                      minRadius: _width < 768 ? 20 : 30,
-                                      maxRadius: _width < 768 ? 20 : 30,
-                                    ),
-                                    SizedBox(width: _width < 768 ? 10 : 20),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.2),
-                                                spreadRadius: 5,
-                                                blurRadius: 7,
-                                                offset: const Offset(0,
-                                                    3), // changes position of shadow
-                                              ),
-                                            ],
-                                            color: kLightGreen,
-                                            shape: BoxShape.rectangle,
-                                            borderRadius: const BorderRadius.only(
-                                              topLeft: const Radius.circular(0),
-                                              topRight: const Radius.circular(10),
-                                              bottomLeft: const Radius.circular(10),
-                                              bottomRight: const Radius.circular(10),
-                                            ),
-                                          ),
-                                          padding: _width < 768
-                                              ? const EdgeInsets.fromLTRB(10, 8, 8, 8)
-                                              : const EdgeInsets.fromLTRB(
-                                                  20, 12, 12, 12),
-                                          // padding: const EdgeInsets.fromLTRB(20,12,12,12),
-                                          child: ConstrainedBox(
-                                            constraints: BoxConstraints(
-                                              maxWidth: _width * 0.7,
-                                            ),
-                                            child: SelectableText(
-                                              "Hey, saw your item listed. Just want to check with you what is the screen size of the laptop and the hardware specifications such as RAM, storage size and number of USB ports?  ",
-                                              textAlign: TextAlign.left,
-                                              style: GoogleFonts.roboto(
-                                                fontSize:
-                                                    _width < 768 ? 12 : 16,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          "18 Jul 2021, 01:12",
-                                          style: GoogleFonts.roboto(
-                                            fontSize: _width < 768 ? 10 : 12,
-                                            color: Colors.grey.shade700,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      FutureBuilder<User?>(
+                          future: _controller.getOtherUser(id: otherUserID),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              User otherUser = snapshot.data!;
+                              return Padding(
+                                padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
+                                child: Obx(() => ListView.builder(
+                                    itemCount: _controller.messages.length,
+                                    shrinkWrap: true,
+                                    controller: _scrollController,
+                                    itemBuilder: (context, index) {
+                                      if (_controller.messages[index].sender.compareTo(_authController.getCurrentUserID()) == 0)
+                                        return ReceiverMessageBubble(message: _controller.messages[index]);
+                                      return SenderMessageBubble(sender: otherUser, message: _controller.messages[index]);
+                                    })),
+                              );
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(color: kLightGreen),
+                              );
+                            }
+                          }),
                       const SizedBox(height: 16),
                     ],
                   ),
@@ -329,6 +147,7 @@ class MessagesPage extends StatelessWidget {
                               ),
                             ),
                             child: TextFormField(
+                              controller: _messageTextController,
                               decoration: InputDecoration(
                                 focusedBorder: InputBorder.none,
                                 enabledBorder: InputBorder.none,
@@ -357,7 +176,9 @@ class MessagesPage extends StatelessWidget {
                                     RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0),
                                 ))),
-                            onPressed: () {},
+                            onPressed: () async {
+                              _controller.addMessage(conversationID: _conversation.id, text: _messageTextController.text.isEmpty ? " " : _messageTextController.text, conversation: _conversation);
+                            },
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(18, 8, 18, 8),
                               child: Text(
