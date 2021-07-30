@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:gify/controllers/auth_controller.dart';
 import 'package:gify/models/conversation.dart';
@@ -22,14 +23,20 @@ class MessagesPageController extends GetxController {
   final ItemsRepository _itemsRepository = ItemsRepositoryImpl();
   final UsersRepository _usersRepository = UsersRepositoryImpl();
   final AuthController _authController = Get.find();
+  final TextEditingController messageTextController = TextEditingController();
 
   final String errorTitle = "Opps, something went wrong..";
 
   MessagesPageController({required this.conversationID, required this.itemID, required this.otherUserID});
 
-  void onInit() async {
+  void onInit() {
     messages.bindStream(_messagesRepository.getUserMessagesStreamFromRemoteDB(conversationID: conversationID));
     super.onInit();
+  }
+
+  void onClose()  {
+    messageTextController.dispose();
+    super.onClose();
   }
 
    Future<Item?> getConversationItem({required String itemID}) async {

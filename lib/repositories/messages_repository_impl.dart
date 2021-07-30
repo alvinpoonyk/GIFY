@@ -13,7 +13,7 @@ class MessagesRepositoryImpl extends MessagesRepository {
           "MessagesRepositoryImpl(getUserMessagesStreamFromRemoteDB): Stream opened");
       Stream<QuerySnapshot> source = _db.collection('conversations').doc(
           conversationID).collection('messages').orderBy(
-          'timeSent', descending: false).snapshots();
+          'timeSent', descending: true).snapshots();
       await for (QuerySnapshot querySnapshot in source) {
         List<Message> messages = [];
         querySnapshot.docs.forEach((documentSnapshot) {

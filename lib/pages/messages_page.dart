@@ -29,7 +29,7 @@ class MessagesPage extends StatelessWidget {
     double _width = MediaQuery.of(context).size.width;
 
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-    final TextEditingController _messageTextController = TextEditingController();
+    final TextEditingController _messageTextController = _controller.messageTextController;
     return SafeArea(
       child: Scaffold(
         drawer: const TopNavDrawer(),
@@ -100,29 +100,32 @@ class MessagesPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 14),
-                      FutureBuilder<User?>(
-                          future: _controller.getOtherUser(id: otherUserID),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              User otherUser = snapshot.data!;
-                              return Padding(
-                                padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
-                                child: Obx(() => ListView.builder(
-                                    itemCount: _controller.messages.length,
-                                    shrinkWrap: true,
-                                    controller: _scrollController,
-                                    itemBuilder: (context, index) {
-                                      if (_controller.messages[index].sender.compareTo(_authController.getCurrentUserID()) == 0)
-                                        return ReceiverMessageBubble(message: _controller.messages[index]);
-                                      return SenderMessageBubble(sender: otherUser, message: _controller.messages[index]);
-                                    })),
-                              );
-                            } else {
-                              return Center(
-                                child: CircularProgressIndicator(color: kLightGreen),
-                              );
-                            }
-                          }),
+                      Expanded(
+                        child: FutureBuilder<User?>(
+                            future: _controller.getOtherUser(id: otherUserID),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                User otherUser = snapshot.data!;
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: _width * 0.05),
+                                  child: Obx(() => ListView.builder(
+                                      reverse: true,
+                                      itemCount: _controller.messages.length,
+                                      shrinkWrap: true,
+                                      controller: _scrollController,
+                                      itemBuilder: (context, index) {
+                                        if (_controller.messages[index].sender.compareTo(_authController.getCurrentUserID()) == 0)
+                                          return ReceiverMessageBubble(message: _controller.messages[index]);
+                                        return SenderMessageBubble(sender: otherUser, message: _controller.messages[index]);
+                                      })),
+                                );
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(color: kLightGreen),
+                                );
+                              }
+                            }),
+                      ),
                       const SizedBox(height: 16),
                     ],
                   ),
@@ -178,6 +181,11 @@ class MessagesPage extends StatelessWidget {
                                 ))),
                             onPressed: () async {
                               _controller.addMessage(conversationID: _conversation.id, text: _messageTextController.text.isEmpty ? " " : _messageTextController.text, conversation: _conversation);
+                              _messageTextController.clear();
+                              _scrollController.animateTo(
+                                  _scrollController.position.minScrollExtent,
+                                  duration: Duration(seconds: 1),
+                                  curve: Curves.fastOutSlowIn);
                             },
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(18, 8, 18, 8),
