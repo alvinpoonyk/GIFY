@@ -3,6 +3,7 @@ import 'package:gify/constants/styles.dart';
 import 'package:gify/models/message.dart';
 import 'package:gify/models/user.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class SenderMessageBubble extends StatelessWidget {
   final User sender;
@@ -72,7 +73,7 @@ class SenderMessageBubble extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                "18 Jul 2021, 01:12",
+                DateFormat('d MMM y, H:m').format(message.timeSent),
                 style: GoogleFonts.roboto(
                   fontSize: _width < 768 ? 10 : 12,
                   color: Colors.grey.shade700,
