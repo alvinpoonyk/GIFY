@@ -14,15 +14,13 @@ class ConversationsPageController extends GetxController {
   final ConversationsRepository _conversationsRepository = ConversationsRepositoryImpl();
   final UsersRepository _usersRepository = UsersRepositoryImpl();
   final AuthController _authController = Get.find();
-  // final String currentUserID = _authController.getCurrentUserID();
   final ItemsRepository _itemsRepository = ItemsRepositoryImpl();
   final String errorTitle = "Ops, something went wrong!";
 
   RxList<Conversation> conversations = <Conversation>[].obs;
 
   void onInit() {
-    //TODO: REMOVE THIS HARDCODED SHIT
-    conversations.bindStream(_getConversationsStream(userID: "AxwkwQs6YLSrh9RYSj0J")!);
+    conversations.bindStream(_getConversationsStream(userID: _authController.getCurrentUserID())!);
     super.onInit();
   }
 
@@ -38,9 +36,7 @@ class ConversationsPageController extends GetxController {
 
   Future<User?> getOtherUser({required List participants}) async {
     try {
-      //TODO: REMOVE THIS HARDCODED SHIT
-      final String currentUserId = "AxwkwQs6YLSrh9RYSj0J";
-      // final String currentUserId = _authController.getCurrentUserID();
+      final String currentUserId = _authController.getCurrentUserID();
       return _usersRepository.getUserById(id: currentUserId.compareTo(participants[0]) == 0 ? participants[1] : participants[0]);
     } catch(e) {
       print("ConversationsPageController(getOtherUserByID): ${e.toString()}");

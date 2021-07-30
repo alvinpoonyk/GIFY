@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gify/constants/styles.dart';
+import 'package:gify/controllers/auth_controller.dart';
 import 'package:gify/controllers/item_detail_page_controller.dart';
+import 'package:gify/models/conversation.dart';
 import 'package:gify/models/item.dart';
 import 'package:gify/widgets/item_detail_page_widgets/custom_carousel_slider.dart';
 import 'package:gify/widgets/top_nav_bar.dart';
@@ -15,6 +17,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
     final ItemDetailPageController _controller = Get.find();
     final Item _item = _controller.item;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+    final AuthController _authController = Get.find();
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
@@ -148,7 +151,20 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0),
                               ))),
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (!_authController.isUserLoggedIn()) {
+                          Get.offAndToNamed("/login");
+                        } else {
+                          bool? isConversationExist = await _controller.isConversationExist(itemID: _item.id, currentUserID: _authController.getCurrentUserID(), itemOwnerID: _item.ownerID);
+                          if (isConversationExist!) {
+                            Conversation? remoteConversation = await _controller.getExistingConversation(itemID: _item.id, currentUserID: _authController.getCurrentUserID());
+                            Get.toNamed('/messages/', arguments: remoteConversation);
+                          } else {
+                            Conversation? localConversation = _controller.createConversation(itemID: _item.id, currentUserID: _authController.getCurrentUserID(), itemOwnerID: _item.ownerID);
+                            Get.toNamed('/messages/', arguments: localConversation);
+                          }
+                        }
+                      },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
                         child: Center(
