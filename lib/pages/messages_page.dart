@@ -19,23 +19,18 @@ class MessagesPage extends StatefulWidget {
 }
 
 class _MessagesPageState extends State<MessagesPage> {
+  final _formKey = GlobalKey<FormState>();
+  final Conversation _conversation = Get.arguments;
+  final ScrollController _scrollController = ScrollController();
+  final AuthController _authController = Get.find();
+  late String otherUserID = _conversation.participants[0].compareTo(_authController.getCurrentUserID()) == 0 ? _conversation.participants[1] : _conversation.participants[0];
+  late MessagesPageController _controller = Get.put(MessagesPageController(conversationID: _conversation.id, itemID: _conversation.itemID, otherUserID: otherUserID));
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  late TextEditingController _messageTextController = _controller.messageTextController;
+
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    final Conversation _conversation = Get.arguments;
-    final ScrollController _scrollController = ScrollController();
-    final AuthController _authController = Get.find();
-    final otherUserID = _conversation.participants[0].compareTo(_authController.getCurrentUserID()) == 0 ? _conversation.participants[1] : _conversation.participants[0];
-    final MessagesPageController _controller = Get.put(
-        MessagesPageController(
-            conversationID: _conversation.id,
-            itemID: _conversation.itemID,
-            otherUserID: otherUserID
-        ));
     double _width = MediaQuery.of(context).size.width;
-
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-    final TextEditingController _messageTextController = _controller.messageTextController;
     return SafeArea(
       child: Scaffold(
         drawer: const TopNavDrawer(),
