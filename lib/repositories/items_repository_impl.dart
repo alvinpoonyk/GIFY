@@ -166,4 +166,52 @@ class ItemsRepositoryImpl implements ItemsRepository {
     }
   }
 
+  @override
+  Future<void> editItem({required String id, required Map<String, dynamic> itemData, ImageFile? imageFile1, ImageFile? imageFile2}) async {
+    try {
+      final DocumentReference documentReference = _db.collection('items').doc(id);
+      /// No files to be uploaded
+      if (imageFile1 == null && imageFile2 == null) {
+        return await documentReference.update(itemData).then((_) => print("ItemsRepositoryImpl(editItem): item $id successfully edited"));
+      }
+
+      final String fileName1 = '1';
+      final String fileName2 = '2';
+
+      /// Replace image file 1 only
+      if (imageFile1 != null && imageFile2 == null) {
+        final bool isUploadImage1Success = await uploadImageToRemoteDB(id: id, fileName: fileName1, storageURL: itemStorageURL, imageFile: imageFile1);
+        if (isUploadImage1Success) {
+          final String downloadURL1 = await FirebaseStorage.instance.refFromURL("$itemStorageURL/$id/$fileName1").getDownloadURL();
+          itemData['images'] = [downloadURL1, itemData['images'][1]];
+          return await documentReference.update(itemData);
+        }
+      }
+
+      /// Replace image file 2 only
+      if (imageFile1 == null && imageFile2 != null) {
+        final bool isUploadImage2Success = await uploadImageToRemoteDB(id: id, fileName: fileName2, storageURL: itemStorageURL, imageFile: imageFile2);
+        if (isUploadImage2Success) {
+          final String downloadURL2 = await FirebaseStorage.instance.refFromURL("$itemStorageURL/$id/$fileName2").getDownloadURL();
+          itemData['images'] = [itemData['images'][0], downloadURL2];
+          return await documentReference.update(itemData);
+        }
+      }
+
+      /// Replace both image files
+      final bool isUploadImage1Success = await uploadImageToRemoteDB(id: id, fileName: fileName1, storageURL: itemStorageURL, imageFile: imageFile1!);
+      final bool isUploadImage2Success = await uploadImageToRemoteDB(id: id, fileName: fileName2, storageURL: itemStorageURL, imageFile: imageFile2!);
+      if (isUploadImage1Success && isUploadImage2Success) {
+        final String downloadURL1 = await FirebaseStorage.instance.refFromURL("$itemStorageURL/$id/$fileName1").getDownloadURL();
+        final String downloadURL2 = await FirebaseStorage.instance.refFromURL("$itemStorageURL/$id/$fileName2").getDownloadURL();
+        itemData['images'] = [downloadURL1, downloadURL2];
+        return await documentReference.update(itemData);
+      }
+
+    } catch(e) {
+      print("ItemsRepositoryImpl(editItem): ${e.toString()}");
+      rethrow;
+    }
+  }
+
 }
