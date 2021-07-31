@@ -76,7 +76,9 @@ class ProfileItemCard extends StatelessWidget {
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ))),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed("/edit-item", arguments: item);
+                    },
                     child: Container(
                       width: 40,
                       padding: const EdgeInsets.symmetric(horizontal: 8),
