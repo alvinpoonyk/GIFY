@@ -44,7 +44,7 @@ class NavigationBar extends StatelessWidget {
                     child: TextButton(
                       onPressed: () {
                         Map<String, String> params = {"id" : _controller.getCurrentUserID()};
-                        Get.toNamed("/conversations/", parameters: params);
+                        Get.offAndToNamed("/conversations/", parameters: params);
                       },
                       child: Text(
                         'Conversations',
@@ -61,7 +61,7 @@ class NavigationBar extends StatelessWidget {
                       if (_controller.isUserLoggedIn()) {
                         await _controller.logOutUser();
                       } else {
-                        Get.toNamed("/login");
+                        Get.offAndToNamed("/login");
                       }
                     },
                     child: Text(
@@ -77,7 +77,7 @@ class NavigationBar extends StatelessWidget {
                     child: TextButton(
                       onPressed: () {
                         Map<String, String> params = {"id" : _controller.getCurrentUserID()};
-                        Get.toNamed("/profile/", parameters: params);
+                        Get.offAndToNamed("/profile/", parameters: params);
                       },
                       child: Row(
                         children: [
