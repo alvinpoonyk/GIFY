@@ -8,6 +8,14 @@ class LoginSignUpPageController extends GetxController {
 
   final AuthController _authController = Get.find();
   final String _errorTitle = "Authentication Failed";
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
+  }
 
   Future<void> loginUser({required String email, required String password}) async {
     try {

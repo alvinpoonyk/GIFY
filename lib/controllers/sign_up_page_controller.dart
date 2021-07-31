@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:gify/controllers/auth_controller.dart';
 import 'package:gify/models/image_file.dart';
@@ -14,6 +15,20 @@ class SignUpPageController extends GetxController {
   final AuthController _authController = Get.find();
   final UsersRepository _usersRepository = UsersRepositoryImpl();
   final errorTitle = 'Oops, something went wrong...';
+
+  final TextEditingController displayNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  void onClose() {
+    displayNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.onClose();
+  }
+
 
   Future<void> setUserImage() async {
     try {

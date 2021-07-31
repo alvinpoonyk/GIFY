@@ -19,8 +19,6 @@ class _LoginCardState extends State<LoginCard> {
   Widget build(BuildContext context) {
 
     double _width = MediaQuery.of(context).size.width;
-    String _email = '';
-    String _password = '';
     return Card(
       child: Form(
         key: _formKey,

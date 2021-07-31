@@ -24,11 +24,8 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
 
-    String _email = "";
-    String _displayName = "";
-    String _password = "";
-    String _confirmPassword = "";
     double _width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: const TopNavDrawer(),
@@ -79,9 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(
                           width: 400,
                           child: TextFormField(
-                            onChanged: (value) {
-                              _displayName = value.trim();
-                            },
+                            controller: _controller.displayNameController,
                             validator: (value) => isStringEmpty(value: value, errorMessage: "Please enter a display name"),
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
@@ -123,9 +118,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(
                           width: 400,
                           child: TextFormField(
-                            onChanged: (value) {
-                              _email = value.trim();
-                            },
+                            controller: _controller.emailController,
                             validator: (value) => isValidEmail(value: value, errorMessage: "Please enter a valid email address"),
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
@@ -167,9 +160,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(
                           width: 400,
                           child: TextFormField(
-                            onChanged: (value) {
-                              _password = value;
-                            },
+                            controller: _controller.passwordController,
                             obscureText: true,
                             validator: (value) => isValidPassword(value: value),
                             cursorColor: kLightGreen,
@@ -211,11 +202,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(
                           width: 400,
                           child: TextFormField(
-                            onChanged: (value) {
-                              _confirmPassword = value;
-                            },
+                            controller: _controller.passwordController,
                             obscureText: true,
-                            validator: (value) => isValidConfirmPassword(password: _password, confirmPassword: _confirmPassword),
+                            validator: (value) => isValidConfirmPassword(password: _controller.passwordController.text, confirmPassword: _controller.confirmPasswordController.text),
                             cursorColor: kLightGreen,
                             decoration: InputDecoration(
                               focusedBorder: const OutlineInputBorder(
@@ -263,7 +252,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ))),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            await _controller.createAndSignInUser(displayName: _displayName, email: _email, password: _password);
+                            await _controller.createAndSignInUser(
+                                displayName: _controller.displayNameController.text.trim(),
+                                email: _controller.emailController.text.trim(),
+                                password: _controller.passwordController.text.trim());
                           }
                         },
                         child: Padding(
