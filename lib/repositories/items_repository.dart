@@ -12,4 +12,5 @@ abstract class ItemsRepository {
   Stream<List<Item>> getUserItemsStream({required String userID});
   Future<void> removeItem({required String id});
   Future<Item> getItemById({required String id});
+  Future<void> editItem({required String id, required Map<String, dynamic> itemData, ImageFile? imageFile1, ImageFile? imageFile2});
 }
