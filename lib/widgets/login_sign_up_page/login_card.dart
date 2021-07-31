@@ -5,11 +5,19 @@ import 'package:gify/validators/form_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 
-class LoginCard extends StatelessWidget {
+class LoginCard extends StatefulWidget {
+  @override
+  _LoginCardState createState() => _LoginCardState();
+}
+
+class _LoginCardState extends State<LoginCard> {
+
+  final _formKey = GlobalKey<FormState>();
+  final LoginSignUpPageController _controller = Get.put(LoginSignUpPageController());
+
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    final LoginSignUpPageController _controller = Get.put(LoginSignUpPageController());
+
     double _width = MediaQuery.of(context).size.width;
     String _email = '';
     String _password = '';

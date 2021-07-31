@@ -6,12 +6,21 @@ import 'package:gify/controllers/add_item_page_controller.dart';
 import 'package:gify/controllers/auth_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddItemForm extends StatelessWidget {
-  static final _formKey = GlobalKey<FormState>();
+class AddItemForm extends StatefulWidget {
+
+
+  @override
+  _AddItemFormState createState() => _AddItemFormState();
+}
+
+class _AddItemFormState extends State<AddItemForm> {
+
+  final _formKey = GlobalKey<FormState>();
   final List<String> _locationOptions = [... kLocations];
   final List<String> _categoryOptions = [... kCategories];
   final AddItemPageController _controller = Get.find();
   final AuthController _authController = Get.find();
+
   @override
   Widget build(BuildContext context) {
 

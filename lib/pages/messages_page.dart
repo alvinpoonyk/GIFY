@@ -13,9 +13,15 @@ import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MessagesPage extends StatelessWidget {
+class MessagesPage extends StatefulWidget {
+  @override
+  _MessagesPageState createState() => _MessagesPageState();
+}
+
+class _MessagesPageState extends State<MessagesPage> {
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     final Conversation _conversation = Get.arguments;
     final ScrollController _scrollController = ScrollController();
     final AuthController _authController = Get.find();
@@ -149,19 +155,22 @@ class MessagesPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            child: TextFormField(
-                              controller: _messageTextController,
-                              decoration: InputDecoration(
-                                focusedBorder: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                errorBorder: InputBorder.none,
-                                disabledBorder: InputBorder.none,
-                                contentPadding: const EdgeInsets.only(
-                                    left: 15, bottom: 11, top: 11, right: 15),
-                                hintText: "Type your message here",
-                                hintStyle: GoogleFonts.roboto(
-                                  fontSize: 16,
-                                  color: Color(0xFFC4C4C4),
+                            child: Form(
+                              key: _formKey,
+                              child: TextFormField(
+                                controller: _messageTextController,
+                                decoration: InputDecoration(
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15, bottom: 11, top: 11, right: 15),
+                                  hintText: "Type your message here",
+                                  hintStyle: GoogleFonts.roboto(
+                                    fontSize: 16,
+                                    color: Color(0xFFC4C4C4),
+                                  ),
                                 ),
                               ),
                             ),

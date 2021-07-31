@@ -8,12 +8,22 @@ import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
+
+
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  static final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final SignUpPageController _controller = Get.put(SignUpPageController());
+
   @override
   Widget build(BuildContext context) {
+
     String _email = "";
     String _displayName = "";
     String _password = "";

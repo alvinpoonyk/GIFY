@@ -6,7 +6,13 @@ import 'package:gify/controllers/edit_item_page_controller.dart';
 import 'package:gify/validators/form_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class EditItemForm extends StatelessWidget {
+class EditItemForm extends StatefulWidget {
+
+  @override
+  _EditItemFormState createState() => _EditItemFormState();
+}
+
+class _EditItemFormState extends State<EditItemForm> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final EditItemPageController _controller = Get.find();
