@@ -202,7 +202,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(
                           width: 400,
                           child: TextFormField(
-                            controller: _controller.passwordController,
+                            controller: _controller.confirmPasswordController,
                             obscureText: true,
                             validator: (value) => isValidConfirmPassword(password: _controller.passwordController.text, confirmPassword: _controller.confirmPasswordController.text),
                             cursorColor: kLightGreen,
