@@ -52,8 +52,8 @@ class _LoginCardState extends State<LoginCard> {
                   SizedBox(
                     width: 400,
                     child: TextFormField(
+                      controller: _controller.emailController,
                       validator: (value) => isValidEmail(value: value, errorMessage: "Please enter a valid email address"),
-                      onChanged: (value) => _email = value,
                       cursorColor: kLightGreen,
                       decoration: InputDecoration(
                         focusedBorder: const OutlineInputBorder(
@@ -93,12 +93,12 @@ class _LoginCardState extends State<LoginCard> {
                   SizedBox(
                     width: 400,
                     child: TextFormField(
+                      controller: _controller.passwordController,
                       validator: (value) {
                         if (value!.trim().isEmpty)
                           return 'Please enter a password';
                         return null;
                       },
-                      onChanged: (value) => _password = value,
                       obscureText: true,
                       cursorColor: kLightGreen,
                       decoration: InputDecoration(
@@ -138,7 +138,7 @@ class _LoginCardState extends State<LoginCard> {
                           ))),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      _controller.loginUser(email: _email.trim(), password: _password.trim());
+                      _controller.loginUser(email: _controller.emailController.text.trim(), password: _controller.passwordController.text.trim());
                     }
                   },
                   child: Padding(
