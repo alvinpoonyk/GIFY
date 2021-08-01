@@ -153,6 +153,14 @@ class _MessagesPageState extends State<MessagesPage> {
                             child: Form(
                               key: _formKey,
                               child: TextFormField(
+                                onFieldSubmitted: (value) {
+                                    _controller.addMessage(conversationID: _conversation.id, text: _controller.messageTextController.text.isEmpty ? " " : _controller.messageTextController.text, conversation: _conversation);
+                                    _controller.messageTextController.clear();
+                                    _scrollController.animateTo(
+                                        _scrollController.position.minScrollExtent,
+                                        duration: const Duration(seconds: 1),
+                                        curve: Curves.fastOutSlowIn);
+                                },
                                 cursorColor: kLightGreen,
                                 controller: _controller.messageTextController,
                                 decoration: InputDecoration(
