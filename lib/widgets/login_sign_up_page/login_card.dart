@@ -94,7 +94,7 @@ class _LoginCardState extends State<LoginCard> {
                     width: 400,
                     child: TextFormField(
                       controller: _controller.passwordController,
-                      validator: (value) => isValidEmail(value: value, errorMessage: "Please enter a password"),
+                      validator: (value) => isStringEmpty(value: value, errorMessage: "Please enter a password"),
                       obscureText: true,
                       cursorColor: kLightGreen,
                       decoration: InputDecoration(
