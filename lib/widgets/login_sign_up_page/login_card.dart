@@ -94,11 +94,7 @@ class _LoginCardState extends State<LoginCard> {
                     width: 400,
                     child: TextFormField(
                       controller: _controller.passwordController,
-                      validator: (value) {
-                        if (value!.trim().isEmpty)
-                          return 'Please enter a password';
-                        return null;
-                      },
+                      validator: (value) => isValidEmail(value: value, errorMessage: "Please enter a password"),
                       obscureText: true,
                       cursorColor: kLightGreen,
                       decoration: InputDecoration(
@@ -169,7 +165,7 @@ class _LoginCardState extends State<LoginCard> {
                             borderRadius: BorderRadius.circular(10),
                             side: const BorderSide(color: kDarkGreen))),
                   ),
-                  onPressed: () => Get.toNamed('/sign-up'),
+                  onPressed: () => Get.offAndToNamed('/sign-up'),
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Center(

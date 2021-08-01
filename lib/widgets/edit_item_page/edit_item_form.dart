@@ -13,7 +13,7 @@ class EditItemForm extends StatefulWidget {
 
 class _EditItemFormState extends State<EditItemForm> {
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final EditItemPageController _controller = Get.find();
 
   @override

@@ -30,7 +30,7 @@ class NavigationBar extends StatelessWidget {
               Row(
                 children: [
                   TextButton(
-                    onPressed: () => Get.toNamed("/"),
+                    onPressed: () => Get.offAndToNamed("/"),
                     child: Text(
                       'Explore',
                       style: GoogleFonts.montserrat(
