@@ -34,7 +34,7 @@ class TopNavDrawer extends StatelessWidget {
                     ),
                   ),
                 TextButton(
-                  onPressed: () => Get.toNamed("/"),
+                  onPressed: () => Get.offAndToNamed("/"),
                   child: Text(
                     'Explore',
                     style: GoogleFonts.montserrat(

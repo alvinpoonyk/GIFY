@@ -12,7 +12,9 @@ class LoginSignUpPage extends StatefulWidget {
 }
 
 class _LoginSignUpPageState extends State<LoginSignUpPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+  static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
