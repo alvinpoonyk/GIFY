@@ -19,6 +19,7 @@ class MessagesPage extends StatefulWidget {
 }
 
 class _MessagesPageState extends State<MessagesPage> {
+
   final _formKey = GlobalKey<FormState>();
   final Conversation _conversation = Get.arguments;
   final ScrollController _scrollController = ScrollController();
@@ -26,7 +27,6 @@ class _MessagesPageState extends State<MessagesPage> {
   late String otherUserID = _conversation.participants[0].compareTo(_authController.getCurrentUserID()) == 0 ? _conversation.participants[1] : _conversation.participants[0];
   late MessagesPageController _controller = Get.put(MessagesPageController(conversationID: _conversation.id, itemID: _conversation.itemID, otherUserID: otherUserID));
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  late TextEditingController _messageTextController = _controller.messageTextController;
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +122,7 @@ class _MessagesPageState extends State<MessagesPage> {
                                 );
                               } else {
                                 return Center(
-                                  child: CircularProgressIndicator(color: kLightGreen),
+                                  child: const CircularProgressIndicator(color: kLightGreen),
                                 );
                               }
                             }),
@@ -153,7 +153,8 @@ class _MessagesPageState extends State<MessagesPage> {
                             child: Form(
                               key: _formKey,
                               child: TextFormField(
-                                controller: _messageTextController,
+                                cursorColor: kLightGreen,
+                                controller: _controller.messageTextController,
                                 decoration: InputDecoration(
                                   focusedBorder: InputBorder.none,
                                   enabledBorder: InputBorder.none,
@@ -164,7 +165,7 @@ class _MessagesPageState extends State<MessagesPage> {
                                   hintText: "Type your message here",
                                   hintStyle: GoogleFonts.roboto(
                                     fontSize: 16,
-                                    color: Color(0xFFC4C4C4),
+                                    color: const Color(0xFFC4C4C4),
                                   ),
                                 ),
                               ),
@@ -184,15 +185,15 @@ class _MessagesPageState extends State<MessagesPage> {
                                   borderRadius: BorderRadius.circular(12.0),
                                 ))),
                             onPressed: () async {
-                              _controller.addMessage(conversationID: _conversation.id, text: _messageTextController.text.isEmpty ? " " : _messageTextController.text, conversation: _conversation);
-                              _messageTextController.clear();
+                              _controller.addMessage(conversationID: _conversation.id, text: _controller.messageTextController.text.isEmpty ? " " : _controller.messageTextController.text, conversation: _conversation);
+                              _controller.messageTextController.clear();
                               _scrollController.animateTo(
                                   _scrollController.position.minScrollExtent,
-                                  duration: Duration(seconds: 1),
+                                  duration: const Duration(seconds: 1),
                                   curve: Curves.fastOutSlowIn);
                             },
                             child: Padding(
-                              padding: EdgeInsets.fromLTRB(18, 8, 18, 8),
+                              padding: const EdgeInsets.fromLTRB(18, 8, 18, 8),
                               child: Text(
                                 'Send',
                                 style: GoogleFonts.roboto(

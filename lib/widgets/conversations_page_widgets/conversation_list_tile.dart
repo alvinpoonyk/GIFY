@@ -23,7 +23,7 @@ class ConversationsListTile extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: _width * 0.05, vertical: 14),
               child: InkWell(
                 onTap: () {
-                  Get.toNamed("/messages/", arguments: conversation);
+                  Get.offAndToNamed("/messages/", arguments: conversation);
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

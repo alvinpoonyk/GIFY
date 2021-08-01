@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gify/constants/filters.dart';
 import 'package:gify/constants/styles.dart';
 import 'package:gify/controllers/edit_item_page_controller.dart';
 import 'package:gify/validators/form_validators.dart';
@@ -16,14 +15,10 @@ class _EditItemFormState extends State<EditItemForm> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final EditItemPageController _controller = Get.find();
-  final List<String> _locationOptions = [... kLocations];
-  final List<String> _categoryOptions = [... kCategories];
 
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    _locationOptions.removeAt(0);
-    _categoryOptions.removeAt(0);
     return Form(
       key: _formKey,
       child: Column(
@@ -98,7 +93,7 @@ class _EditItemFormState extends State<EditItemForm> {
                   style: GoogleFonts.sen(
                       fontSize: 16, color: kDarkGreen),
                 )),
-                items: _locationOptions.map<DropdownMenuItem<String>>((String value) {
+                items: _controller.locationOptions.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(
@@ -143,7 +138,7 @@ class _EditItemFormState extends State<EditItemForm> {
                   style: GoogleFonts.sen(
                       fontSize: 16, color: kDarkGreen),
                 )),
-                items: _categoryOptions.map<DropdownMenuItem<String>>((String value) {
+                items: _controller.categoryOptions.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(

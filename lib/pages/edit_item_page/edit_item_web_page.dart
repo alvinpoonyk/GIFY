@@ -8,7 +8,7 @@ import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EditItemPageWebView extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final EditItemPageController _controller = Get.find();
   @override
   Widget build(BuildContext context) {
@@ -48,9 +48,7 @@ class EditItemPageWebView extends StatelessWidget {
                               width: 500,
                               height: 300,
                               imageSource: _controller.item.images[0],
-                              onTap: () {
-                                _controller.setImage1();
-                              },
+                              onTap: () => _controller.setImage1(),
                             )),
                             SizedBox(height: 20),
                             Obx(() =>ImagePickerBox(
@@ -58,9 +56,7 @@ class EditItemPageWebView extends StatelessWidget {
                               width: 500,
                               height: 300,
                               imageSource: _controller.item.images[1],
-                              onTap: () {
-                                _controller.setImage2();
-                              },
+                              onTap: () => _controller.setImage2(),
                             )),
                           ],
                         ),

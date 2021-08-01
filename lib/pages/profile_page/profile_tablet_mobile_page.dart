@@ -9,13 +9,15 @@ import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePageTabletAndMobileView extends StatelessWidget {
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final ScrollController _scrollController = ScrollController();
+  final ProfilePageController _controller = Get.put(ProfilePageController());
+  final AuthController _authController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-    final ScrollController _scrollController = ScrollController();
-    final ProfilePageController _controller = Get.put(ProfilePageController());
-    final AuthController _authController = Get.find();
     return SafeArea(
       child: Scaffold(
         drawer: const TopNavDrawer(),
@@ -51,7 +53,7 @@ class ProfilePageTabletAndMobileView extends StatelessWidget {
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ))),
-                      onPressed: () => Get.toNamed('/add-item'),
+                      onPressed: () => Get.offAndToNamed('/add-item'),
                       child: Container(
                         width: 180,
                         padding: EdgeInsets.all(_width <= 414 ? 4 : 8),

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:gify/constants/filters.dart';
 import 'package:gify/models/image_file.dart';
 import 'package:gify/repositories/items_repository.dart';
 import 'package:gify/repositories/items_repository_impl.dart';
@@ -8,13 +10,48 @@ import 'package:gify/widgets/getX_widgets/getX_error_snack_bar.dart';
 
 class AddItemPageController extends GetxController {
 
-  var image1 = ImageFile(null, null).obs;
-  var image2 = ImageFile(null, null).obs;
-  var isLoading = false;
+  Rx<ImageFile> image1 = ImageFile(null, null).obs;
+  Rx<ImageFile> image2 = ImageFile(null, null).obs;
 
   final ItemsRepository _itemsRepository = ItemsRepositoryImpl();
 
+  final List<String> locationOptions = [... kLocations];
+  final List<String> categoryOptions = [... kCategories];
+
+  RxString selectedLocation = 'Select Location'.obs;
+  RxString selectedCategory = 'Select Category'.obs;
+
+  final TextEditingController nameTextController = TextEditingController();
+  final TextEditingController locationTextController = TextEditingController();
+  final TextEditingController categoryTextController = TextEditingController();
+  final TextEditingController availabilityTextController = TextEditingController();
+  final TextEditingController descriptionTextController = TextEditingController();
+
+
   final errorTitle = 'Oops, something went wrong...';
+
+  void setSelectedLocation({required String value}) {
+    selectedLocation.value = value;
+  }
+
+  void setSelectedCategory({required String value}) {
+    selectedCategory.value = value;
+  }
+
+  void onInit() {
+    locationOptions.removeAt(0);
+    categoryOptions.removeAt(0);
+    super.onInit();
+  }
+
+  void onClose() {
+    nameTextController.dispose();
+    locationTextController.dispose();
+    categoryTextController.dispose();
+    availabilityTextController.dispose();
+    descriptionTextController.dispose();
+    super.onClose();
+  }
 
   void setImage1() async {
     try {

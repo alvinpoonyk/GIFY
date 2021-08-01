@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'GIFY',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
       ),
       initialRoute: '/',
       getPages: getPages,
