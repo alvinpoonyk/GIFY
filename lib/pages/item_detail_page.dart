@@ -7,11 +7,13 @@ import 'package:gify/pages/item_detail_page/item_detail_web_page.dart';
 import 'package:get/get.dart';
 
 class ItemDetailPage extends StatelessWidget {
+
+  final Item? _item = Get.arguments;
+  final String? _id = Get.parameters['id'];
+  final ItemDetailPageController _controller = Get.put(ItemDetailPageController());
+
   @override
   Widget build(BuildContext context) {
-    final Item? _item = Get.arguments;
-    final String? _id = Get.parameters['id'];
-    final ItemDetailPageController _controller = Get.put(ItemDetailPageController());
     _controller.item = _item;
     _controller.id = _id;
     if (_controller.item != null) {

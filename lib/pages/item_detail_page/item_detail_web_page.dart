@@ -10,13 +10,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 
 class ItemDetailPageWebView extends StatelessWidget {
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final ItemDetailPageController _controller = Get.find();
+
+  final AuthController _authController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-    final ItemDetailPageController _controller = Get.find();
     final Item _item = _controller.item;
-    final AuthController _authController = Get.find();
     return Scaffold(
       drawer: const TopNavDrawer(),
       body: SingleChildScrollView(
@@ -148,10 +151,10 @@ class ItemDetailPageWebView extends StatelessWidget {
                               bool? isConversationExist = await _controller.isConversationExist(itemID: _item.id, currentUserID: _authController.getCurrentUserID(), itemOwnerID: _item.ownerID);
                               if (isConversationExist!) {
                                 Conversation? remoteConversation = await _controller.getExistingConversation(itemID: _item.id, currentUserID: _authController.getCurrentUserID());
-                                Get.toNamed('/messages/', arguments: remoteConversation);
+                                Get.offAndToNamed('/messages/', arguments: remoteConversation);
                               } else {
                                 Conversation? localConversation = _controller.createConversation(itemID: _item.id, currentUserID: _authController.getCurrentUserID(), itemOwnerID: _item.ownerID);
-                                Get.toNamed('/messages/', arguments: localConversation);
+                                Get.offAndToNamed('/messages/', arguments: localConversation);
                               }
                             }
                           },
