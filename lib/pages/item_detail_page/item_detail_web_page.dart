@@ -135,6 +135,7 @@ class ItemDetailPageWebView extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 40),
+                        if (!(_authController.isUserLoggedIn() && _item.ownerID.compareTo(_authController.getCurrentUserID()) == 0))
                         ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor:

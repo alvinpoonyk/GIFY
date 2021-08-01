@@ -144,6 +144,7 @@ class ItemDetailTabletAndMobileView extends StatelessWidget {
                           }
                         }),
                     const SizedBox(height: 30),
+                    if (!(_authController.isUserLoggedIn() && _item.ownerID.compareTo(_authController.getCurrentUserID()) == 0))
                     ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
