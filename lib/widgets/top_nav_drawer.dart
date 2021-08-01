@@ -34,7 +34,10 @@ class TopNavDrawer extends StatelessWidget {
                     ),
                   ),
                 TextButton(
-                  onPressed: () => Get.offAndToNamed("/"),
+                  onPressed: () {
+                    if (Get.currentRoute != '/')
+                      Get.offAndToNamed("/");
+                    },
                   child: Text(
                     'Explore',
                     style: GoogleFonts.montserrat(
@@ -76,7 +79,8 @@ class TopNavDrawer extends StatelessWidget {
                     if (_controller.isUserLoggedIn()) {
                       await _controller.logOutUser();
                     } else {
-                      Get.offAndToNamed("/login");
+                      if (Get.currentRoute != '/login')
+                        Get.offAndToNamed("/login");
                     }
                   },
                   child: Text(

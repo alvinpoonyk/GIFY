@@ -15,7 +15,10 @@ class BrandLogo extends StatelessWidget {
         Icon(Icons.spa, size: iconSize, color: kLightGreen),
         const SizedBox(width: 10),
         TextButton(
-          onPressed: () => Get.toNamed("/"),
+          onPressed: () {
+            if (Get.currentRoute != '/')
+              Get.offAndToNamed("/");
+            },
           child: Text(
             'GIFY',
             style: GoogleFonts.sen(

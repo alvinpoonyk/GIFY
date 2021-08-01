@@ -20,13 +20,20 @@ class MessagesPage extends StatefulWidget {
 
 class _MessagesPageState extends State<MessagesPage> {
 
-  final _formKey = GlobalKey<FormState>();
   final Conversation _conversation = Get.arguments;
   final ScrollController _scrollController = ScrollController();
   final AuthController _authController = Get.find();
-  late String otherUserID = _conversation.participants[0].compareTo(_authController.getCurrentUserID()) == 0 ? _conversation.participants[1] : _conversation.participants[0];
-  late MessagesPageController _controller = Get.put(MessagesPageController(conversationID: _conversation.id, itemID: _conversation.itemID, otherUserID: otherUserID));
+  late String otherUserID;
+  late MessagesPageController _controller;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+
+  @override
+  void initState() {
+    otherUserID = _conversation.participants[0].compareTo(_authController.getCurrentUserID()) == 0 ? _conversation.participants[1] : _conversation.participants[0];
+    _controller = Get.put(MessagesPageController(conversationID: _conversation.id, itemID: _conversation.itemID, otherUserID: otherUserID));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,31 +157,28 @@ class _MessagesPageState extends State<MessagesPage> {
                                 ),
                               ),
                             ),
-                            child: Form(
-                              key: _formKey,
-                              child: TextFormField(
-                                onFieldSubmitted: (value) {
-                                    _controller.addMessage(conversationID: _conversation.id, text: _controller.messageTextController.text.isEmpty ? " " : _controller.messageTextController.text, conversation: _conversation);
-                                    _controller.messageTextController.clear();
-                                    _scrollController.animateTo(
-                                        _scrollController.position.minScrollExtent,
-                                        duration: const Duration(seconds: 1),
-                                        curve: Curves.fastOutSlowIn);
-                                },
-                                cursorColor: kLightGreen,
-                                controller: _controller.messageTextController,
-                                decoration: InputDecoration(
-                                  focusedBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  errorBorder: InputBorder.none,
-                                  disabledBorder: InputBorder.none,
-                                  contentPadding: const EdgeInsets.only(
-                                      left: 15, bottom: 11, top: 11, right: 15),
-                                  hintText: "Type your message here",
-                                  hintStyle: GoogleFonts.roboto(
-                                    fontSize: 16,
-                                    color: const Color(0xFFC4C4C4),
-                                  ),
+                            child: TextFormField(
+                              onFieldSubmitted: (value) {
+                                  _controller.addMessage(conversationID: _conversation.id, text: _controller.messageTextController.text.isEmpty ? " " : _controller.messageTextController.text, conversation: _conversation);
+                                  _controller.messageTextController.clear();
+                                  _scrollController.animateTo(
+                                      _scrollController.position.minScrollExtent,
+                                      duration: const Duration(seconds: 1),
+                                      curve: Curves.fastOutSlowIn);
+                              },
+                              cursorColor: kLightGreen,
+                              controller: _controller.messageTextController,
+                              decoration: InputDecoration(
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                contentPadding: const EdgeInsets.only(
+                                    left: 15, bottom: 11, top: 11, right: 15),
+                                hintText: "Type your message here",
+                                hintStyle: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: const Color(0xFFC4C4C4),
                                 ),
                               ),
                             ),

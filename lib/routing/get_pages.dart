@@ -10,44 +10,44 @@ import 'package:gify/pages/messages_page.dart';
 import 'package:gify/pages/profile_page.dart';
 import 'package:gify/pages/sign_up_page.dart';
 
-final AuthController _authController = Get.find();
+// final AuthController _authController = Get.find();
 
 final List<GetPage> getPages = [
   GetPage(name: '/', page: () => ExplorePage()),
   GetPage(name: '/login', page: () {
-    if (_authController.isUserLoggedIn())
-      return ProfilePage();
+    // if (_authController.isUserLoggedIn())
+    //   return ProfilePage();
     return LoginSignUpPage();
   }),
   GetPage(name: '/sign-up', page: () {
-    if (_authController.isUserLoggedIn())
-      return ProfilePage();
+    // if (_authController.isUserLoggedIn())
+    //   return ProfilePage();
     return SignUpPage();
   }),
   GetPage(name: '/item', page: () => ItemDetailPage()),
   GetPage(name: '/add-item', page: () {
-    if (_authController.isUserLoggedIn())
+    // if (_authController.isUserLoggedIn())
       return AddItemPage();
-    return LoginSignUpPage();
+    // return LoginSignUpPage();
   }),
   GetPage(name: '/profile', page: () {
-    if (_authController.isUserLoggedIn())
+    // if (_authController.isUserLoggedIn())
       return ProfilePage();
-    return LoginSignUpPage();
+    // return LoginSignUpPage();
   }),
   GetPage(name: '/conversations', page: () {
-    if (_authController.isUserLoggedIn())
-      return ConversationsPage();
-    return LoginSignUpPage();
+    // if (_authController.isUserLoggedIn())
+       return ConversationsPage();
+    // return LoginSignUpPage();
   }),
   GetPage(name: '/messages', page: () {
-    if (_authController.isUserLoggedIn())
+    // if (_authController.isUserLoggedIn())
       return MessagesPage();
-    return LoginSignUpPage();
+    // return LoginSignUpPage();
   }),
   GetPage(name: '/edit-item', page: () {
-    if (_authController.isUserLoggedIn())
+    // if (_authController.isUserLoggedIn())
       return EditItemPage();
-    return LoginSignUpPage();
+    // return LoginSignUpPage();
   }),
 ];
