@@ -4,26 +4,27 @@ import 'package:gify/constants/filters.dart';
 import 'package:gify/constants/styles.dart';
 import 'package:gify/controllers/add_item_page_controller.dart';
 import 'package:gify/controllers/auth_controller.dart';
+import 'package:gify/validators/form_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddItemForm extends StatelessWidget {
-  static final _formKey = GlobalKey<FormState>();
+class AddItemForm extends StatefulWidget {
+  @override
+  _AddItemFormState createState() => _AddItemFormState();
+}
+
+class _AddItemFormState extends State<AddItemForm> {
+
+  final _formKey = GlobalKey<FormState>();
   final List<String> _locationOptions = [... kLocations];
   final List<String> _categoryOptions = [... kCategories];
   final AddItemPageController _controller = Get.find();
   final AuthController _authController = Get.find();
+
   @override
   Widget build(BuildContext context) {
 
-    String? _name;
-    String? _location;
-    String? _category;
-    String? _availability;
-    String? _description;
-
     double _width = MediaQuery.of(context).size.width;
-    _locationOptions.removeAt(0);
-    _categoryOptions.removeAt(0);
+
     return Form(
       key: _formKey,
       child: Column(
@@ -37,31 +38,25 @@ class AddItemForm extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: Colors.black),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           SizedBox(
             width: 500,
             child: TextFormField(
-              onChanged: (value) {
-                _name = value.trim();
-              },
-              validator: (value) {
-                if (value!.trim().isEmpty)
-                  return 'Please enter an item name';
-                return null;
-              },
+              controller: _controller.nameTextController,
+              validator: (value) => isStringEmpty(value: value!, errorMessage: 'Please enter an item name'),
               cursorColor: kLightGreen,
               decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: kLightGreen, width: 1),
+                focusedBorder: const OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderSide: const BorderSide(color: kLightGreen, width: 1),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: kLightGreen, width: 1),
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderSide: const BorderSide(color: kLightGreen, width: 1),
                 ),
                 errorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
-                contentPadding: EdgeInsets.only(
+                contentPadding: const EdgeInsets.only(
                     left: 15, bottom: 11, top: 11, right: 15),
                 hintText: "Name of your item",
                 hintStyle: GoogleFonts.roboto(
@@ -72,7 +67,7 @@ class AddItemForm extends StatelessWidget {
             ),
           ),
           ///
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ///
           SelectableText(
             'Location',
@@ -81,14 +76,14 @@ class AddItemForm extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: Colors.black),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.fromLTRB(10,0,10,0),
             decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(
+              shape: const RoundedRectangleBorder(
+                  side: const BorderSide(
                       width: 1, style: BorderStyle.solid, color: kLightGreen),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   )),
             ),
@@ -96,23 +91,17 @@ class AddItemForm extends StatelessWidget {
               width: 180,
               child: DropdownButtonHideUnderline(
                 child: DropdownButtonFormField<String>(
-                  onChanged: (value) {
-                    _location = value!.trim();
-                  },
-                  validator: (value) {
-                    if (value == null)
-                      return 'Please select a location';
-                    return null;
-                  },
-                  icon: Icon(
+                  onChanged: (value) => _controller.setSelectedLocation(value: value!),
+                  validator: (value) => isStringEmpty(value: value, errorMessage: 'Please select a location'),
+                  icon: const Icon(
                     Icons.arrow_drop_down_sharp,
                     color: kDarkGreen,
                   ),
                   iconSize: 30,
-                  hint: Text('Select Location',
+                  hint: Obx(() => Text(_controller.selectedLocation.value,
                     style: GoogleFonts.sen(
                         fontSize: 16, color: kDarkGreen),
-                  ),
+                  )),
                   items: _locationOptions.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -127,7 +116,7 @@ class AddItemForm extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ///
           SelectableText(
             'Category',
@@ -136,38 +125,32 @@ class AddItemForm extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: Colors.black),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.fromLTRB(10,0,10,0),
             decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(
+              shape: const RoundedRectangleBorder(
+                  side: const BorderSide(
                       width: 1, style: BorderStyle.solid, color: kLightGreen),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(10),
                   )),
             ),
             child: SizedBox(
               width: 180,
               child: DropdownButtonHideUnderline(
                 child: DropdownButtonFormField<String>(
-                  onChanged: (value) {
-                    _category = value!.trim();
-                  },
-                  validator: (value) {
-                    if (value == null)
-                      return 'Please select a category';
-                    return null;
-                  },
-                  icon: Icon(
+                  onChanged: (value) => _controller.setSelectedCategory(value: value!),
+                  validator: (value) => isStringEmpty(value: value, errorMessage: 'Please select a category'),
+                  icon: const Icon(
                     Icons.arrow_drop_down_sharp,
                     color: kDarkGreen,
                   ),
                   iconSize: 30,
-                  hint: Text('Select Category',
+                  hint: Obx(() => Text(_controller.selectedCategory.value,
                     style: GoogleFonts.sen(
                         fontSize: 16, color: kDarkGreen),
-                  ),
+                  )),
                   items: _categoryOptions.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -182,7 +165,7 @@ class AddItemForm extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ///
           SelectableText(
             'Availability',
@@ -191,31 +174,25 @@ class AddItemForm extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: Colors.black),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           SizedBox(
             width: 500,
             child: TextFormField(
-              onChanged: (value) {
-                _availability = value.trim();
-              },
-              validator: (value) {
-                if (value!.isEmpty)
-                  return 'Please enter a convenient meeting time';
-                return null;
-              },
+              controller: _controller.availabilityTextController,
+              validator: (value) => isStringEmpty(value: value, errorMessage: 'Please enter a convenient meeting time'),
               cursorColor: kLightGreen,
               decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: kDarkGreen, width: 1),
+                focusedBorder: const OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderSide: const BorderSide(color: kDarkGreen, width: 1),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: kLightGreen, width: 1),
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderSide: const BorderSide(color: kLightGreen, width: 1),
                 ),
                 errorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
-                contentPadding: EdgeInsets.only(
+                contentPadding: const EdgeInsets.only(
                     left: 15, bottom: 11, top: 11, right: 15),
                 hintText: "Convenient meeting time",
                 hintStyle: GoogleFonts.roboto(
@@ -225,7 +202,7 @@ class AddItemForm extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ///
           SelectableText(
             'Item Description',
@@ -234,33 +211,27 @@ class AddItemForm extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: Colors.black),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           SizedBox(
             width: 600,
             child: TextFormField(
-              onChanged: (value) {
-                _description = value.trim();
-              },
-              validator: (value) {
-                if (value!.isEmpty)
-                  return 'Please enter an item description';
-                return null;
-              },
+              controller: _controller.descriptionTextController,
+              validator: (value) => isStringEmpty(value: value, errorMessage: 'Please enter a description'),
               maxLines: 6,
               minLines: 6,
               cursorColor: kLightGreen,
               decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: kDarkGreen, width: 1),
+                focusedBorder: const OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderSide: const BorderSide(color: kDarkGreen, width: 1),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: kLightGreen, width: 1),
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderSide: const BorderSide(color: kLightGreen, width: 1),
                 ),
                 errorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
-                contentPadding: EdgeInsets.only(
+                contentPadding: const EdgeInsets.only(
                     left: 15, bottom: 11, top: 11, right: 15),
                 hintText: "Description about the item",
                 hintStyle: GoogleFonts.roboto(
@@ -270,9 +241,8 @@ class AddItemForm extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 25),
           ///
-          SizedBox(height: 5),
           SizedBox(
             width: _width <= 768 ? _width * 0.9 : 250,
             child: ElevatedButton(
@@ -287,12 +257,12 @@ class AddItemForm extends StatelessWidget {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   await _controller.storeItemInRemoteDatabase(
-                      name: _name!,
+                      name: _controller.nameTextController.text.trim(),
                       ownerID: _authController.getCurrentUserID(),
-                      location: _location!,
-                      category: _category!,
-                      description: _description!,
-                      availability: _availability!);
+                      location: _controller.selectedLocation.value,
+                      category: _controller.selectedCategory.value,
+                      description: _controller.descriptionTextController.text.trim(),
+                      availability: _controller.availabilityTextController.text.trim());
                 }
               },
               child: Padding(

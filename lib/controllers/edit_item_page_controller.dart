@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gify/constants/filters.dart';
 import 'package:gify/models/image_file.dart';
 import 'package:gify/models/item.dart';
 import 'package:gify/repositories/items_repository.dart';
@@ -17,11 +18,13 @@ class EditItemPageController extends GetxController {
   RxString category = ''.obs;
   RxString location = ''.obs;
 
-  var image1 = ImageFile(null, null).obs;
-  var image2 = ImageFile(null, null).obs;
+  final List<String> locationOptions = [... kLocations];
+  final List<String> categoryOptions = [... kCategories];
 
-  final ItemsRepository _itemsRepository = ItemsRepositoryImpl()
-  ;
+  Rx<ImageFile> image1 = ImageFile(null, null).obs;
+  Rx<ImageFile> image2 = ImageFile(null, null).obs;
+
+  final ItemsRepository _itemsRepository = ItemsRepositoryImpl();
   final TextEditingController itemNameController = TextEditingController();
   final TextEditingController availabilityController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -31,6 +34,8 @@ class EditItemPageController extends GetxController {
   EditItemPageController({required this.item});
 
   void onInit() {
+    locationOptions.removeAt(0);
+    categoryOptions.removeAt(0);
     category = item.category.obs;
     location = item.location.obs;
     itemNameController.text = item.name;

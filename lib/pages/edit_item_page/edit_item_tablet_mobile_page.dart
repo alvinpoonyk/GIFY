@@ -8,7 +8,7 @@ import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EditItemPageTabletAndMobileView extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final EditItemPageController _controller = Get.find();
   @override
   Widget build(BuildContext context) {

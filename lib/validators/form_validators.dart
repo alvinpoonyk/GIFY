@@ -1,6 +1,6 @@
 /// Returns null if String is not empty and errorMessage String if empty
 isStringEmpty({required String? value, required String errorMessage}) {
-  if (value!.isEmpty)
+  if (value == null || value.trim().isEmpty)
     return errorMessage;
   return null;
 }

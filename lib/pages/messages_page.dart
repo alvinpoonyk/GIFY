@@ -13,23 +13,31 @@ import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MessagesPage extends StatelessWidget {
+class MessagesPage extends StatefulWidget {
+  @override
+  _MessagesPageState createState() => _MessagesPageState();
+}
+
+class _MessagesPageState extends State<MessagesPage> {
+
+  final Conversation _conversation = Get.arguments;
+  final ScrollController _scrollController = ScrollController();
+  final AuthController _authController = Get.find();
+  late String otherUserID;
+  late MessagesPageController _controller;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+
+  @override
+  void initState() {
+    otherUserID = _conversation.participants[0].compareTo(_authController.getCurrentUserID()) == 0 ? _conversation.participants[1] : _conversation.participants[0];
+    _controller = Get.put(MessagesPageController(conversationID: _conversation.id, itemID: _conversation.itemID, otherUserID: otherUserID));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Conversation _conversation = Get.arguments;
-    final ScrollController _scrollController = ScrollController();
-    final AuthController _authController = Get.find();
-    final otherUserID = _conversation.participants[0].compareTo(_authController.getCurrentUserID()) == 0 ? _conversation.participants[1] : _conversation.participants[0];
-    final MessagesPageController _controller = Get.put(
-        MessagesPageController(
-            conversationID: _conversation.id,
-            itemID: _conversation.itemID,
-            otherUserID: otherUserID
-        ));
     double _width = MediaQuery.of(context).size.width;
-
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-    final TextEditingController _messageTextController = _controller.messageTextController;
     return SafeArea(
       child: Scaffold(
         drawer: const TopNavDrawer(),
@@ -121,7 +129,7 @@ class MessagesPage extends StatelessWidget {
                                 );
                               } else {
                                 return Center(
-                                  child: CircularProgressIndicator(color: kLightGreen),
+                                  child: const CircularProgressIndicator(color: kLightGreen),
                                 );
                               }
                             }),
@@ -150,7 +158,16 @@ class MessagesPage extends StatelessWidget {
                               ),
                             ),
                             child: TextFormField(
-                              controller: _messageTextController,
+                              onFieldSubmitted: (value) {
+                                  _controller.addMessage(conversationID: _conversation.id, text: _controller.messageTextController.text.isEmpty ? " " : _controller.messageTextController.text, conversation: _conversation);
+                                  _controller.messageTextController.clear();
+                                  _scrollController.animateTo(
+                                      _scrollController.position.minScrollExtent,
+                                      duration: const Duration(seconds: 1),
+                                      curve: Curves.fastOutSlowIn);
+                              },
+                              cursorColor: kLightGreen,
+                              controller: _controller.messageTextController,
                               decoration: InputDecoration(
                                 focusedBorder: InputBorder.none,
                                 enabledBorder: InputBorder.none,
@@ -161,7 +178,7 @@ class MessagesPage extends StatelessWidget {
                                 hintText: "Type your message here",
                                 hintStyle: GoogleFonts.roboto(
                                   fontSize: 16,
-                                  color: Color(0xFFC4C4C4),
+                                  color: const Color(0xFFC4C4C4),
                                 ),
                               ),
                             ),
@@ -180,15 +197,15 @@ class MessagesPage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12.0),
                                 ))),
                             onPressed: () async {
-                              _controller.addMessage(conversationID: _conversation.id, text: _messageTextController.text.isEmpty ? " " : _messageTextController.text, conversation: _conversation);
-                              _messageTextController.clear();
+                              _controller.addMessage(conversationID: _conversation.id, text: _controller.messageTextController.text.isEmpty ? " " : _controller.messageTextController.text, conversation: _conversation);
+                              _controller.messageTextController.clear();
                               _scrollController.animateTo(
                                   _scrollController.position.minScrollExtent,
-                                  duration: Duration(seconds: 1),
+                                  duration: const Duration(seconds: 1),
                                   curve: Curves.fastOutSlowIn);
                             },
                             child: Padding(
-                              padding: EdgeInsets.fromLTRB(18, 8, 18, 8),
+                              padding: const EdgeInsets.fromLTRB(18, 8, 18, 8),
                               child: Text(
                                 'Send',
                                 style: GoogleFonts.roboto(

@@ -29,7 +29,7 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
             return Image.network(imageURL);
           }).toList(),
         ),
-        // SizedBox(height: 8),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

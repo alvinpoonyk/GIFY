@@ -14,7 +14,7 @@ class ProfileItemCard extends StatelessWidget {
     final ProfilePageController _controller = Get.find();
     return Card(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 500, minWidth: 500, maxHeight: 365 , minHeight: 365),
+        constraints: const BoxConstraints(maxWidth: 500, minWidth: 500, maxHeight: 375 , minHeight: 375),
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -119,6 +119,7 @@ class ProfileItemCard extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 10),
             ],
           ),
         ),

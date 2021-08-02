@@ -8,8 +8,10 @@ import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddItemPageWebView extends StatelessWidget {
+
   static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final AddItemPageController _controller = Get.put(AddItemPageController());
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
@@ -48,18 +50,14 @@ class AddItemPageWebView extends StatelessWidget {
                               width: 500,
                               height: 300,
                               bytes: _controller.image1.value.bytes,
-                              onTap: () {
-                                _controller.setImage1();
-                              },
+                              onTap: () => _controller.setImage1(),
                             )),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Obx(() => DottedImagePickerBox(
                               width: 500,
                               height: 300,
                               bytes: _controller.image2.value.bytes,
-                              onTap: () {
-                                _controller.setImage2();
-                              },
+                              onTap: () => _controller.setImage2(),
                             )),
                           ],
                         ),

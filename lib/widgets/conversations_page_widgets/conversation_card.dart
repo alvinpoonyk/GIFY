@@ -102,7 +102,7 @@ class ConversationCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ))),
                   onPressed: () {
-                    Get.toNamed("/messages/", arguments: conversation);
+                    Get.offAndToNamed("/messages/", arguments: conversation);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8),

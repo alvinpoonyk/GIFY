@@ -68,7 +68,7 @@ class ExplorePage extends StatelessWidget {
                                           _width > 768 ? 10 : 5),
                                       side: const BorderSide(color: Colors.white))),
                         ),
-                        onPressed: () => Get.toNamed('/sign-up'),
+                        onPressed: () => Get.offAndToNamed('/sign-up'),
                         child: Padding(
                           padding: _width > 768
                               ? EdgeInsets.fromLTRB(30, 10, 30, 10)

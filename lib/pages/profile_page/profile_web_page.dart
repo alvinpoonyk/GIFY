@@ -56,7 +56,7 @@ class ProfilePageWebView extends StatelessWidget {
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ))),
-                              onPressed: () => Get.toNamed('/add-item'),
+                              onPressed: () => Get.offAndToNamed('/add-item'),
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Center(

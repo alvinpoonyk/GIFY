@@ -6,11 +6,18 @@ import 'package:gify/widgets/top_nav_bar.dart';
 import 'package:gify/widgets/top_nav_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginSignUpPage extends StatelessWidget {
+class LoginSignUpPage extends StatefulWidget {
+  @override
+  _LoginSignUpPageState createState() => _LoginSignUpPageState();
+}
+
+class _LoginSignUpPageState extends State<LoginSignUpPage> {
+
+  static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
     return SafeArea(
       child: Scaffold(
         drawer: const TopNavDrawer(),

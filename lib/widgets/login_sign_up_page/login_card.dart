@@ -5,14 +5,20 @@ import 'package:gify/validators/form_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 
-class LoginCard extends StatelessWidget {
+class LoginCard extends StatefulWidget {
+  @override
+  _LoginCardState createState() => _LoginCardState();
+}
+
+class _LoginCardState extends State<LoginCard> {
+
+  final _formKey = GlobalKey<FormState>();
+  final LoginSignUpPageController _controller = Get.put(LoginSignUpPageController());
+
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    final LoginSignUpPageController _controller = Get.put(LoginSignUpPageController());
+
     double _width = MediaQuery.of(context).size.width;
-    String _email = '';
-    String _password = '';
     return Card(
       child: Form(
         key: _formKey,
@@ -46,8 +52,8 @@ class LoginCard extends StatelessWidget {
                   SizedBox(
                     width: 400,
                     child: TextFormField(
+                      controller: _controller.emailController,
                       validator: (value) => isValidEmail(value: value, errorMessage: "Please enter a valid email address"),
-                      onChanged: (value) => _email = value,
                       cursorColor: kLightGreen,
                       decoration: InputDecoration(
                         focusedBorder: const OutlineInputBorder(
@@ -87,12 +93,8 @@ class LoginCard extends StatelessWidget {
                   SizedBox(
                     width: 400,
                     child: TextFormField(
-                      validator: (value) {
-                        if (value!.trim().isEmpty)
-                          return 'Please enter a password';
-                        return null;
-                      },
-                      onChanged: (value) => _password = value,
+                      controller: _controller.passwordController,
+                      validator: (value) => isStringEmpty(value: value, errorMessage: "Please enter a password"),
                       obscureText: true,
                       cursorColor: kLightGreen,
                       decoration: InputDecoration(
@@ -132,7 +134,7 @@ class LoginCard extends StatelessWidget {
                           ))),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      _controller.loginUser(email: _email.trim(), password: _password.trim());
+                      _controller.loginUser(email: _controller.emailController.text.trim(), password: _controller.passwordController.text.trim());
                     }
                   },
                   child: Padding(
@@ -163,7 +165,7 @@ class LoginCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             side: const BorderSide(color: kDarkGreen))),
                   ),
-                  onPressed: () => Get.toNamed('/sign-up'),
+                  onPressed: () => Get.offAndToNamed('/sign-up'),
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Center(
