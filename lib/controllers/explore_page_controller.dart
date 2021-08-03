@@ -1,5 +1,8 @@
+import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
+import 'package:gify/constants/failure_types.dart';
 import 'package:gify/constants/filters.dart';
+import 'package:gify/errors/failure.dart';
 import 'package:gify/models/item.dart';
 import 'package:gify/models/user.dart';
 import 'package:gify/repositories/items_repository.dart';
@@ -14,8 +17,6 @@ class ExplorePageController extends GetxController {
   RxString category =  kDefaultCategoryFilter.obs;
   RxString location = kDefaultLocationFilter.obs;
 
-  final String errorTitle = 'Oops, something went wrong...';
-
   @override
   void onInit() {
     getItems();
@@ -29,19 +30,33 @@ class ExplorePageController extends GetxController {
     try {
       return await _usersRepository.getUserById(id: id);
     } catch(e) {
-      _showErrorSnackBar(errorTitle: errorTitle, errorMessage: e.toString());
+      print("ExplorePageController(getItemOwner): ${e.toString()}");
+      _showErrorSnackBar(errorTitle: unknownException, errorMessage: unknownExceptionErrorMessage);
       throw e;
     }
   }
 
-  getItems() async {
-    try {
+  /// Populates the items to display stream with a list of items fetched from items repository
+  Future<void> getItems() async {
+      /// Clears the current stream of list of items
       itemsToDisplay.clear();
-      /// Get all items without any filters
-      await _itemsRepository.getItems().then((items) => items.forEach((item) => itemsToDisplay.add(item)));
-    } catch (e) {
-      _showErrorSnackBar(errorTitle: errorTitle, errorMessage: e.toString());
-    }
+      try {
+        /// Gets items from the item repository
+        Either<Failure,List<Item>> result = await _itemsRepository.getItems();
+        result.fold(
+                /// If failure, display the error based on its type and message
+                (failure) => _showErrorSnackBar(errorTitle: failure.type, errorMessage: failure.toString()),
+                (items) {
+                  /// If success, clear the current stream and the list of fetched items to the current stream
+              itemsToDisplay.clear();
+              itemsToDisplay.addAll(items);
+            });
+      } catch(e) {
+        /// Leave the current stream empty as it is
+        print("ExplorePageController(getItems): ${e.toString()}");
+        _showErrorSnackBar(errorTitle: unknownException, errorMessage: unknownExceptionErrorMessage);
+      }
+
   }
 
   Future<void> getItemsByCategory({required String selectedCategory}) async {
@@ -56,21 +71,43 @@ class ExplorePageController extends GetxController {
 
       /// Check if selected category is default and there is existing location filter is applied
       if (category.string.compareTo(kDefaultCategoryFilter) == 0 && location.string.compareTo(kDefaultLocationFilter) != 0) {
-        await _itemsRepository.getItemsByLocation(location: location.string).then((items) => items.forEach((item) => itemsToDisplay.add(item)));
         return;
       }
 
       /// Check if only category filter is applied by user
       if (location.string.compareTo(kDefaultLocationFilter) == 0) {
         /// Get all items that matches the selected category
-        await _itemsRepository.getItemsByCategory(category: category.string).then((items) => items.forEach((item) => itemsToDisplay.add(item)));
+        try {
+          Either<Failure,List<Item>> result = await _itemsRepository.getItemsByCategory(category: category.string);
+          result.fold(
+            /// If failure, display the error based on its type and message
+                  (failure) => _showErrorSnackBar(errorTitle: failure.type, errorMessage: failure.toString()),
+                  (items) {
+                /// If success, clear the current stream and the list of fetched items to the current stream
+                itemsToDisplay.clear();
+                itemsToDisplay.addAll(items);
+              });
+        } catch(e) {
+          /// Leave the current stream empty as it is
+          print("ExplorePageController(getItems): ${e.toString()}");
+          _showErrorSnackBar(errorTitle: unknownException, errorMessage: unknownExceptionErrorMessage);
+        }
       } else {
         /// Get items that matches the selected category and previously selected location
-        await _itemsRepository.getItemsByCategoryAndLocation(category: category.string, location: location.string).then((items)
-        => items.forEach((item) => itemsToDisplay.add(item)));
+        Either<Failure,List<Item>> result = await _itemsRepository.getItemsByCategoryAndLocation(category: category.string, location: location.string);
+        result.fold(
+          /// If failure, display the error based on its type and message
+                (failure) => _showErrorSnackBar(errorTitle: failure.type, errorMessage: failure.toString()),
+                (items) {
+              /// If success, clear the current stream and the list of fetched items to the current stream
+              itemsToDisplay.clear();
+              itemsToDisplay.addAll(items);
+            });
+        return;
       }
     } catch (e) {
-      _showErrorSnackBar(errorTitle: errorTitle, errorMessage: e.toString());
+      print("ExplorePageController(getItemsByCategory): ${e.toString()}");
+      _showErrorSnackBar(errorTitle: unknownException, errorMessage: unknownExceptionErrorMessage);
     }
   }
 
@@ -86,21 +123,48 @@ class ExplorePageController extends GetxController {
 
       /// Check if selected location is default and there is existing category filter is applied
       if (location.string.compareTo(kDefaultLocationFilter) == 0 && category.string.compareTo(kDefaultCategoryFilter) != 0) {
-        await _itemsRepository.getItemsByCategory(category: category.string).then((items) => items.forEach((item) => itemsToDisplay.add(item)));
+        Either<Failure,List<Item>> result = await _itemsRepository.getItemsByCategory(category: category.string);
+        result.fold(
+          /// If failure, display the error based on its type and message
+                (failure) => _showErrorSnackBar(errorTitle: failure.type, errorMessage: failure.toString()),
+                (items) {
+              /// If success, clear the current stream and the list of fetched items to the current stream
+              itemsToDisplay.clear();
+              itemsToDisplay.addAll(items);
+            });
         return;
       }
 
       /// Check if only location filter is applied by user
       if (category.string.compareTo(kDefaultCategoryFilter) == 0) {
         /// Get all items that matches the selected location
-        await _itemsRepository.getItemsByLocation(location: location.string).then((items) => items.forEach((item) => itemsToDisplay.add(item)));
+        Either<Failure,List<Item>> result = await _itemsRepository.getItemsByLocation(location: location.string);
+        result.fold(
+          /// If failure, display the error based on its type and message
+                (failure) => _showErrorSnackBar(errorTitle: failure.type, errorMessage: failure.toString()),
+                (items) {
+              /// If success, clear the current stream and the list of fetched items to the current stream
+              itemsToDisplay.clear();
+              itemsToDisplay.addAll(items);
+            });
+        return;
       } else {
         /// Get items that matches the selected location and previously selected category
-        await _itemsRepository.getItemsByCategoryAndLocation(category: category.string, location: location.string).then((items)
-        => items.forEach((item) => itemsToDisplay.add(item)));
+        Either<Failure,List<Item>> result = await  _itemsRepository.getItemsByCategoryAndLocation(category: category.string, location: location.string);
+        result.fold(
+          /// If failure, display the error based on its type and message
+                (failure) => _showErrorSnackBar(errorTitle: failure.type, errorMessage: failure.toString()),
+                (items) {
+              /// If success, clear the current stream and the list of fetched items to the current stream
+              itemsToDisplay.clear();
+              itemsToDisplay.addAll(items);
+            });
+        return;
       }
     } catch (e) {
-      _showErrorSnackBar(errorTitle: errorTitle, errorMessage: e.toString());
+      /// Leave the current stream empty as it is
+      print("ExplorePageController(getItemsByLocation): ${e.toString()}");
+      _showErrorSnackBar(errorTitle: unknownException, errorMessage: unknownExceptionErrorMessage);
     }
   }
 

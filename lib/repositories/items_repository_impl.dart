@@ -1,5 +1,9 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:gify/constants/failure_types.dart';
+import 'package:gify/errors/failure.dart';
 import 'package:gify/models/image_file.dart';
 import 'package:gify/models/item.dart';
 import 'package:gify/repositories/items_repository.dart';
@@ -10,75 +14,97 @@ class ItemsRepositoryImpl implements ItemsRepository {
   final String itemStorageURL = "gs://gify-33f30.appspot.com/items/";
 
   @override
-  Future<List<Item>> getItems() async {
+  Future<Either<Failure,List<Item>>> getItems() async {
     try {
       List<Item> items = [];
+
       await _db.collection('items').where('isRemoved', isEqualTo: false).get().
       then((querySnapshot) =>
           querySnapshot.docs.forEach((documentSnapshot) {
             items.add(Item.fromJson(documentSnapshot.data()));
           }));
+
       print("ItemsRepositoryImpl(getItems): Successfully fetched items");
-      return items;
-    } catch(e) {
-      print("ItemsRepositoryImpl(getItems): ${e.toString()}");
+
+      return Right(items);
+    } on SocketException {
+      print("ItemsRepositoryImpl(getItems): $sockExceptionErrorMessage");
+      Left(Failure(type: socketException, message: "ItemsRepositoryImpl(getItems): $sockExceptionErrorMessage"));
+      rethrow;
+    } on FormatException {
+      print("ItemsRepositoryImpl(getItems): $formatExceptionErrorMessage");
+      Left(Failure(type: formatException, message: "ItemsRepositoryImpl(getItems): $formatExceptionErrorMessage"));
       rethrow;
     }
   }
 
   @override
-  Future<List<Item>> getItemsByCategory({required String category}) async {
+  Future<Either<Failure,List<Item>>> getItemsByCategory({required String category}) async {
     try {
-      List<Item> data = [];
+      List<Item> items = [];
       await _db.collection('items').where('isRemoved', isEqualTo: false).where(
           'category', isEqualTo: category).get().
       then((querySnapshot) =>
           querySnapshot.docs.forEach((documentSnapshot) {
-            data.add(Item.fromJson(documentSnapshot.data()));
+            items.add(Item.fromJson(documentSnapshot.data()));
           }));
       print("ItemsRepositoryImpl(getItemsByCategory): Successfully get items by category");
-      return data;
-    } catch(e) {
-      print("ItemsRepositoryImpl(getItemsByCategory): ${e.toString()}");
+      return Right(items);
+    } on SocketException {
+      print("ItemsRepositoryImpl(getItemsByCategory): $sockExceptionErrorMessage");
+      Left(Failure(type: socketException, message: sockExceptionErrorMessage));
+      rethrow;
+    } on FormatException {
+      print("ItemsRepositoryImpl(getItemsByCategory): $formatExceptionErrorMessage");
+      Left(Failure(type: formatException, message: formatExceptionErrorMessage));
       rethrow;
     }
   }
 
   @override
-  Future<List<Item>> getItemsByLocation({required location}) async {
+  Future<Either<Failure,List<Item>>> getItemsByLocation({required location}) async {
     try {
-      List<Item> data = [];
+      List<Item> items = [];
       await _db.collection('items').where('isRemoved', isEqualTo: false).where(
           'location', isEqualTo: location).get().
       then((querySnapshot) =>
           querySnapshot.docs.forEach((documentSnapshot) {
-            data.add(Item.fromJson(documentSnapshot.data()));
+            items.add(Item.fromJson(documentSnapshot.data()));
           }));
       print("ItemsRepositoryImpl(getItemsByLocation): Successfully get items by location");
-      return data;
-    } catch(e) {
-      print("ItemsRepositoryImpl(getItemsByLocation): ${e.toString()}");
+      return Right(items);
+    } on SocketException {
+      print("ItemsRepositoryImpl(getItemsByLocation): $sockExceptionErrorMessage");
+      Left(Failure(type: socketException, message: sockExceptionErrorMessage));
+      rethrow;
+    } on FormatException {
+      print("ItemsRepositoryImpl(getItemsByLocation): $formatExceptionErrorMessage");
+      Left(Failure(type: formatException, message: formatExceptionErrorMessage));
       rethrow;
     }
-
   }
 
   @override
-  Future<List<Item>> getItemsByCategoryAndLocation(
+  Future<Either<Failure,List<Item>>> getItemsByCategoryAndLocation(
       {required category, required location}) async {
     try {
-      List<Item> data = [];
+      List<Item> items = [];
       await _db.collection('items').where('isRemoved', isEqualTo: false)
           .where('category', isEqualTo: category).where(
           'location', isEqualTo: location).get().
       then((querySnapshot) =>
           querySnapshot.docs.forEach((documentSnapshot) {
-            data.add(Item.fromJson(documentSnapshot.data()));
+            items.add(Item.fromJson(documentSnapshot.data()));
           }));
       print("ItemsRepositoryImpl(getItemsByCategoryAndLocation): Successfully get items by category and location");
-      return data;
-    } catch(e) {
-      print("ItemsRepositoryImpl(getItemsByCategoryAndLocation): ${e.toString()}");
+      return Right(items);
+    } on SocketException {
+      print("ItemsRepositoryImpl(getItemsByCategoryAndLocation): $sockExceptionErrorMessage");
+      Left(Failure(type: socketException, message: sockExceptionErrorMessage));
+      rethrow;
+    } on FormatException {
+      print("ItemsRepositoryImpl(getItemsByCategoryAndLocation): $formatExceptionErrorMessage");
+      Left(Failure(type: formatException, message: formatExceptionErrorMessage));
       rethrow;
     }
 
