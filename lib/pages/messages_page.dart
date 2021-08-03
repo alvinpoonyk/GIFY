@@ -31,7 +31,8 @@ class _MessagesPageState extends State<MessagesPage> {
   @override
   void initState() {
     otherUserID = _conversation.participants[0].compareTo(_authController.getCurrentUserID()) == 0 ? _conversation.participants[1] : _conversation.participants[0];
-    _controller = Get.put(MessagesPageController(conversationID: _conversation.id, itemID: _conversation.itemID, otherUserID: otherUserID));
+    _controller = Get.put(MessagesPageController());
+    _controller.init(id: _conversation.id, currentItemID: _conversation.itemID, otherCurrentUserID: otherUserID);
     super.initState();
   }
 
