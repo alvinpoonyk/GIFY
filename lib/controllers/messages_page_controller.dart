@@ -15,9 +15,10 @@ import 'package:gify/widgets/getX_widgets/getX_error_snack_bar.dart';
 
 class MessagesPageController extends GetxController {
   RxList<Message> messages = <Message>[].obs;
-  final String conversationID;
-  final String itemID;
-  final String otherUserID;
+
+  String conversationID = '';
+  String itemID = '';
+  String otherUserID = '';
 
   final MessagesRepository _messagesRepository = MessagesRepositoryImpl();
   final ItemsRepository _itemsRepository = ItemsRepositoryImpl();
@@ -27,8 +28,6 @@ class MessagesPageController extends GetxController {
 
   final String errorTitle = "Opps, something went wrong..";
 
-  MessagesPageController({required this.conversationID, required this.itemID, required this.otherUserID});
-
   void onInit() {
     messages.bindStream(_messagesRepository.getUserMessagesStreamFromRemoteDB(conversationID: conversationID));
     super.onInit();
@@ -37,6 +36,14 @@ class MessagesPageController extends GetxController {
   void onClose()  {
     messageTextController.dispose();
     super.onClose();
+  }
+
+  void init({required String id, required String currentItemID, required String otherCurrentUserID }) {
+    messages.clear();
+    conversationID = id;
+    itemID = currentItemID;
+    otherUserID = otherCurrentUserID;
+    messages.bindStream(_messagesRepository.getUserMessagesStreamFromRemoteDB(conversationID: conversationID));
   }
 
    Future<Item?> getConversationItem({required String itemID}) async {
