@@ -116,6 +116,11 @@ class _LoginCardState extends State<LoginCard> {
                           color: kDarkGreen,
                         ),
                       ),
+                      onFieldSubmitted: (value) async {
+                        if (_formKey.currentState!.validate()) {
+                          _controller.loginUser(email: _controller.emailController.text.trim(), password: _controller.passwordController.text.trim());
+                        }
+                      },
                     ),
                   ),
                 ],
