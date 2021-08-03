@@ -26,7 +26,7 @@ class _MessagesPageState extends State<MessagesPage> {
   late String otherUserID;
   late MessagesPageController _controller;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-
+  final FocusNode textFormFieldFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -158,13 +158,16 @@ class _MessagesPageState extends State<MessagesPage> {
                               ),
                             ),
                             child: TextFormField(
+                              focusNode: textFormFieldFocusNode,
                               onFieldSubmitted: (value) {
                                   _controller.addMessage(conversationID: _conversation.id, text: _controller.messageTextController.text.isEmpty ? " " : _controller.messageTextController.text, conversation: _conversation);
                                   _controller.messageTextController.clear();
                                   _scrollController.animateTo(
                                       _scrollController.position.minScrollExtent,
                                       duration: const Duration(seconds: 1),
-                                      curve: Curves.fastOutSlowIn);
+                                      curve: Curves.fastOutSlowIn,
+                                  );
+                                  textFormFieldFocusNode.requestFocus();
                               },
                               cursorColor: kLightGreen,
                               controller: _controller.messageTextController,
