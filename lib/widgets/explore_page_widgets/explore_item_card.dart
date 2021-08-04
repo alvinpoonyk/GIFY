@@ -66,7 +66,7 @@ class ExploreItemCard extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               FutureBuilder<User>(
                   future: _controller.getItemOwner(id: item.ownerID),
                   builder: (context, snapshot) {

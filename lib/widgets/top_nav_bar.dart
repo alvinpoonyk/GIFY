@@ -31,8 +31,8 @@ class NavigationBar extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: () {
-                      if (Get.currentRoute != '/')
-                        Get.offAndToNamed("/");
+                      if (Get.currentRoute != '/explore')
+                        Get.offAndToNamed("/explore");
                       },
                     child: Text(
                       'Explore',

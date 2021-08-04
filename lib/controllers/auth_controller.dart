@@ -31,7 +31,7 @@ class AuthController extends GetxController {
     await _authRepository.logOut();
     _user = null;
     _isAuthenticated.toggle();
-    Get.offAllNamed('/');
+    Get.offAllNamed('/explore');
 
   }
 
