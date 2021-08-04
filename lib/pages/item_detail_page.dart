@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gify/constants/styles.dart';
 import 'package:gify/controllers/item_detail_page_controller.dart';
 import 'package:gify/models/item.dart';
+import 'package:gify/pages/error_page/error_page.dart';
 import 'package:gify/pages/item_detail_page/item_detail_tablet_mobile_page.dart';
 import 'package:gify/pages/item_detail_page/item_detail_web_page.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,8 @@ class ItemDetailPage extends StatelessWidget {
       future: _controller.getItemByID(id: _id!),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.data == null)
+            return ErrorPage();
           return ResponsiveItemDetailPage();
         } else {
           return const Center(

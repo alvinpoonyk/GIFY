@@ -16,8 +16,8 @@ class BrandLogo extends StatelessWidget {
         const SizedBox(width: 10),
         TextButton(
           onPressed: () {
-            if (Get.currentRoute != '/')
-              Get.offAndToNamed("/");
+            if (Get.currentRoute != '/explore')
+              Get.offAndToNamed("/explore");
             },
           child: Text(
             'GIFY',
