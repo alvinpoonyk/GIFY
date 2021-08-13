@@ -1,16 +1,18 @@
-# gify
+# GIFY
 
-A new Flutter project.
+GIFY is a web based platform that matches items that people are giving away for free to people that are looking for items that are given away for free.
+Our was goal was build a community that supports and advocates the culture of 'Give-it-Forward' so that we can reduce wastage by giving it to someone who needs it and helping to make a difference.
 
-## Getting Started
+## About Us
 
-This project is a starting point for a Flutter application.
+This project was developed by a group of distance learning students reading the BsC in Computer Science degree program from the University of London, Goldsmiths as part of their curriculum for module CM2020 Agile Software Projects.
 
-A few resources to get you started if this is your first Flutter project:
+## Technology Stack
+- Flutter
+- Firebase Authentication
+- Firebase Storage
+- Cloud Firestore
+- Firebase Hosting
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+This project is hosted [here] (https://gify-33f30.web.app/#/explore)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
