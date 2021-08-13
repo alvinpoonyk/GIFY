@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:gify/pages/error_page/error_page.dart';
 import 'package:gify/pages/explore_page.dart';
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/explore',
       // home: ExplorePage(),
       getPages: getPages,
+      shortcuts: {
+        LogicalKeySet(LogicalKeyboardKey.space) : ActivateIntent()
+      },
     );
   }
 }

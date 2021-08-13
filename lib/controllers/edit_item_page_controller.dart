@@ -12,15 +12,18 @@ import 'package:gify/widgets/getX_widgets/getX_error_snack_bar.dart';
 class EditItemPageController extends GetxController {
   final Item item;
 
+  /// Control booleans to indicate if image 1 or 2 was changed
   RxBool isImage1Changed = false.obs;
   RxBool isImage2Changed = false.obs;
 
+  /// Initialise stream Strings variables
   RxString category = ''.obs;
   RxString location = ''.obs;
 
   final List<String> locationOptions = [... kLocations];
   final List<String> categoryOptions = [... kCategories];
 
+  /// Initialise ImageFile objects to store item images
   Rx<ImageFile> image1 = ImageFile(null, null).obs;
   Rx<ImageFile> image2 = ImageFile(null, null).obs;
 
@@ -34,6 +37,7 @@ class EditItemPageController extends GetxController {
   EditItemPageController({required this.item});
 
   void onInit() {
+    /// Assign variables with item data upon initialisation
     locationOptions.removeAt(0);
     categoryOptions.removeAt(0);
     category = item.category.obs;
@@ -44,6 +48,7 @@ class EditItemPageController extends GetxController {
     super.onInit();
   }
 
+  /// Disposal of controllers to avoid memeory leakage
   void onClose() {
     itemNameController.dispose();
     availabilityController.dispose();
@@ -51,14 +56,17 @@ class EditItemPageController extends GetxController {
     super.onClose();
   }
 
+  /// Setter for setting category
   void setCategory({required String value}) {
     category.value = value;
   }
 
+  /// Setter for setting location
   void setLocation({required String value}) {
     location.value = value;
   }
 
+  /// Setter for setting image 1
   void setImage1() async {
     try {
       ImageFile imageFile1 = await getSelectedImageFile();
@@ -70,6 +78,7 @@ class EditItemPageController extends GetxController {
     }
   }
 
+  /// Setter for setting image 2
   void setImage2() async {
     try {
       ImageFile imageFile2 = await getSelectedImageFile();
@@ -81,6 +90,7 @@ class EditItemPageController extends GetxController {
     }
   }
 
+  /// Function to edit item in remote database based on user inputs
   Future<void> editItemInRemoteDatabase() async {
     try {
 
@@ -120,7 +130,6 @@ class EditItemPageController extends GetxController {
     }
 
   }
-
 
   /// Helper method to display error snack bar
   void _showErrorSnackBar({required String errorTitle, required String errorMessage}) {

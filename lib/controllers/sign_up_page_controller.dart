@@ -10,7 +10,7 @@ import 'package:gify/widgets/getX_widgets/getX_error_snack_bar.dart';
 
 class SignUpPageController extends GetxController {
 
-  var userImage = ImageFile(null, null).obs;
+  Rx<ImageFile> userImage = ImageFile(null, null).obs;
 
   final AuthController _authController = Get.find();
   final UsersRepository _usersRepository = UsersRepositoryImpl();
@@ -22,6 +22,7 @@ class SignUpPageController extends GetxController {
   final TextEditingController confirmPasswordController = TextEditingController();
 
   void onClose() {
+    /// Remove controller when to avoid memory leaks
     displayNameController.dispose();
     emailController.dispose();
     passwordController.dispose();
@@ -30,6 +31,7 @@ class SignUpPageController extends GetxController {
   }
 
 
+  /// Setter to set the user image
   Future<void> setUserImage() async {
     try {
       ImageFile selectedImage = await getSelectedImageFile();
@@ -41,7 +43,7 @@ class SignUpPageController extends GetxController {
 
   }
 
-
+  /// Function to create and sign in user
   Future<void> createAndSignInUser({required String displayName, required String email, required String password}) async  {
     try {
       Map<String, dynamic> userData = {

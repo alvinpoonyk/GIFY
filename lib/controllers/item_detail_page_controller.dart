@@ -13,12 +13,14 @@ class ItemDetailPageController extends GetxController {
   final ItemsRepository _itemsRepository = ItemsRepositoryImpl();
   final UsersRepository _usersRepository = UsersRepositoryImpl();
   final ConversationsRepository _conversationsRepository = ConversationsRepositoryImpl();
+
   var id;
   var item;
   var owner;
 
   ItemDetailPageController({this.id, this.item});
 
+  /// Getter method to fetch item from item repository
   Future<void> getItemByID({required String id}) async {
     try {
         final Item fetchedItem = await _itemsRepository.getItemById(id: id);
@@ -30,6 +32,7 @@ class ItemDetailPageController extends GetxController {
     }
   }
 
+  /// Getter method to fetch item owner user object from user repository
   Future<void> getItemOwnerByID({required String ownerID}) async {
     try {
       final User fetchedUser = await _usersRepository.getUserById(id: ownerID);
@@ -40,6 +43,7 @@ class ItemDetailPageController extends GetxController {
     }
   }
 
+  /// Function to create a conversation object for the selected item
   Conversation? createConversation({required String itemID, required String currentUserID, required String itemOwnerID}) {
     try {
       return _conversationsRepository.createLocalConversation(itemID: itemID, currentUserID: currentUserID, itemOwnerID: itemOwnerID);
@@ -48,6 +52,7 @@ class ItemDetailPageController extends GetxController {
     }
   }
 
+  /// Function to check if there is a existing conversation based on the selected item
   Future<bool?> isConversationExist({required String itemID, required String currentUserID, required String itemOwnerID}) async {
     try {
       return await _conversationsRepository.isExistingConversationInRemoteDB(itemID: itemID, currentUserID: currentUserID);
