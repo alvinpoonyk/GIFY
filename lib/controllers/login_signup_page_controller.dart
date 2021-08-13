@@ -4,7 +4,7 @@ import 'package:gify/controllers/auth_controller.dart';
 
 class LoginSignUpPageController extends GetxController {
 
-  var isInvalidEmailOrPassword = false.obs;
+  Rx<bool> isInvalidEmailOrPassword = false.obs;
 
   final AuthController _authController = Get.find();
   final String _errorTitle = "Authentication Failed";
@@ -12,11 +12,13 @@ class LoginSignUpPageController extends GetxController {
   final TextEditingController passwordController = TextEditingController();
 
   void onClose() {
+    /// Disposal of controllers to avoid memory leakages
     emailController.dispose();
     passwordController.dispose();
     super.onClose();
   }
 
+  /// Function to login the user
   Future<void> loginUser({required String email, required String password}) async {
     try {
       await _authController.loginUser(email: email, password: password);

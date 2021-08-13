@@ -29,15 +29,18 @@ class MessagesPageController extends GetxController {
   final String errorTitle = "Opps, something went wrong..";
 
   void onInit() {
+    /// Binds the stream upon initialisation so that it will always get updated
     messages.bindStream(_messagesRepository.getUserMessagesStreamFromRemoteDB(conversationID: conversationID));
     super.onInit();
   }
 
   void onClose()  {
+    /// Disposal of text controllers when not in used to avoid memory leak
     messageTextController.dispose();
     super.onClose();
   }
 
+  /// Initialised the messages stream by clearing it first and then fetching the stream of messages
   void init({required String id, required String currentItemID, required String otherCurrentUserID }) {
     messages.clear();
     conversationID = id;
@@ -46,6 +49,7 @@ class MessagesPageController extends GetxController {
     messages.bindStream(_messagesRepository.getUserMessagesStreamFromRemoteDB(conversationID: conversationID));
   }
 
+  /// Function to get the item object that the conversation is about
    Future<Item?> getConversationItem({required String itemID}) async {
     try {
       return await _itemsRepository.getItemById(id: itemID);
@@ -56,6 +60,7 @@ class MessagesPageController extends GetxController {
 
   }
 
+  /// Function to get the user object that current user is talking to
   Future<User?> getOtherUser({required String id}) async {
     try {
       return await _usersRepository.getUserById(id: otherUserID);
@@ -66,6 +71,7 @@ class MessagesPageController extends GetxController {
 
   }
 
+  /// Function to add a message into remote database
   Future<void> addMessage({required String conversationID, required String text, required Conversation conversation}) async {
     try {
       return await _messagesRepository.createMessageInRemoteDB(conversationID, _authController.getCurrentUserID(), text, DateTime.now(), conversationMap: conversation.toJson());

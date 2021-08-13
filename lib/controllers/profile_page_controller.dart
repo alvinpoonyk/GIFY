@@ -19,6 +19,7 @@ class ProfilePageController extends GetxController {
     super.onInit();
   }
 
+  /// Function that returns a list of user items as Stream from item repository
   Stream<List<Item>>? getUserItemsAsStream({required String userID}) {
     try {
       print("ProfilePageController(getUserItems): Successfully fetched user items from database");
@@ -29,6 +30,7 @@ class ProfilePageController extends GetxController {
     }
   }
 
+  /// Function that removes an item
   Future<void> removeItem({required String id}) async {
     try {
       await _itemsRepository.removeItem(id: id);

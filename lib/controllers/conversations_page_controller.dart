@@ -20,10 +20,13 @@ class ConversationsPageController extends GetxController {
   RxList<Conversation> conversations = <Conversation>[].obs;
 
   void onInit() {
+    /// Gets all the conversations objects which belongs to the user based on userID as stream
+    /// Called here upon initialisation as it might take some time
     conversations.bindStream(_getConversationsStream(userID: _authController.getCurrentUserID())!);
     super.onInit();
   }
 
+  /// Function that returns a list of conversation objects which belongs to the user based on ID
   Stream<List<Conversation>>? _getConversationsStream({required String userID}) {
     try {
       print("ConversationsPageController(getConversationsStream): Getting conversation stream from remote database...");
@@ -34,6 +37,7 @@ class ConversationsPageController extends GetxController {
     }
   }
 
+  /// Function to get the other user the current user is talking to in the conversation
   Future<User?> getOtherUser({required List participants}) async {
     try {
       final String currentUserId = _authController.getCurrentUserID();
@@ -44,6 +48,7 @@ class ConversationsPageController extends GetxController {
     }
   }
 
+  /// Function to get the item that the conversation is about based on itemID
   Future<Item?> getItem({required String itemID}) async {
     try {
       return _itemsRepository.getItemById(id: itemID);

@@ -9,24 +9,29 @@ import 'package:gify/widgets/getX_widgets/getX_error_snack_bar.dart';
 
 class AuthController extends GetxController {
 
-  var _isAuthenticated = false.obs;
+  /// Bool stream to indicate authentication status
+  Rx<bool> _isAuthenticated = false.obs;
   var _user;
 
   final UsersRepository _usersRepository = UsersRepositoryImpl();
   final AuthRepository _authRepository = AuthRepositoryImpl();
 
+  /// Getter for user authentication status
   bool isUserLoggedIn() {
     return _isAuthenticated.value;
   }
 
+  /// Getter for current userID
   String getCurrentUserID() {
     return _user.value.id;
   }
 
+  /// Getter for current user object
   User getCurrentUser() {
     return _user.value;
   }
 
+  /// Function to log the user out and empty user object and navigation
   Future<void> logOutUser() async {
     await _authRepository.logOut();
     _user = null;
@@ -35,6 +40,7 @@ class AuthController extends GetxController {
 
   }
 
+  /// Function to log in user through the auth repository
   Future<void> loginUser({required String email, required String password}) async {
 
     Future<void> loginProcess() async {
@@ -57,6 +63,7 @@ class AuthController extends GetxController {
     }
   }
 
+  /// Function to update the local user object once authentication is complete
   Future<void> updateUser({required String email}) async {
 
     Future<void> updateUserProcess() async {
@@ -78,6 +85,7 @@ class AuthController extends GetxController {
     }
   }
 
+  /// Create an account for the user in auth and remote database
   Future<void> signUpUser({required String email, required String password}) async {
     try {
       await Get.showOverlay(
