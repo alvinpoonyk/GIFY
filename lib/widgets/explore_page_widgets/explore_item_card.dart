@@ -35,7 +35,7 @@ class ExploreItemCard extends StatelessWidget {
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 285, minHeight: 30),
                 child: Text(
-                  item.name,
+                  item.name.length > 27 ? "${item.name.substring(0, 24)}..." : item.name ,
                   style: GoogleFonts.montserrat(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
