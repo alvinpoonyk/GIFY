@@ -29,11 +29,11 @@ class ItemsRepositoryImpl implements ItemsRepository {
       return Right(items);
     } on SocketException {
       print("ItemsRepositoryImpl(getItems): $sockExceptionErrorMessage");
-      Left(Failure(type: socketException, message: "ItemsRepositoryImpl(getItems): $sockExceptionErrorMessage"));
-      rethrow;
+      return Left(Failure(type: socketException, message: "ItemsRepositoryImpl(getItems): $sockExceptionErrorMessage"));
     } on FormatException {
       print("ItemsRepositoryImpl(getItems): $formatExceptionErrorMessage");
-      Left(Failure(type: formatException, message: "ItemsRepositoryImpl(getItems): $formatExceptionErrorMessage"));
+      return Left(Failure(type: formatException, message: "ItemsRepositoryImpl(getItems): $formatExceptionErrorMessage"));
+    } catch (e) {
       rethrow;
     }
   }
@@ -52,11 +52,11 @@ class ItemsRepositoryImpl implements ItemsRepository {
       return Right(items);
     } on SocketException {
       print("ItemsRepositoryImpl(getItemsByCategory): $sockExceptionErrorMessage");
-      Left(Failure(type: socketException, message: sockExceptionErrorMessage));
-      rethrow;
+      return Left(Failure(type: socketException, message: sockExceptionErrorMessage));
     } on FormatException {
       print("ItemsRepositoryImpl(getItemsByCategory): $formatExceptionErrorMessage");
-      Left(Failure(type: formatException, message: formatExceptionErrorMessage));
+      return Left(Failure(type: formatException, message: formatExceptionErrorMessage));
+    } catch (e) {
       rethrow;
     }
   }
@@ -75,11 +75,11 @@ class ItemsRepositoryImpl implements ItemsRepository {
       return Right(items);
     } on SocketException {
       print("ItemsRepositoryImpl(getItemsByLocation): $sockExceptionErrorMessage");
-      Left(Failure(type: socketException, message: sockExceptionErrorMessage));
-      rethrow;
+      return Left(Failure(type: socketException, message: sockExceptionErrorMessage));
     } on FormatException {
       print("ItemsRepositoryImpl(getItemsByLocation): $formatExceptionErrorMessage");
-      Left(Failure(type: formatException, message: formatExceptionErrorMessage));
+      return Left(Failure(type: formatException, message: formatExceptionErrorMessage));
+    } catch(e) {
       rethrow;
     }
   }
@@ -100,11 +100,11 @@ class ItemsRepositoryImpl implements ItemsRepository {
       return Right(items);
     } on SocketException {
       print("ItemsRepositoryImpl(getItemsByCategoryAndLocation): $sockExceptionErrorMessage");
-      Left(Failure(type: socketException, message: sockExceptionErrorMessage));
-      rethrow;
+      return Left(Failure(type: socketException, message: sockExceptionErrorMessage));
     } on FormatException {
       print("ItemsRepositoryImpl(getItemsByCategoryAndLocation): $formatExceptionErrorMessage");
-      Left(Failure(type: formatException, message: formatExceptionErrorMessage));
+      return Left(Failure(type: formatException, message: formatExceptionErrorMessage));
+    } catch (e) {
       rethrow;
     }
 
