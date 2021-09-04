@@ -212,7 +212,7 @@ class ItemDetailPageWebView extends StatelessWidget {
               color: kDarkGreen,
               child: Center(
                 child: SelectableText(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing',
+                  'Designed and developed by Agile Group 37 ',
                   style: GoogleFonts.montserrat(
                       fontSize: 18,
                       color: Colors.white,
